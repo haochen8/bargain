@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --inspect --env-file=.env src/server.js",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
+  },
+  "author": "Hao Chen",
+  "license": "ISC",
+  "dependencies": {
+    "@lnu/json-js-cycle": "^2.0.5",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-http-context": "^1.2.4",
+    "fs": "^0.0.1-security",
+    "helmet": "^7.1.0",
+    "json-cycle": "^1.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0",
+    "validator": "^13.11.0",
+    "winston": "^3.13.0",
+    "winston-mongodb": "^5.1.1"
+  }
+}
