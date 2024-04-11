@@ -8,14 +8,16 @@
 import '@lnu/json-js-cycle'
 import cors from 'cors'
 import express from 'express'
+import session from 'express-session'
 import httpContext from 'express-http-context' // Must be first!
 import helmet from 'helmet'
 import { randomUUID } from 'node:crypto'
 import http from 'node:http'
 import { connectToDatabase } from './config/mongoose.js'
+import { sessionOptions } from './config/sessionOptions.js'
 import { morganLogger } from './config/morgan.js'
 import { logger } from './config/winston.js'
-// import { router } from './routes/router.js'
+import { mainRouter } from './routes/mainRouter.js'
 
 try {
   // Connect to MongoDB.
@@ -26,6 +28,14 @@ try {
 
   // Set various HTTP headers to make the application little more secure (https://www.npmjs.com/package/helmet).
   app.use(helmet())
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'script-src': ["'self'", 'cdn.jsdelivr.net']
+      }
+    })
+  )
 
   // Enable Cross Origin Resource Sharing (CORS) (https://www.npmjs.com/package/cors).
   app.use(cors())
@@ -52,7 +62,9 @@ try {
   })
 
   // // Register routes.
-  // app.use('/', router)
+  app.use('/', mainRouter)
+
+  app.use(session(sessionOptions))
 
   // Error handler.
   app.use((err, req, res, next) => {
@@ -66,7 +78,7 @@ try {
         err.status = 500
         err.message = http.STATUS_CODES[err.status]
       }
-
+      
       // Send only the error message and status code to prevent leakage of
       // sensitive information.
       res
@@ -95,6 +107,7 @@ try {
 
   // Starts the HTTP server listening for connections.
   const server = app.listen(process.env.PORT, () => {
+    console.log(process.env.DB_CONNECTION_STRING)
     console.log(`Server running at http://localhost:${server.address().port}`)
     console.log('Press Ctrl-C to terminate...')
   })
