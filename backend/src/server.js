@@ -17,7 +17,8 @@ import { connectToDatabase } from './config/mongoose.js'
 import { sessionOptions } from './config/sessionOptions.js'
 import { morganLogger } from './config/morgan.js'
 import { logger } from './config/winston.js'
-import { mainRouter } from './routes/mainRouter.js'
+import { router } from './routes/router.js'
+
 
 try {
   // Connect to MongoDB.
@@ -51,6 +52,9 @@ try {
   // Use a morgan logger.
   app.use(morganLogger)
 
+  // Use the express-session middleware.
+  app.use(session(sessionOptions))
+
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
     // Add a request UUID to each request and store information about
@@ -62,9 +66,7 @@ try {
   })
 
   // // Register routes.
-  app.use('/', mainRouter)
-
-  app.use(session(sessionOptions))
+  app.use('/', router)
 
   // Error handler.
   app.use((err, req, res, next) => {

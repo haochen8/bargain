@@ -8,12 +8,12 @@
 // Options object for the session middleware.
 export const sessionOptions = {
   name: 'sid', // Session ID cookie name.
-  secret: 'key that will sign cookie',
+  secret: process.env.SESSION_SECRET, // Secret for signing the session ID cookie.
   resave: false, // Resave even if a request is not changing the session.
   saveUninitialized: false, // Don't save a created but not modified session.
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
-    sameSite: 'strict'
+    sameSite: 'strict' // CSRF protection.
   }
 }
 
