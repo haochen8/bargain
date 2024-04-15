@@ -1,7 +1,7 @@
 /**
  * @file This module contains the configuration for the Mongoose ODM.
  * @module config/mongoose
- * @author Mats Loock
+ * @author Hao Chen
  * @version 3.1.0
  */
 

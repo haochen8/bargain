@@ -5,6 +5,7 @@
  * @version 3.1.0
  */
 
+import { logger } from '../../config/winston.js'
 import { UserModel } from '../../models/UserModel.js'
 
 /**
@@ -22,7 +23,7 @@ export class UserController {
    */
   async register (req, res, next) {
     try {
-      console.log('Creating user...', { body: req.body })
+      logger.silly('Creating user...', { body: req.body })
 
       // Get the username and password from the request body.
       const { firstName, lastName, email, username, password } = req.body
@@ -53,12 +54,12 @@ export class UserController {
 
       // Automatically log in the user after registration.
       req.session.userId = newUser._id
-      console.log('User created successfully.', { user: newUser })
+      logger.silly('User created successfully.', { user: newUser })
 
       // Redirect to the home page.
       res.redirect('/')
     } catch (error) {
-      console.error('Error creating user.', { error: error.message })
+      logger.error('Error creating user.', { error: error.message })
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('/')
     }

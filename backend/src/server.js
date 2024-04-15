@@ -9,7 +9,7 @@ import '@lnu/json-js-cycle'
 import cors from 'cors'
 import express from 'express'
 import session from 'express-session'
-import httpContext from 'express-http-context' // Must be first!
+import httpContext from 'express-http-context'
 import helmet from 'helmet'
 import { randomUUID } from 'node:crypto'
 import http from 'node:http'

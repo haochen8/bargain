@@ -1,7 +1,7 @@
 /**
  * @file Defines the base schema.
  * @module models/baseSchema
- * @author Mats Loock
+ * @author Hao Chen
  * @version 3.1.0
  */
 

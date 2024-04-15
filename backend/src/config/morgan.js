@@ -1,8 +1,8 @@
 /**
  * @file Defines the Morgan logger.
  * @module config/morgan
- * @author Mats Loock
- * @version 1.0.0
+ * @author Hao Chen
+ * @version 3.1.0
  */
 
 import morgan from 'morgan'

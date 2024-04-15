@@ -1,21 +1,25 @@
+import React from 'react';
 import './App.css';
-import Navbar from './Components/Navbar/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Shop from './Pages/Shop';
-import ShopCategory from './Pages/ShopCategory';
+import Layout from './Components/Layout';
+import Home from './Pages/Home';
+import About from './Pages/About';
+import Contact from './Pages/Contact';
 
 function App() {
   return (
-    <div>
+    <>
       <BrowserRouter>
-      <Navbar />
       <Routes>
-        <Route path='/' element={<Shop/>} />
-        <Route path='/categories' element={<ShopCategory/>} />
-        <Route path='/' element={<ShopCategory/>} />
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path='about' element={<About />} />
+          <Route path='contact' element={<Contact />} />
+
+        </Route>
       </Routes>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 

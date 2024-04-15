@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ShopCategory = () => {
+const Footer = () => {
   return (
     <div>
-      
+      Footer
     </div>
   )
 }
 
-export default ShopCategory
+export default Footer
