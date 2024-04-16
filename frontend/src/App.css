@@ -7,6 +7,7 @@
   --color-131921: #131921;
   --color-3b4149: #3b4149;
   --color-febd69: #cefa6d;
+  --color-232f3e: #232f3e;
 }
 
 body {
@@ -16,6 +17,18 @@ body {
 a {
   text-decoration: none;
   display: inline-block;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: inherit;
+}
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-15 {
+  gap: 15px;
 }
 
 /* Header Begin */
@@ -29,5 +42,9 @@ a {
 }
 .header-upper .input-group-text {
   background-color: var(--color-febd69);
+}
+.header-upper.header-upper-links img {
+  height: 35px;
+  width: 35px;
 }
 /* Header End */
