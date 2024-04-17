@@ -42,16 +42,16 @@ const Footer = () => {
               <a href="tel: +46 (110)123456" className='mt-4 d-block mb-1 text-white'>+46 (110)-123456</a>
               <a href="mail: bargain@lnu.se" className='mt-2 d-block mb-3 text-white'>bargain@lnu.se</a>
               <div className="social_icons d-flex align-ietms-center gap-30 mt-4">
-                <a className='text-white' href="">
+                <a className='text-white' href="#">
                   <FaFacebook className='fs-4'/>
                   </a>
-                <a className='text-white' href="">
+                <a className='text-white' href="#">
                   <FaInstagramSquare className='fs-4'/>
                 </a>
-                <a className='text-white' href="">
+                <a className='text-white' href="#">
                   <FaLinkedin className='fs-4'/>
                  </a>
-                <a className='text-white' href="">
+                <a className='text-white' href="#">
                   <FaSquareXTwitter className='fs-4'/>
                  </a>
               </div>
