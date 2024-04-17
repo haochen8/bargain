@@ -39,37 +39,32 @@ const Header = () => {
               <Link className='text-white'>Bargain</Link>
             </h2>
           </div>
-          <div className="col-5">
+          <div className="col-8">
           <div className="input-group">
             <input type="text" className="form-control py-2" placeholder="Search Product Here..." aria-label="Search Product Here..." aria-describedby="basic-addon2"/>
-            <span className="input-group-text p-3" id="basic-addon2">
+            <button className="input-group-text" id="basic-addon2">
               <BsSearch className='fs-5'/>
-               </span>
+               </button>
           </div>
           </div>
-          <div className="col-5">
-            <div className="header-upper-links d-flex align-items-center justify-content-between">
-              <div>
-                <Link className='d-flex align-items-center gap-10 text-white'>
-                <img src='images/compare.svg' alt='contact'/>
-                <p className='mb-0'>Contact <br /> 
-                  </p>
-                </Link> 
-              </div>
-                <Link className='d-flex align-items-center gap-10 text-white'>
+          <div className="col-1">
+          <div className="header-upper-links d-flex align-items-center justify-content-between">
+            <div>
+                <Link className='d-flex align-items-center gap-10 text-white me-5'>
                 <img src='images/wishlist.svg' alt='wishlist'/>
-                <p className='mb-0'>Favourites <br /> My Wishlist
+                <p className='mb-0'>Favourites <br /> Wishlist
                   </p>
                   </Link>
+                </div>
               <div>
-                <Link className='d-flex align-items-center gap-10 text-white'>
+                <Link className='d-flex align-items-center gap-10 text-white me-5'>
                 <img src='images/user.svg' alt='user'/>
-                <p className='mb-0'>Login <br /> My Profile
+                <p className='mb-0'>Login <br /> Profile
                   </p>
                   </Link>
               </div>
               <div>
-                <Link className='d-flex align-items-center gap-10 text-white'>
+                <Link className='d-flex align-items-center text-white'>
                 <img src='images/cart.svg' alt='cart'/>
                 <div className='d-flex flex-column gap-10'>
                   <span className='badge bg-white text-dark'>0</span>

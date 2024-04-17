@@ -8,6 +8,9 @@
   --color-3b4149: #3b4149;
   --color-febd69: #cefa6d;
   --color-232f3e: #232f3e;
+  --color-bf4800: #6b4731;
+  --color-f5f5f7: #d1d1d1;
+  --color-ededed: #ededed;
 }
 
 body {
@@ -35,6 +38,17 @@ a {
   gap: 30px;
 }
 
+.button {
+  background-color: var(--color-232f3e);
+  color: white;
+  font-size: 14px;
+  padding: 13px 33px;
+  border-radius: 25px;
+}
+.button:hover {
+  background-color: var(--color-febd69);
+}
+
 /* Header Begin */
 
 .header-top-strip {
@@ -44,12 +58,19 @@ a {
 .header-upper {
   background-color: var(--color-131921);
 }
+.input-group {
+  
+}
 .header-upper .input-group-text {
   background-color: var(--color-febd69);
 }
-.header-upper.header-upper-links img {
+.header-upper-links img {
   height: 35px;
   width: 35px;
+
+}
+.header-upper-links p {
+  margin-bottom: 0;
 }
 .header-bottom {
   background-color: var(--color-232f3e);
@@ -95,5 +116,35 @@ footer:not(:first-child) {
   border-top: 1px solid rgba(255, rgb(15, 17, 15), 255, 255, 0.1);
 }
 
-
 /* Footer End */
+
+/* Home Begin */
+
+.home-wrapper-2 {
+  background-color: var(--color-f5f5f7);
+}
+.categories {
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 15px;
+}
+
+.categories > div {
+  padding: 10px;
+}
+
+
+.categories > div:nth-child(1),
+.categories > div:nth-child(2),
+.categories > div:nth-child(3),
+.categories > div:nth-child(4),
+.categories > div:nth-child(5),
+.categories > div:nth-child(6),
+.categories > div:nth-child(7),
+.categories > div:nth-child(8) {
+  border-bottom: 1px solid var(--color-ededed);
+}
+
+
+
+/* Home End */
