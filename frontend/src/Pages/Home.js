@@ -3,43 +3,38 @@ import { Link } from 'react-router-dom'
 import Marquee from "react-fast-marquee";
 import Blog from '../Components/Blog';
 import BestSeller from '../Components/BestSeller';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
+
 
 
 const Home = () => {
   return (
     <>
     <section className="home-wrapper-1 py-5">
-      <div className="container-xxl">
-        <div className="row">
-          <div className="col-6">
-            <div className="main-banner position-relative">
-              <img src="images/m-banner.jpg" className='img-fluid rounded-3' alt="main banner" />
-              <div className="small-banner-content position-absolute">
-              </div>
+    <div className="container-xxl">
+      <div className="row">
+      <Carousel
+                        showArrows={true}
+                        infiniteLoop={true}
+                        showThumbs={false}
+                        showStatus={false}
+                        autoPlay={true}
+                        interval={3000}
+                        stopOnHover={true}
+                    >
+                        <div>
+                        <img src="images/skin-care.jpg" alt="Skincare" />
+                        </div>
+                        <div>
+                            <img src="images/product-banner.jpg" alt="Skincare" />
+                        </div>
+                        <div>
+                            <img src="images/shoes.jpg" alt="Electronic" />
+                        </div>
+                    </Carousel>
+                </div>
             </div>
-          </div>
-          <div className="col-6">
-              <div className="main-banner position-relative">
-              <img src="images/shoe-banner.png" className='img-fluid rounded-3' alt="main banner" />
-            </div>
-          </div>
-          <div className="col-6">
-              <div className="main-banner position-relative">
-              <img src="images/health.jpg" className='img-fluid rounded-3' alt="main banner" />
-              <div className="small-banner-content position-absolute">
-              </div>
-            </div>
-          </div>
-          <div className="col-6">
-              <div className="main-banner position-relative p-4">
-              <img src="images/kitchen.jpg" className='img-fluid rounded-3' alt="main banner" />
-              <div className="small-banner-content position-absolute">
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
     </section>
     <section className="blog-wrapper py-5 home-wrapper">
       <div className="container-xxl">
@@ -98,6 +93,7 @@ const Home = () => {
     </section>
     <section className="home-wrapper-2 py-5">
       <div className="container-xxl">
+        <h4 className='specprod'>Special Products</h4>
         <div className="row">
           <div className="col-12">
             <div className="categories d-flex justify-content-between align-items-center flex-wrap">
@@ -181,6 +177,38 @@ const Home = () => {
       </div>
     </div>
     </section>
+    <section>
+      <div className="container-xxl">
+        <div className="row">
+          <div className="col-6">
+            <div className="main-banner position-relative">
+              <img src="images/m-banner.jpg" className='img-fluid rounded-3' alt="main banner" />
+              <div className="small-banner-content position-absolute">
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+              <div className="main-banner position-relative">
+              <img src="images/shoe-banner.png" className='img-fluid rounded-3' alt="main banner" />
+            </div>
+          </div>
+          <div className="col-6">
+              <div className="main-banner position-relative">
+              <img src="images/health.jpg" className='img-fluid rounded-3' alt="main banner" />
+              <div className="small-banner-content position-absolute">
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+              <div className="main-banner position-relative p-4">
+              <img src="images/kitchen.jpg" className='img-fluid rounded-3' alt="main banner" />
+              <div className="small-banner-content position-absolute">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </section>
     <section className="blog-wrapper py-5 home-wrapper">
       <div className="container-xxl">
         <div className="row">
