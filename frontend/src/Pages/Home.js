@@ -1,3 +1,8 @@
+/**
+ * Renders the Home page.
+ * @author Hao Chen 
+ * @returns {JSX.Element} The rendered Home component.
+ */
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Marquee from "react-fast-marquee";
@@ -13,28 +18,28 @@ const Home = () => {
     <>
     <section className="home-wrapper-1 py-5">
     <div className="container-xxl">
-      <div className="row">
-      <Carousel
-                        showArrows={true}
-                        infiniteLoop={true}
-                        showThumbs={false}
-                        showStatus={false}
-                        autoPlay={true}
-                        interval={3000}
-                        stopOnHover={true}
-                    >
-                        <div>
-                        <img src="images/skin-care.jpg" alt="Skincare" />
-                        </div>
-                        <div>
-                            <img src="images/product-banner.jpg" alt="Skincare" />
-                        </div>
-                        <div>
-                            <img src="images/shoes.jpg" alt="Electronic" />
-                        </div>
-                    </Carousel>
-                </div>
+        <div className="row">
+        <Carousel className='carousel-wrapper'
+            showArrows={true}
+            infiniteLoop={true}
+            showThumbs={false}
+            showStatus={false}
+            autoPlay={true}
+            interval={3000}
+            stopOnHover={true}
+        >
+            <div>
+            <img src="images/skin-care.jpg" alt="Skincare" />
             </div>
+            <div>
+                <img src="images/product-banner.jpg" alt="Skincare" />
+            </div>
+            <div>
+                <img src="images/shoes.jpg" alt="Electronic" />
+            </div>
+          </Carousel>
+        </div>
+      </div>
     </section>
     <section className="blog-wrapper py-5 home-wrapper">
       <div className="container-xxl">
@@ -177,14 +182,12 @@ const Home = () => {
       </div>
     </div>
     </section>
-    <section>
+    <section className='home-wrapper-3'>
       <div className="container-xxl">
         <div className="row">
           <div className="col-6">
             <div className="main-banner position-relative">
               <img src="images/m-banner.jpg" className='img-fluid rounded-3' alt="main banner" />
-              <div className="small-banner-content position-absolute">
-              </div>
             </div>
           </div>
           <div className="col-6">
@@ -202,8 +205,6 @@ const Home = () => {
           <div className="col-6">
               <div className="main-banner position-relative p-4">
               <img src="images/kitchen.jpg" className='img-fluid rounded-3' alt="main banner" />
-              <div className="small-banner-content position-absolute">
-              </div>
             </div>
           </div>
         </div>

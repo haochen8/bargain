@@ -1,3 +1,11 @@
+/**
+ * Renders the Best seller page.
+ *
+ * @author Hao Chen 
+ * @component
+ * @returns {JSX.Element} The Best seller page component.
+ */
+
 import React from 'react'
 import ReactStars from "react-rating-stars-component";
 import { Link } from 'react-router-dom';

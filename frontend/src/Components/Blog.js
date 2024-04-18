@@ -1,3 +1,10 @@
+/**
+ * Renders the The Blog page.
+ *
+ * @author Hao Chen 
+ * @component
+ * @returns {JSX.Element} The blog page component.
+ */
 import React from 'react'
 import { Link } from 'react-router-dom'
 

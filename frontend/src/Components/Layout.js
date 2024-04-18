@@ -1,3 +1,10 @@
+/**
+ * Renders the Layout page.
+ *
+ * @author Hao Chen 
+ * @component
+ * @returns {JSX.Element} The Layout component.
+ */
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'

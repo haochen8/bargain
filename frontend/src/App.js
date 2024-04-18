@@ -5,6 +5,7 @@ import Layout from './Components/Layout';
 import Home from './Pages/Home';
 import About from './Pages/About';
 import Contact from './Pages/Contact';
+import NewArrivals from './Pages/NewArrivals';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path='about' element={<About />} />
           <Route path='contact' element={<Contact />} />
+          <Route path='newarrivals' element={<NewArrivals />} />
+
 
         </Route>
       </Routes>

@@ -1,3 +1,9 @@
+/**
+ * Footer component.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaLinkedin, FaFacebook, FaInstagramSquare } from "react-icons/fa";
