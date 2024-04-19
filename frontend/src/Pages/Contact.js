@@ -31,7 +31,7 @@ const Contact = () => {
             </div>
             <div className="col-12 mt-5">
               <div className="contact-inner-wrapper d-flex align-items-start">
-                <div className="col-lg-7 col-xl-8">
+                <div className="col-lg-8 col-xl-8">
                   <h3 className="contact-title mb-4">Contact Us</h3>
                   <form
                     action=""
@@ -72,7 +72,7 @@ const Contact = () => {
                     </div>
                   </form>
                 </div>
-                <div className="col-lg-5 col-xl-4">
+                <div className="col-lg-4 col-xl-4">
                   <h3 className="contact-title mb-4">Responds within 1 Day</h3>
                   <div>
                     <ul className="ps-0">
