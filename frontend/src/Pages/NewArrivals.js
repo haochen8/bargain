@@ -8,7 +8,7 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
-import Meta from "./Meta";
+import Meta from "../Components/Meta";
 import { useState } from "react";
 import BestSeller from "../Components/BestSeller";
 
@@ -264,7 +264,6 @@ const NewArrivals = () => {
                     <BestSeller key={index} />
                   ))}
                 </div>
-                
               </div>
             </div>
           </div>

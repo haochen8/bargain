@@ -7,7 +7,7 @@
 
 import React from "react";
 import BreadCrumb from "./BreadCrumb";
-import Meta from "./Meta";
+import Meta from "../Components/Meta";
 import Blog from "../Components/Blog";
 
 const Blogs = () => {

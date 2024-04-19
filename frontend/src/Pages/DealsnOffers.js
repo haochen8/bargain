@@ -8,7 +8,7 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
-import Meta from "./Meta";
+import Meta from "../Components/Meta";
 import { useState } from "react";
 import BestSeller from "../Components/BestSeller";
 
@@ -259,7 +259,6 @@ const DealsnOffers = () => {
                     <BestSeller key={index} />
                   ))}
                 </div>
-                
               </div>
             </div>
           </div>
@@ -269,4 +268,4 @@ const DealsnOffers = () => {
   );
 };
 
-export default DealsnOffers
+export default DealsnOffers;

@@ -30,7 +30,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h2>
-                <Link className="text-white">Bargain</Link>
+                <Link to='/' className="text-white">Bargain</Link>
               </h2>
             </div>
             <div className="col-8">
@@ -50,7 +50,7 @@ const Header = () => {
             <div className="col-1">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white me-5">
+                  <Link to='/wishlist' className="d-flex align-items-center gap-10 text-white me-5">
                     <img src="images/wishlist.svg" alt="wishlist" />
                     <p className="mb-0">
                       Favourites <br /> Wishlist
@@ -58,7 +58,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white me-5">
+                  <Link to='' className="d-flex align-items-center gap-10 text-white me-5">
                     <img src="images/user.svg" alt="user" />
                     <p className="mb-0">
                       Login <br /> Profile
@@ -66,7 +66,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center text-white">
+                  <Link to='/cart' className="d-flex align-items-center text-white">
                     <img src="images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark">0</span>

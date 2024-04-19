@@ -498,3 +498,28 @@ b {
 .contact-inner-wrapper a {
   color: #777;
 }
+
+/* Contact End */
+
+/* Wishlist Begin */
+
+.close-button {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 0;
+  display: flex;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: white;
+}
+
+.close-container {
+  position: relative;
+}
