@@ -9,6 +9,8 @@ import NewArrivals from "./Pages/NewArrivals";
 import Blogs from "./Pages/Blogs";
 import DealsnOffers from "./Pages/DealsnOffers";
 import WishList from "./Pages/WishList";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
             <Route path="dealsnoffers" element={<DealsnOffers />} />
             <Route path="contact" element={<Contact />} />
             <Route path="wishlist" element={<WishList />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
           </Route>
         </Routes>
       </BrowserRouter>
