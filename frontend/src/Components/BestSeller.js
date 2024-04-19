@@ -8,11 +8,14 @@
 
 import React from 'react'
 import ReactStars from "react-rating-stars-component";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 
 
 const BestSeller = () => {
+
+  let location = useLocation();
+
   return (
     <div className='col-3 p-2'>
       <div className="best-seller position-relative">
@@ -21,10 +24,13 @@ const BestSeller = () => {
           <img src="images/wish.svg" alt="" />
           </Link>
         </div>
-        <div><img src="images/watch.jpg" alt="product image" />
+        <div >
+          <img src="images/watch.jpg" alt="productimg" className='img-fluid' />
         </div>
         <div className="product-detail">
           <h5 className="product-title">Apple Watch </h5>
+          <p className="price">3000kr</p>
+          <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil explicabo temporibus molestias...</p>
           <ReactStars
               count={5}
               size={24}
@@ -32,7 +38,6 @@ const BestSeller = () => {
               edit={false}
               activeColor="#ffd700"
             />
-          <p className="price">3000kr</p>
         </div>
         <div className="action-bar position-absolute">
           <div className="d-flex flex-column gap-15">

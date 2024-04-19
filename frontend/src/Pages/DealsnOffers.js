@@ -1,10 +1,10 @@
 /**
- * Renders the New Arrivals page.
+ * The DealsnOffers component of the website.
  *
- * @author Hao Chen
- * @component
- * @returns {JSX.Element} The New Arrivals page component.
+ * @author: Hao Chen
+ * @version: 1.0
  */
+
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
@@ -12,12 +12,7 @@ import Meta from "./Meta";
 import { useState } from "react";
 import BestSeller from "../Components/BestSeller";
 
-/**
- * Handles stock status and sizes.
- *
- * @returns {JSX.Element} The New Arrivals page component.
- */
-const NewArrivals = () => {
+const DealsnOffers = () => {
   const [stockStatus, setStockStatus] = useState({
     inStock: false,
     outOfStock: false,
@@ -274,4 +269,4 @@ const NewArrivals = () => {
   );
 };
 
-export default NewArrivals;
+export default DealsnOffers
