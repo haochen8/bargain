@@ -110,6 +110,40 @@ a {
 .spacing {
   margin-left: 400px;
 }
+.header-upper-links {
+  
+}
+@media (max-width: 768px) {
+  header .row {
+    padding: 0 15px;
+  }
+  .header-upper-link img {
+    width: 20px;
+    height: auto;
+  }
+  @media (max-width: 768px) {
+    .header-upper p,
+    .header-upper input {
+      font-size: smaller;
+    }
+    }
+  @media (max-width: 992px) {
+    .input-group {
+      margin-top: 10px;
+    }
+    }
+
+  @media (max-width: 768px) {
+    .input-group {
+      margin-top: 15px;
+    }
+    }
+  @media (max-width: 576px) {
+    .header-upper-link {
+        flex-direction: column;
+    }
+  }
+}
 /* Header End */
 
 /* Best Seller Product Begin */
@@ -531,4 +565,3 @@ b {
   width: 600px;
   margin: 100px auto;
 }
-
