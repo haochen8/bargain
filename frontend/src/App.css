@@ -1,4 +1,4 @@
-* {
+§* {
   margin: 0;
   padding: 100;
   box-sizing: border-box;
@@ -564,4 +564,21 @@ b {
   background-color: white;
   width: 600px;
   margin: 100px auto;
+}
+
+.loginh3, .reset {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 30px;
+  color: #777777;
+}
+
+.auth .form-control {
+  background-color:#eaeaea;
+  border: none;
+}
+
+.forgot, .submit {
+  font-size: 0.9rem;
+  color:#303336;
 }

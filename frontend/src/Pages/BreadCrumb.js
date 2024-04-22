@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
 
 const BreadCrumb = (props) => {
   
@@ -13,7 +15,7 @@ const BreadCrumb = (props) => {
             <Link to='/' className='text-dark'>
               Home &nbsp;
             </Link>
-             / New Arrivals
+             / &nbsp; {props.title}
           </p>
           </div>
         </div>
@@ -21,6 +23,11 @@ const BreadCrumb = (props) => {
     </div>
   )
 }
+
+BreadCrumb.propTypes = {
+  title: PropTypes.string.isRequired
+}
+
 
 export default BreadCrumb
  
