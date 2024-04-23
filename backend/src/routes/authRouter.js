@@ -16,4 +16,9 @@ const controller = new UserController()
 
 // Map HTTP verbs and route paths to controller action methods and
 
+// Register
 router.post('/register', (req, res, next) => controller.register(req, res, next))
+
+// Login
+router.post('/login', (req, res, next) => controller.login(req, res, next))
+
