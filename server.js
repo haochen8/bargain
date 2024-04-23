@@ -13,11 +13,11 @@ import httpContext from 'express-http-context'
 import helmet from 'helmet'
 import { randomUUID } from 'node:crypto'
 import http from 'node:http'
-import { connectToDatabase } from './config/mongoose.js'
-import { sessionOptions } from './config/sessionOptions.js'
-import { morganLogger } from './config/morgan.js'
-import { logger } from './config/winston.js'
-import { router } from './routes/router.js'
+import { connectToDatabase } from './src/config/mongoose.js'
+import { sessionOptions } from './src/config/sessionOptions.js'
+import { morganLogger } from './src/config/morgan.js'
+import { logger } from './src/config/winston.js'
+import { router } from './src/routes/router.js'
 
 
 try {
