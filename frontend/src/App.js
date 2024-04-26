@@ -1,3 +1,11 @@
+/**
+ * Main application component.
+ * 
+ * @author: Hao Chen
+ * @version: 1.0
+ * @returns {JSX.Element} The rendered application.
+ */
+
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -31,7 +39,6 @@ function App() {
             <Route path="signup" element={<SignUp />} />
             <Route path="forgotpassword" element={<Forgotpassword />} />
             <Route path="resetpassword" element={<Resetpassword />} />
-
           </Route>
         </Routes>
       </BrowserRouter>

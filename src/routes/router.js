@@ -18,10 +18,6 @@ export const router = express.Router()
 router.get('/', (req, res) => res.json({ message: 'Hooray! Welcome to this server side!' }))
 router.use('/api/user', authRouter)
 
-// Test route
-router.get('/test', (req, res) => res.json({ message: 'Test route' }))
-
-
 // Catch 404 (ALWAYS keep this as the last route).
 router.use('*', (req, res, next) => {
   const statusCode = 404
