@@ -5,8 +5,10 @@
  * @version 3.1.0
  */
 
+import http from "node:http";
 import { logger } from "../../config/winston.js";
 import { UserModel } from "../../models/UserModel.js";
+import { JsonWebToken } from "../../config/JsonWebToken.js";
 
 /**
  * Encapsulates the user controller.
@@ -39,7 +41,7 @@ export class UserController {
       }
 
       // Create a new user.
-      const newUser = UserModel.create({
+      const newUser = await UserModel.create({
         firstName,
         lastName,
         email,
@@ -47,24 +49,24 @@ export class UserController {
         password,
       });
 
-      // Check if the user was created successfully.
-      if (!newUser) {
-        return res.status(500).json({
-          success: false,
-          message: "Failed creating user.",
+      logger.silly('Created new user.', { user: newUser })
+
+      res
+        .status(201)
+        .json({
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          message: "User created successfully.",
         });
-      }
-
-      // Automatically log in the user after registration.
-      req.session.userId = newUser._id;
-      logger.silly("User created successfully.", { user: newUser });
-
-      // Redirect to the home page.
-      res.redirect("/");
     } catch (error) {
-      logger.error("Error creating user.", { error: error.message });
-      req.session.flash = { type: "danger", text: error.message };
-      res.redirect("/");
+      // Registration failed.
+      const httpStatusCode = 500
+      const err = new Error(http.STATUS_CODES[httpStatusCode])
+      err.status = httpStatusCode
+      err.cause = error
+
+      next(err)
     }
   }
 
@@ -84,20 +86,42 @@ export class UserController {
       const { username, password } = req.body;
       console.log("username:", username, "password:", password);
 
+      // Check if user exists
+      const userExists = await UserModel.exists({ username });
+      if (!userExists) {
+        return res.status(400).json({
+          success: false,
+          message: "User does not exist.",
+        });
+      }
+
       // Authenticate the user.
-      const user = await UserModel.authenticate(req.body.username, req.body.password);
+      const user = await UserModel.authenticate(
+        req.body.username,
+        req.body.password
+      );
 
+      // Generate an access token.
+      const accessToken = await JsonWebToken.encodeUser(user._id);
 
-      // Automatically log in the user after login.
-      req.session.userId = user._id;
-      logger.silly("User logged in successfully.", { user });
+      logger.silly('Autehnticated user.', { user: user })
 
-      // Redirect to the home page.
-      res.redirect("/");
+      res
+        .status(201)
+        .json({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          access_token: accessToken
+        })
     } catch (error) {
-      logger.error("Error logging in user.", { error: error.message });
-      req.session.flash = { type: "danger", text: error.message };
-      res.redirect("/");
+      // Authentication failed.
+      const httpStatusCode = 401;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
     }
   }
 }

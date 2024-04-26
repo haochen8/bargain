@@ -8,8 +8,8 @@
     "node": ">=20.6.0"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon --inspect --env-file=.env src/server.js",
+    "start": "node server.js",
+    "dev": "nodemon --inspect --env-file=.env server.js",
     "lint": "npx eslint ./src || exit 0",
     "lint:fix": "npx eslint ./src --fix || exit 0"
   },
