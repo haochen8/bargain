@@ -22,3 +22,14 @@ router.post('/register', (req, res, next) => controller.register(req, res, next)
 // Login
 router.post('/login', (req, res, next) => controller.login(req, res, next))
 
+// Get all users
+router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
+
+// Get user by ID
+router.get('/:id', (req, res, next) => controller.getUserById(req, res, next))
+
+// Delete user by ID
+router.delete('/:id', (req, res, next) => controller.deleteUser(req, res, next))
+
+// Update user by ID
+router.put('/:id', (req, res, next) => controller.updateUser(req, res, next))

@@ -49,24 +49,22 @@ export class UserController {
         password,
       });
 
-      logger.silly('Created new user.', { user: newUser })
+      logger.silly("Created new user.", { user: newUser });
 
-      res
-        .status(201)
-        .json({
-          id: newUser._id,
-          username: newUser.username,
-          email: newUser.email,
-          message: "User created successfully.",
-        });
+      res.status(201).json({
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        message: "User created successfully.",
+      });
     } catch (error) {
       // Registration failed.
-      const httpStatusCode = 500
-      const err = new Error(http.STATUS_CODES[httpStatusCode])
-      err.status = httpStatusCode
-      err.cause = error
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
 
-      next(err)
+      next(err);
     }
   }
 
@@ -104,19 +102,151 @@ export class UserController {
       // Generate an access token.
       const accessToken = await JsonWebToken.encodeUser(user._id);
 
-      logger.silly('Autehnticated user.', { user: user })
+      logger.silly("Autehnticated user.", { user: user });
 
-      res
-        .status(201)
-        .json({
-          id: user._id,
-          username: user.username,
-          email: user.email,
-          access_token: accessToken
-        })
+      res.status(201).json({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        access_token: accessToken,
+      });
     } catch (error) {
       // Authentication failed.
       const httpStatusCode = 401;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Get all users.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async getAllUsers(req, res, next) {
+    try {
+      logger.silly("Getting all users...");
+
+      // Get all users.
+      const getUsers = await UserModel.find();
+
+      logger.silly("Got all users.", { users: getUsers });
+
+      res.status(200).json(getUsers);
+    } catch (error) {
+      // Get all users failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Get user by id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async getUserById(req, res, next) {
+    try {
+      logger.silly("Getting user by id...", { id: req.params.id });
+      console.log("req.params.id:", req.params.id);
+
+      // Get id from request params.
+      const id = req.params.id;
+
+      // Get user by id.
+      const getUser = await UserModel.findById(id);
+
+      logger.silly("Got user by id.", { user: getUser });
+
+      res.status(200).json(getUser);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Delete user by id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async deleteUser(req, res, next) {
+    try {
+      logger.silly("Getting user by id...", { id: req.params.id });
+      console.log("id:", id);
+
+      // Get id from request params.
+      const id = req.params.id;
+
+      // Get user by id.
+      const delUser = await UserModel.findByIdAndDelete(id);
+
+      logger.silly("Got user by id.", { user: delUser });
+
+      res.status(200).json(delUser);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Update user by id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async updateUser(req, res, next) {
+    try {
+      logger.silly("Updating user by id...", { id: req.params.id });
+      console.log("req.params.id:", req.params.id);
+
+      // Get id from request params.
+      const id = req.params.id;
+
+      // Get user by id.
+      const updateUser = await UserModel.findByIdAndUpdate(
+        id,
+        req.body,
+        {
+          new: true,
+        }
+      );
+
+      logger.silly("Updated user by id.", { user: updateUser });
+
+      res.status(200).json(updateUser);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
       err.cause = error;
