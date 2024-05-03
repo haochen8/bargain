@@ -209,7 +209,60 @@ export class UserController {
    * @returns {void} This function does not return a value; it either calls next() or sends a response.
    */
   async logout(req, res, next) {
-    
+    try {
+      logger.silly("Logging out user...");
+
+      // Get the refresh token from the request cookies.
+      const cookie = req.cookies;
+      const refreshToken = cookie.refreshToken;
+
+      // Check if the refresh token exists in the cookie.
+      if (!cookie?.refreshToken) {
+        return res.status(400).json({
+          success: false,
+          message: "Refresh token not found in Cookies.",
+        });
+      }
+
+      // Check if the refresh token exists in the database.
+      const user = await UserModel.findOne({ refreshToken });
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid refresh token.",
+        });
+      }
+
+      // Remove the refresh token from the user.
+      const updateUser = await UserModel.findByIdAndUpdate(
+        user._id,
+        { refreshToken: "" },
+        { new: true }
+      );
+
+      // Clear the refresh token cookie.
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
+
+
+      logger.silly("Logged out user.", { user: updateUser });
+
+      res.status(200).json({
+        message: "User logged out successfully.",
+      });
+    }
+    catch (error) {
+      // Logout failed.
+      const httpStatusCode = 401;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
   }
 
 
