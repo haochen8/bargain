@@ -1,7 +1,7 @@
 /**
  * @file Authentication and authorization middlewares.
  * @module middlewares/auth
- * @author Mats Loock
+ * @author Hao Chen
  * @version 1.0.0
  */
 
@@ -9,6 +9,7 @@ import http from "node:http";
 import { JsonWebToken } from "../config/JsonWebToken.js";
 import { UserModel } from "../models/UserModel.js";
 import asyncHandler from "express-async-handler";
+
 
 /**
  * Authenticates a request based on a JSON Web Token (JWT).

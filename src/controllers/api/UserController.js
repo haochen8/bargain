@@ -9,6 +9,7 @@ import http from "node:http";
 import { logger } from "../../config/winston.js";
 import { UserModel } from "../../models/UserModel.js";
 import { JsonWebToken } from "../../config/JsonWebToken.js";
+import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
 
 /**
  * Encapsulates the user controller.
@@ -161,10 +162,10 @@ export class UserController {
   async getUserById(req, res, next) {
     try {
       logger.silly("Getting user by id...", { id: req.params.id });
-      console.log("req.params.id:", req.params.id);
 
       // Get id from request params.
       const id = req.params.id;
+      validateMongoDbId(id);
 
       // Get user by id.
       const getUser = await UserModel.findById(id);
@@ -194,10 +195,10 @@ export class UserController {
   async deleteUser(req, res, next) {
     try {
       logger.silly("Getting user by id...", { id: req.params.id });
-      console.log("id:", id);
 
       // Get id from request params.
       const id = req.params.id;
+      validateMongoDbId(id);
 
       // Get user by id.
       const delUser = await UserModel.findByIdAndDelete(id);
@@ -226,20 +227,20 @@ export class UserController {
    */
   async updateUser(req, res, next) {
     try {
-      logger.silly("Updating user by id...", { id: req.params.id });
-      console.log("req.params.id:", req.params.id);
-
-      // Get id from request params.
-      const id = req.params.id;
+      // Get the id
+      const id = req.user.id;
+      validateMongoDbId(id);
+      
+      logger.silly("Updating user by id...", { id: id });
 
       // Get user by id.
-      const updateUser = await UserModel.findByIdAndUpdate(
-        id,
-        req.body,
-        {
-          new: true,
-        }
-      );
+      const updateUser = await UserModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
+      if (!updateUser) {
+        throw new Error("User not found or update failed");
+      }
 
       logger.silly("Updated user by id.", { user: updateUser });
 

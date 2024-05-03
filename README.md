@@ -28,16 +28,11 @@ License
 Distributed under the MIT License. See LICENSE for more information.
 
 Contact
-Your Name - hc222ig@student.lnu.se
+- hc222ig@student.lnu.se
 
-Project Link: https://gitlab.lnu.se/1dv613/student/hc222ig/project
-Deployed Link: https://bargainnow.netlify.app/
+- Project Link: https://gitlab.lnu.se/1dv613/student/hc222ig/project
+- Deployed Link: https://bargainnow.netlify.app/
 
 Acknowledgments
 Use this space to list resources you find helpful and would like to give credit to.
 Thank you for visiting Bargain – Happy shopping!
-
-css
-Copy code
-
-This basic structure gives a clear overview of your project, including how to set it up, contribute, and contact details. Adjust as necessary to fit the specific needs and details of your project.
