@@ -7,7 +7,7 @@
 
 import express from 'express'
 import { UserController } from '../controllers/api/UserController.js'
-import { authenticateJWT } from '../middlewares/auth.js'
+import { authenticateJWT, isAdmin } from '../middlewares/auth.js'
 
 // Create a router.
 export const router = express.Router()
@@ -27,7 +27,7 @@ router.post('/login', (req, res, next) => controller.login(req, res, next))
 router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
 
 // Get user by ID
-router.get('/:id', authenticateJWT, (req, res, next) => controller.getUserById(req, res, next))
+router.get('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.getUserById(req, res, next))
 
 // Delete user by ID
 router.delete('/:id', (req, res, next) => controller.deleteUser(req, res, next))

@@ -80,9 +80,8 @@ export class UserController {
     try {
       logger.silly("Logging in user...", { body: req.body });
 
-      // Get the username and password from the request body.
-      const { username, password } = req.body;
-      console.log("username:", username, "password:", password);
+      // Get the username from the request body.
+      const { username } = req.body;
 
       // Check if user exists
       const userExists = await UserModel.exists({ username });
@@ -108,6 +107,7 @@ export class UserController {
         id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
         access_token: accessToken,
       });
     } catch (error) {

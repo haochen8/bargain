@@ -25,7 +25,7 @@ export class JsonWebToken {
           return;
         }
 
-        // Extract the user ID from the decoded JWT.
+        // Extract the user from the decoded JWT.
         const userId = {
           id: decoded.sub,
         };

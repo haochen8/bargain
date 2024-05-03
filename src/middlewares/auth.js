@@ -45,3 +45,31 @@ export const authenticateJWT = asyncHandler(async (req, res, next) => {
     next(err);
   }
 });
+
+/**
+ * Authorizes an admin user.
+ * 
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+export const isAdmin = asyncHandler(async (req, res, next) => {
+  const { id } = req.user;
+  try {
+    const adminUser = await UserModel.findOne({ _id: id });
+    if (!adminUser) {
+      throw new Error("Unauthorized access. Admin access required.");
+    } else {
+      next();
+    }
+    console.log(adminUser);
+  } catch (error) {
+    // Authorization failed.
+    const statusCode = 403;
+    const err = new Error(http.STATUS_CODES[statusCode]);
+    err.status = statusCode;
+    err.cause = error;
+
+    next(err);
+  }
+});
