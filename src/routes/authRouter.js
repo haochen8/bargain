@@ -23,6 +23,9 @@ router.post('/register', (req, res, next) => controller.register(req, res, next)
 // Login
 router.post('/login', (req, res, next) => controller.login(req, res, next))
 
+// Refresh token
+router.get('/refresh-token', (req, res, next) => controller.handleRefreshToken(req, res, next))
+
 // Get all users
 router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
 

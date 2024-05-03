@@ -18,6 +18,7 @@ import { sessionOptions } from './src/config/sessionOptions.js'
 import { morganLogger } from './src/config/morgan.js'
 import { logger } from './src/config/winston.js'
 import { router } from './src/routes/router.js'
+import cookieParser from 'cookie-parser'
 
 
 try {
@@ -37,6 +38,9 @@ try {
       }
     })
   )
+
+  // Parse cookies.
+  app.use(cookieParser())
 
   // Enable Cross Origin Resource Sharing (CORS) (https://www.npmjs.com/package/cors).
   app.use(cors())

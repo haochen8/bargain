@@ -10,6 +10,8 @@ import { logger } from "../../config/winston.js";
 import { UserModel } from "../../models/UserModel.js";
 import { JsonWebToken } from "../../config/JsonWebToken.js";
 import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
+import { generateRefreshToken } from "../../config/refreshToken.js";
+import jwt from "jsonwebtoken";
 
 /**
  * Encapsulates the user controller.
@@ -99,8 +101,22 @@ export class UserController {
         req.body.password
       );
 
-      // Generate an access token.
+      // Generate an JWT access token.
       const accessToken = await JsonWebToken.encodeUser(user._id);
+
+      // Generate a refresh token.
+      const refreshToken = await generateRefreshToken(user._id);
+      const updateUser = await UserModel.findByIdAndUpdate(
+        user._id,
+        { refreshToken: refreshToken },
+        { new: true }
+      );
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: "none",
+      });
 
       logger.silly("Autehnticated user.", { user: user });
 
@@ -121,6 +137,81 @@ export class UserController {
       next(err);
     }
   }
+
+  /**
+   * Handles the Refresh token.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async handleRefreshToken(req, res, next) {
+    try {
+      // Get the refresh token from the request cookies.
+      const cookie = req.cookies;
+      const refreshToken = cookie.refreshToken;
+
+      // Check if the refresh token exists in the cookie.
+      if (!cookie?.refreshToken) {
+        return res.status(400).json({
+          success: false,
+          message: "Refresh token not found in Cookies.",
+        });
+      }
+
+      // Check if the refresh token exists in the database.
+      const user = await UserModel.findOne({ refreshToken });
+      if (!user) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid refresh token.",
+        });
+      }
+
+      // Verify the refresh token.
+      jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid refresh token.",
+          });
+        }
+      });
+
+      // Generate a new JWT access token.
+      const accessToken = await JsonWebToken.encodeUser(user._id);
+
+      res.status(201).json({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        access_token: accessToken,
+      });
+    } catch (error) {
+      // Refresh token failed.
+      const httpStatusCode = 401;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Logs out a user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async logout(req, res, next) {
+    
+  }
+
 
   /**
    * Get all users.
@@ -230,7 +321,7 @@ export class UserController {
       // Get the id
       const id = req.user.id;
       validateMongoDbId(id);
-      
+
       logger.silly("Updating user by id...", { id: id });
 
       // Get user by id.

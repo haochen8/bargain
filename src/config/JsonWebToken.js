@@ -1,6 +1,6 @@
 /**
  * @file  Provides helper methods for working with JSON Web Tokens (JWTs).
- * @module lib/JsonWebTokens
+ * @module config/JsonWebTokens
  * @author Hao Chen
  * @version 1.0.0
  */
