@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 /**
  * Exposes methods for working with JSON Web Tokens (JWTs).
@@ -17,22 +17,22 @@ export class JsonWebToken {
    * @param {string} token - The JWT to decode.
    * @returns {Promise<object>} A Promise that resolves to the user object extracted from the JWT payload.
    */
-  static async decodeUser (token) {
+  static async decodeUser(token, secret) {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, (error, decoded) => {
+      jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          reject(error)
-          return
+          reject(error);
+          return;
         }
 
         // Extract the user ID from the decoded JWT.
         const userId = {
-          id: decoded.sub
-        }
+          id: decoded.sub,
+        };
 
-        resolve(userId)
-      })
-    })
+        resolve(userId);
+      });
+    });
   }
 
   /**
@@ -43,27 +43,27 @@ export class JsonWebToken {
    * @param {string|number} expiresIn - The expiration time for the JWT, specified in seconds or as a string describing a time span (e.g., '1d', '2h') using the vercel/ms library.
    * @returns {Promise<string>} A Promise that resolves to the generated JWT.
    */
-  static async encodeUser (id) {
+  static async encodeUser(id) {
     const payload = {
-      sub: id // Subject (the user ID)
-    }
+      sub: id, // Subject (the user ID)
+    };
 
     return new Promise((resolve, reject) => {
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
         {
-          expiresIn: '3d'
+          expiresIn: "3d",
         },
         (error, token) => {
           if (error) {
-            reject(error)
-            return
+            reject(error);
+            return;
           }
 
-          resolve(token)
+          resolve(token);
         }
-      )
-    })
+      );
+    });
   }
 }
