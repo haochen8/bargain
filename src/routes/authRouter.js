@@ -15,7 +15,7 @@ export const router = express.Router()
 // Create a new user controller.
 const controller = new UserController()
 
-// Map HTTP verbs and route paths to controller action methods and
+// Map HTTP verbs and route paths to controller action methods.
 
 // Register
 router.post('/register', (req, res, next) => controller.register(req, res, next))

@@ -18,8 +18,8 @@ const productSchema = new mongoose.Schema({
   },
   slug: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
     trim: true,
     lowercase: true,
   },
@@ -68,4 +68,4 @@ const productSchema = new mongoose.Schema({
 productSchema.add(BASE_SCHEMA)
 
 // Create a model using the schema.
-export const UserModel = mongoose.model('Product', productSchema)
+export const ProductModel = mongoose.model('Product', productSchema)

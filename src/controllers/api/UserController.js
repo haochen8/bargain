@@ -1,6 +1,6 @@
 /**
- * @file Defines the userController
- * @module controllers/userController
+ * @file Defines the user controller.
+ * @module controllers/api/UserController
  * @author Hao Chen
  * @version 3.1.0
  */
