@@ -7,6 +7,7 @@
 
 import express from 'express'
 import { ProductController } from '../controllers/api/ProductController.js'
+import { authenticateJWT, isAdmin } from '../middlewares/auth.js'
 
 // Create a router.
 export const router = express.Router()
@@ -17,7 +18,7 @@ const controller = new ProductController()
 // Map HTTP verbs and route paths to controller action methods.
 
 // Create a new product
-router.post('/', (req, res, next) => controller.createProduct(req, res, next))
+router.post('/', authenticateJWT, isAdmin, (req, res, next) => controller.createProduct(req, res, next))
 
 // Get a product
 router.get('/:id', (req, res, next) => controller.getProduct(req, res, next))
@@ -26,7 +27,7 @@ router.get('/:id', (req, res, next) => controller.getProduct(req, res, next))
 router.get('/', (req, res, next) => controller.getAllProducts(req, res, next))
 
 // Update a product
-router.put('/:id', (req, res, next) => controller.updateProduct(req, res, next))
+router.put('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.updateProduct(req, res, next))
 
 // Delete a product
-router.delete('/:id', (req, res, next) => controller.deleteProduct(req, res, next))
+router.delete('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.deleteProduct(req, res, next))

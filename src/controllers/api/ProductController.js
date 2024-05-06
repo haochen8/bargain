@@ -8,6 +8,7 @@
 import http from "node:http";
 import { ProductModel } from "../../models/productModel.js";
 import slugify from "slugify";
+import e from "express";
 
 /**
  * Encapsulates Product related methods and
@@ -143,11 +144,76 @@ export class ProductController {
    */
   async getAllProducts(req, res, next) {
     try {
-      // Find all products
-      const getAllProducts = await ProductModel.find();
+      // Extract query parameters
+      const {
+        maxPrice,
+        minPrice,
+        category,
+        brand,
+        color,
+        sort,
+        fields,
+        page,
+        limit,
+        ...rest
+      } = req.query;
+
+      let query = { ...rest };
+
+      // Convert query object to string
+      let queryStr = JSON.stringify(query);
+      queryStr = queryStr.replace(
+        /\b(gt|gte|lt|lte)\b/g,
+        (match) => `$${match}`
+      );
+      query = JSON.parse(queryStr);
+
+      // Apply filters
+      if (maxPrice || minPrice) {
+        query.price = {};
+        if (maxPrice) {
+          query.price.$lte = maxPrice;
+        }
+        if (minPrice) {
+          query.price.$gte = minPrice;
+        }
+      }
+      if (category) {
+        query.category = category;
+      }
+      if (brand) {
+        query.brand = brand;
+      }
+      if (color) {
+        query.color = color;
+      }
+
+      // Prepare query
+      let queryProducts = ProductModel.find(query);
+
+      // Apply sort
+      if (req.query.sort) {
+        const sortBy = req.query.sort.split(",").join(" ");
+        queryProducts = queryProducts.sort(sortBy);
+      }
+
+      // Apply field limiting
+      if (req.query.fields) {
+        const fields = req.query.fields.split(",").join(" ");
+        queryProducts = queryProducts.select(fields);
+      }
+
+      // Apply pagination
+      const resultsPerPage = parseInt(limit, 10) || 100;
+      const currentPage = parseInt(page, 10) || 1;
+      const skip = (currentPage - 1) * resultsPerPage;
+      queryProducts = queryProducts.skip(skip).limit(resultsPerPage);
+
+      // Execute query
+      const products = await queryProducts;
 
       // Send response
-      res.status(200).json(getAllProducts);
+      res.status(200).json(products);
     } catch (error) {
       // Get products failed
       const httpStatusCode = 400;
