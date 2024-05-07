@@ -9,6 +9,7 @@ import express from 'express'
 import http from 'node:http'
 import { router as authRouter } from './authRouter.js'
 import { router as productRouter } from './productRouter.js'
+import { router as categoryRouter } from './categoryRouter.js'
 
 // Create a router.
 export const router = express.Router()
@@ -19,6 +20,7 @@ export const router = express.Router()
 router.get('/', (req, res) => res.json({ message: 'Hooray! Welcome to this server side!' }))
 router.use('/api/user', authRouter)
 router.use('/api/product', productRouter)
+router.use('/api/category', categoryRouter)
 
 // Catch 404 (ALWAYS keep this as the last route).
 router.use('*', (req, res, next) => {

@@ -17,9 +17,9 @@ const Login = () => {
                 <form action="" className="d-flex flex-column gap-10">
                   <div>
                     <input
-                      type="email"
-                      name="email"
-                      placeholder="Email"
+                      type="username"
+                      name="username"
+                      placeholder="Username or Email"
                       className="form-control"
                     />
                   </div>
@@ -30,9 +30,9 @@ const Login = () => {
                       placeholder="Password"
                       className="form-control"
                     />
-                    <Link className="forgot mt-3" to="/forgotpassword">
+                    {/* <Link className="forgot mt-3" to="/forgotpassword">
                       Forgot Password?
-                    </Link>
+                    </Link> */}
                   </div>
                   <div>
                     <div className="d-flex justify-content-center align-items-center gap-15">

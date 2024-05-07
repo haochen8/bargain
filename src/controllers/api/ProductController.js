@@ -8,7 +8,7 @@
 import http from "node:http";
 import { ProductModel } from "../../models/productModel.js";
 import slugify from "slugify";
-import e from "express";
+import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
 
 /**
  * Encapsulates Product related methods and
@@ -54,6 +54,7 @@ export class ProductController {
   async updateProduct(req, res, next) {
     try {
       const id = req.params.id;
+      validateMongoDbId(id);
 
       if (req.body.title) {
         req.body.slug = slugify(req.body.title);
@@ -91,6 +92,7 @@ export class ProductController {
   async deleteProduct(req, res, next) {
     try {
       const id = req.params.id;
+      validateMongoDbId(id);
 
       const deletedProduct = await ProductModel.findOneAndDelete({
         id: id,
@@ -191,7 +193,7 @@ export class ProductController {
       // Prepare query
       let queryProducts = ProductModel.find(query);
 
-      // Apply sort
+      // Apply sorting
       if (req.query.sort) {
         const sortBy = req.query.sort.split(",").join(" ");
         queryProducts = queryProducts.sort(sortBy);
