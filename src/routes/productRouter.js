@@ -33,6 +33,11 @@ router.put("/wishlist", authenticateJWT, (req, res, next) =>
   controller.addToWishList(req, res, next)
 );
 
+// Rate a product
+router.put("/rate", authenticateJWT, (req, res, next) =>
+  controller.rateProduct(req, res, next)
+);
+
 // Update a product
 router.put("/:id", authenticateJWT, isAdmin, (req, res, next) =>
   controller.updateProduct(req, res, next)

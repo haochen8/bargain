@@ -238,15 +238,20 @@ export class ProductController {
    */
   async addToWishList(req, res, next) {
     try {
+      // Get user id and product id
       const userId = req.user.id;
       const productId = req.body.productId;
 
+      // Check if user exists
       const user = await UserModel.findById(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
+      // Check if product exists
       const isProductInWishList = user.wishlist.includes(productId);
+
+      // Remove product from wishlist
       if (isProductInWishList) {
         await UserModel.findByIdAndUpdate(userId, {
           $pull: { wishlist: productId },
@@ -255,6 +260,7 @@ export class ProductController {
           .status(200)
           .json({ message: "Product removed from wishlist" });
       } else {
+        // Add product to wishlist
         await UserModel.findByIdAndUpdate(userId, {
           $push: { wishlist: productId },
         });
@@ -262,6 +268,61 @@ export class ProductController {
       }
     } catch (error) {
       // Add to wishlist failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Rate a product.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async rateProduct(req, res, next) {
+    try {
+      // Get user id and product id
+      const userId = req.user.id;
+      const { star, productId } = req.body;
+
+      if (star < 1 || star > 5) {
+        return res
+          .status(400)
+          .json({ message: "Star rating must be between 1 and 5" });
+      }
+
+      // Retrieve product by id
+      const product = await ProductModel.findById(productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      // Check if user already rated the product
+      let existingRating = product.ratings.find(
+        (rating) => rating.postedBy.toString() === userId.toString()
+      );
+      // Update rating
+      if (existingRating) {
+        existingRating.star = star;
+      } else {
+        // Add new rating
+        product.ratings.push({ star, postedBy: userId });
+      }
+
+      const updatedProduct = await product.save();
+
+      if (updatedProduct) {
+        return res.status(200).json({ message: "Rating successfully added" });
+      } else {
+        return res.status(400).json({ message: "Rating failed to rate" });
+      }
+    } catch (error) {
+      // Rate product failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
