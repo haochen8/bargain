@@ -33,7 +33,6 @@ export const authenticateJWT = asyncHandler(async (req, res, next) => {
 
     // Decode the JWT and attach the user object to the request.
     req.user = await JsonWebToken.decodeUser(token, process.env.JWT_SECRET);
-    console.log(req.user);
 
     next();
   } catch (error) {
@@ -63,7 +62,6 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
     } else {
       next();
     }
-    console.log(adminUser);
   } catch (error) {
     // Authorization failed.
     const statusCode = 403;

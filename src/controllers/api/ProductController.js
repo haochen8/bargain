@@ -9,6 +9,8 @@ import http from "node:http";
 import { ProductModel } from "../../models/productModel.js";
 import slugify from "slugify";
 import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
+import { UserModel } from "../../models/UserModel.js";
+import mongoose, { mongo } from "mongoose";
 
 /**
  * Encapsulates Product related methods and
@@ -54,7 +56,7 @@ export class ProductController {
   async updateProduct(req, res, next) {
     try {
       const id = req.params.id;
-      validateMongoDbId(id);
+      console.log("updateProduct called with ID:", req.params.id); // Log the ID being passed
 
       if (req.body.title) {
         req.body.slug = slugify(req.body.title);
@@ -71,7 +73,7 @@ export class ProductController {
       );
 
       res.status(200).json(updatedProduct);
-    } catch {
+    } catch (error) {
       // Update product failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
@@ -218,6 +220,48 @@ export class ProductController {
       res.status(200).json(products);
     } catch (error) {
       // Get products failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Add to wishlist.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async addToWishList(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const productId = req.body.productId;
+
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const isProductInWishList = user.wishlist.includes(productId);
+      if (isProductInWishList) {
+        await UserModel.findByIdAndUpdate(userId, {
+          $pull: { wishlist: productId },
+        });
+        return res
+          .status(200)
+          .json({ message: "Product removed from wishlist" });
+      } else {
+        await UserModel.findByIdAndUpdate(userId, {
+          $push: { wishlist: productId },
+        });
+        return res.status(200).json({ message: "Product added to wishlist" });
+      }
+    } catch (error) {
+      // Add to wishlist failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;

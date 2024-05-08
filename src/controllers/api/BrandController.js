@@ -80,7 +80,7 @@ export class BrandController {
 
       const brand = await BrandModel.findByIdAndDelete(id);
 
-      res.status(204).json(brand);
+      res.status(204).json(brand, { message: "Brand deleted successfully." });
     } catch (error) {
       // Delete brand failed
       const httpStatusCode = 400;

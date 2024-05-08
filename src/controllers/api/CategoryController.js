@@ -80,7 +80,9 @@ export class CategoryController {
 
       const category = await CategoryModel.findByIdAndDelete(id);
 
-      res.status(204).json(category);
+      res
+        .status(204)
+        .json(category, { message: "Category deleted successfully" });
     } catch (error) {
       // Delete category failed
       const httpStatusCode = 400;
