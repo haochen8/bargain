@@ -19,3 +19,15 @@ const controller = new CategoryController()
 
 // Create a new category
 router.post('/', authenticateJWT, isAdmin, (req, res, next) => controller.createCategory(req, res, next))
+
+// Update a category
+router.put('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.updateCategory(req, res, next))
+
+// Delete a category
+router.delete('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.deleteCategory(req, res, next))
+
+// Get a category by id
+router.get('/:id', (req, res, next) => controller.getCategoryById(req, res, next))
+
+// Get all categories
+router.get('/', (req, res, next) => controller.getAllCategories(req, res, next))

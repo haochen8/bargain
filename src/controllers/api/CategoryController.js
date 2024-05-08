@@ -39,20 +39,99 @@ export class CategoryController {
   }
 
   /**
+   * Update a category.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async updateCategory(req, res, next) {
+    try {
+      const id = req.params.id;
+      validateMongoDbId(id);
+
+      const category = await CategoryModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
+      res.status(200).json(category);
+    } catch (error) {
+      // Update category failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Delete a category.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async deleteCategory(req, res, next) {
+    try {
+      const id = req.params.id;
+      validateMongoDbId(id);
+
+      const category = await CategoryModel.findByIdAndDelete(id);
+
+      res.status(204).json(category);
+    } catch (error) {
+      // Delete category failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
    * Get a category.
    *
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
    * @param {NextFunction} next - The next middleware function.
    */
-  async getCategory(req, res, next) {
+  async getCategoryById(req, res, next) {
     try {
       const id = req.params.id;
       validateMongoDbId(id);
 
       const category = await CategoryModel.findById(id);
+
+      res.status(200).json(category);
     } catch (error) {
       // Get category failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Get all categories.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async getAllCategories(req, res, next) {
+    try {
+      const categories = await CategoryModel.find();
+
+      res.status(200).json(categories);
+    } catch (error) {
+      // Get categories failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
