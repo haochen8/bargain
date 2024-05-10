@@ -335,7 +335,8 @@ export class ProductController {
         message: existingRating
           ? "Rating successfully updated"
           : "Rating successfully added",
-        averageRating: avgRating
+        ratings: updatedProduct.ratings,
+        averageRating: avgRating,
       });
     } catch (error) {
       // Rate product failed

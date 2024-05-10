@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        setError("Invalid username or password, please try again.");
+      }
+    } catch (error) {
+      console.error("An unexpected error happened occurred:", error);
+      setError("An unexpected error happened occurred, please try again.");
+    }
+  };
+
   return (
     <>
       <Meta title="Login" />
@@ -14,12 +45,17 @@ const Login = () => {
             <div className="col-12">
               <div className="auth">
                 <h3 className="loginh3 text-center mb-3">Login</h3>
-                <form action="" className="d-flex flex-column gap-10">
+                <form
+                  onSubmit={handleLogin}
+                  className="d-flex flex-column gap-10"
+                >
                   <div>
                     <input
                       type="username"
                       name="username"
-                      placeholder="Username or Email"
+                      placeholder="Username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       className="form-control"
                     />
                   </div>
@@ -27,6 +63,8 @@ const Login = () => {
                     <input
                       type="password"
                       name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
                       className="form-control"
                     />
@@ -34,6 +72,7 @@ const Login = () => {
                       Forgot Password?
                     </Link> */}
                   </div>
+                  <div className="text-center text-danger">{error}</div>
                   <div>
                     <div className="d-flex justify-content-center align-items-center gap-15">
                       <button className="button" type="submit">

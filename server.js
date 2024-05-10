@@ -43,7 +43,9 @@ try {
   app.use(cookieParser())
 
   // Enable Cross Origin Resource Sharing (CORS) (https://www.npmjs.com/package/cors).
-  app.use(cors())
+  app.use(cors({
+    origin: 'http://localhost:3000'
+  }))
 
   // Parse requests of the content type application/json.
   app.use(express.json({ limit: '500kb' }))
