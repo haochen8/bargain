@@ -1,9 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const handleSignUp = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+            firstName,
+            lastName,
+            email,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        setError("Failed to sign up, please try again.");
+      }
+    } catch (error) {
+      console.error("An unexpected error happened occurred:", error);
+      setError("An unexpected error happened occurred, please try again.");
+    }
+  };
+
   return (
     <>
       <Meta title="Sign Up" />
@@ -15,13 +55,35 @@ const SignUp = () => {
               <div className="auth">
                 <h3 className="loginh3 text-center mb-3">Create an account</h3>
                 <p className="reset text-center my-2">Enter your information</p>
-                <form action="" className="d-flex flex-column ">
+                <form onSubmit={handleSignUp} className="d-flex flex-column ">
+                  <div>
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      className="form-control"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      className="form-control"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
                   <div>
                     <input
                       type="email"
                       name="email"
                       placeholder="E-mail"
                       className="form-control"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div>
@@ -30,6 +92,8 @@ const SignUp = () => {
                       name="username"
                       placeholder="Username"
                       className="form-control"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
                   <div>
@@ -38,22 +102,25 @@ const SignUp = () => {
                       name="password"
                       placeholder="Password"
                       className="form-control"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                </form>
-                <div>
+                  {error && (
+                    <div className="text-center text-danger mt-2">{error}</div>
+                  )}
                   <div className="mt-2 d-flex justify-content-center align-items-center">
                     <button className="button border-0" type="submit">
                       Create
                     </button>
                   </div>
-                  <Link
-                    className="submit mt-2 d-flex justify-content-center align-items-center"
-                    to={"/login"}
-                  >
-                    Cancel
-                  </Link>
-                </div>
+                </form>
+                <Link
+                  className="submit mt-2 d-flex justify-content-center align-items-center"
+                  to={"/login"}
+                >
+                  Cancel
+                </Link>
               </div>
             </div>
           </div>
