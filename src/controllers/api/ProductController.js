@@ -290,6 +290,7 @@ export class ProductController {
       const userId = req.user.id;
       const { star, productId } = req.body;
 
+      // Validate star rating
       if (star < 1 || star > 5) {
         return res
           .status(400)
@@ -306,7 +307,7 @@ export class ProductController {
       let existingRating = product.ratings.find(
         (rating) => rating.postedBy.toString() === userId.toString()
       );
-      // Update rating
+      // Update rating or add new rating
       if (existingRating) {
         existingRating.star = star;
       } else {
@@ -314,13 +315,28 @@ export class ProductController {
         product.ratings.push({ star, postedBy: userId });
       }
 
-      const updatedProduct = await product.save();
+      // Save product with updated rating
+      await product.save();
 
-      if (updatedProduct) {
-        return res.status(200).json({ message: "Rating successfully added" });
-      } else {
-        return res.status(400).json({ message: "Rating failed to rate" });
-      }
+      // Calculate total ratings and average rating
+      const total = product.ratings.length;
+      let sum = product.ratings.reduce((acc, rating) => acc + rating.star, 0);
+      const avgRating = Math.round(sum / total);
+
+      // Update product with updated average rating
+      const updatedProduct = await ProductModel.findByIdAndUpdate(
+        productId,
+        { $set: { totalRating: avgRating } },
+        { new: true }
+      );
+
+      // Send response
+      res.status(200).json({
+        message: existingRating
+          ? "Rating successfully updated"
+          : "Rating successfully added",
+        averageRating: avgRating
+      });
     } catch (error) {
       // Rate product failed
       const httpStatusCode = 400;
