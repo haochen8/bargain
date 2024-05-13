@@ -430,51 +430,110 @@ export class UserController {
     }
   }
 
+  /**
+   * Add to cart by user id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
   async userCart(req, res, next) {
     try {
       const cart = req.body.cart;
       const userId = req.user.id;
       validateMongoDbId(userId);
 
-      const user = await UserModel.findById(userId);
-
       // Check product exists in cart
       let isProductInCart = await CartModel.findOne({ orderedBy: userId });
-      
-      if (isProductInCart) {
-        await CartModel.deleteOne({ orderedBy: userId });
-        isProductInCart = new CartModel({ orderedBy: userId })
-        await isProductInCart.save();
-      }
+
       if (!isProductInCart) {
         isProductInCart = new CartModel({ orderedBy: userId });
-        await isProductInCart.save();
+      } else {
+        isProductInCart.products = [];
       }
 
+      let cartTotal = 0;
       for (let i = 0; i < cart.length; i++) {
         let object = {
           product: cart[i]._id,
           count: parseInt(cart[i].count),
-          color: cart[i].color
+          color: cart[i].color,
         };
         let getPrice = await ProductModel.findById(cart[i]._id)
           .select("price")
           .exec();
         object.price = getPrice.price;
+        cartTotal += getPrice.price * object.count;
         isProductInCart.products.push(object);
       }
-      let cartTotal = 0;
-      for (let i = 0; i < isProductInCart.products.length; i++) {
-        cartTotal +=
-          isProductInCart.products[i].price * isProductInCart.products[i].count;
-      }
-      console.log(cartTotal);
-      let newCart = await new CartModel({
-        products: isProductInCart.products,
-        cartTotal: cartTotal,
-        orderedBy: userId,
-      }).save();
-      res.status(200).json(newCart);
+
+      // Update and save cart
+      isProductInCart.cartTotal = cartTotal;
+      await isProductInCart.save();
+
+      res.status(200).json(isProductInCart);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Get cart by user id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async getCart(req, res, next) {
+    try {
+      const userId = req.user.id;
+      validateMongoDbId(userId);
+
+      // Find cart by user id
+      const userCart = await CartModel.findOne({ orderedBy: userId }).populate(
+        "products.product",
+        "_id name price"
+      );
+
+      res.status(200).json(userCart);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Delete cart by user id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async deleteCart(req, res, next) {
+    try {
+      const userId = req.user.id;
+      validateMongoDbId(userId);
+
+      const user = await UserModel.findById(userId);
+
+      // Find cart by user id
+      const userCart = await CartModel.findOneAndDelete({ orderedBy: userId });
+
+      res.status(200).json(userCart);
     } catch (error) {
       // Get user by id failed.
       const httpStatusCode = 500;

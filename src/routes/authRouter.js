@@ -33,12 +33,17 @@ router.get('/logout', (req, res, next) => controller.logout(req, res, next))
 router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
 // Get wishlist
 router.get('/wishlist', authenticateJWT, (req, res, next) => controller.getWishList(req, res, next))
+// Get cart
+router.get('/cart', authenticateJWT, (req, res, next) => controller.getCart(req, res, next))
 // Get user by ID
 router.get('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.getUserById(req, res, next))
 
-
+// Delete cart
+router.delete('/delete-cart', authenticateJWT, (req, res, next) => controller.deleteCart(req, res, next))
 // Delete user by ID
 router.delete('/:id', (req, res, next) => controller.deleteUser(req, res, next))
+
+
 
 // Update user by ID
 router.put('/edit-user', authenticateJWT, (req, res, next) => controller.updateUser(req, res, next))
