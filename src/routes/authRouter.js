@@ -31,9 +31,11 @@ router.get('/logout', (req, res, next) => controller.logout(req, res, next))
 
 // Get all users
 router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
-
+// Get wishlist
+router.get('/wishlist', authenticateJWT, (req, res, next) => controller.getWishList(req, res, next))
 // Get user by ID
 router.get('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.getUserById(req, res, next))
+
 
 // Delete user by ID
 router.delete('/:id', (req, res, next) => controller.deleteUser(req, res, next))

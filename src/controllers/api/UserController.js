@@ -399,4 +399,36 @@ export class UserController {
       next(err);
     }
   }
+
+  /**
+   * Get wishlist by user id.
+   * 
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async getWishList(req, res, next) {
+    try {
+      // Get the id
+      const id = req.user.id;
+      validateMongoDbId(id);
+
+      // Get user by id.
+      const getUser = await UserModel.findById(id);
+
+      logger.silly("Got wishlist by id.", { wishlist: getUser.wishlist });
+
+      res.status(200).json(getUser.wishlist);
+    }
+    catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
 }
