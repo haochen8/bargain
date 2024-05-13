@@ -12,6 +12,8 @@ import { JsonWebToken } from "../../config/JsonWebToken.js";
 import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
 import { generateRefreshToken } from "../../config/refreshToken.js";
 import jwt from "jsonwebtoken";
+import { CartModel } from "../../models/cartModel.js";
+import { ProductModel } from "../../models/productModel.js";
 
 /**
  * Encapsulates the user controller.
@@ -245,16 +247,14 @@ export class UserController {
         httpOnly: true,
         sameSite: "none",
         secure: true,
-      })
-
+      });
 
       logger.silly("Logged out user.", { user: updateUser });
 
       res.status(200).json({
         message: "User logged out successfully.",
       });
-    }
-    catch (error) {
+    } catch (error) {
       // Logout failed.
       const httpStatusCode = 401;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
@@ -264,7 +264,6 @@ export class UserController {
       next(err);
     }
   }
-
 
   /**
    * Get all users.
@@ -402,7 +401,7 @@ export class UserController {
 
   /**
    * Get wishlist by user id.
-   * 
+   *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
@@ -420,8 +419,63 @@ export class UserController {
       logger.silly("Got wishlist by id.", { wishlist: getUser.wishlist });
 
       res.status(200).json(getUser.wishlist);
+    } catch (error) {
+      // Get user by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
     }
-    catch (error) {
+  }
+
+  async userCart(req, res, next) {
+    try {
+      const cart = req.body.cart;
+      const userId = req.user.id;
+      validateMongoDbId(userId);
+
+      const user = await UserModel.findById(userId);
+
+      // Check product exists in cart
+      let isProductInCart = await CartModel.findOne({ orderedBy: userId });
+      
+      if (isProductInCart) {
+        await CartModel.deleteOne({ orderedBy: userId });
+        isProductInCart = new CartModel({ orderedBy: userId })
+        await isProductInCart.save();
+      }
+      if (!isProductInCart) {
+        isProductInCart = new CartModel({ orderedBy: userId });
+        await isProductInCart.save();
+      }
+
+      for (let i = 0; i < cart.length; i++) {
+        let object = {
+          product: cart[i]._id,
+          count: parseInt(cart[i].count),
+          color: cart[i].color
+        };
+        let getPrice = await ProductModel.findById(cart[i]._id)
+          .select("price")
+          .exec();
+        object.price = getPrice.price;
+        isProductInCart.products.push(object);
+      }
+      let cartTotal = 0;
+      for (let i = 0; i < isProductInCart.products.length; i++) {
+        cartTotal +=
+          isProductInCart.products[i].price * isProductInCart.products[i].count;
+      }
+      console.log(cartTotal);
+      let newCart = await new CartModel({
+        products: isProductInCart.products,
+        cartTotal: cartTotal,
+        orderedBy: userId,
+      }).save();
+      res.status(200).json(newCart);
+    } catch (error) {
       // Get user by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);

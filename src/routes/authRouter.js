@@ -19,16 +19,16 @@ const controller = new UserController()
 
 // Register
 router.post('/register', (req, res, next) => controller.register(req, res, next))
-
 // Login
 router.post('/login', (req, res, next) => controller.login(req, res, next))
+// User Cart
+router.post('/cart', authenticateJWT, (req, res, next) => controller.userCart(req, res, next))
+
 
 // Refresh token
 router.get('/refresh-token', (req, res, next) => controller.handleRefreshToken(req, res, next))
-
 // Logout
 router.get('/logout', (req, res, next) => controller.logout(req, res, next))
-
 // Get all users
 router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
 // Get wishlist

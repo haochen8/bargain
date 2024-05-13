@@ -56,7 +56,6 @@ export class ProductController {
   async updateProduct(req, res, next) {
     try {
       const id = req.params.id;
-      console.log("updateProduct called with ID:", req.params.id); // Log the ID being passed
 
       if (req.body.title) {
         req.body.slug = slugify(req.body.title);
