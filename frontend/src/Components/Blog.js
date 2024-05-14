@@ -6,27 +6,41 @@
  * @returns {JSX.Element} The blog page component.
  */
 import React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Blog = () => {
+const Blog = ({ date, title, description, image, url }) => {
   return (
     <div className="blog-card">
       <div className="blog">
         <div className="blog-images">
-          <img src="images/news.webp" className="img-fluid" alt="blog" />
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            <img src={image} className="img-fluid" alt="blog" />
+          </a>
         </div>
-        <div className="blog-content"></div>
-        <p className="date">17 April, 2024</p>
-        <h5 className="title">
-        Amazon starts selling smart grocery carts to other retailers
-        </h5>
-        <p className="description">
-          Amazon will begin selling its smart grocery carts to other retailers, the company said Wednesday, marking its latest bid to turn its Dash Cart technology into a service...
-        </p>
-        <Link className="button" hrefLang="" >Read More</Link>
+        <div className="blog-content">
+          <p className="date">{date}</p>
+          <h5 className="title">{title}</h5>
+          <p className="description">{description}</p>
+          <a
+            className="button"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read More
+          </a>
+        </div>
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  date: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default Blog;
