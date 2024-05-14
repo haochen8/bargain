@@ -44,7 +44,10 @@ try {
 
   // Enable Cross Origin Resource Sharing (CORS) (https://www.npmjs.com/package/cors).
   app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: 'GET, POST, PUT, DELETE',
+    optionsSuccessStatus: 200
   }))
 
   // Parse requests of the content type application/json.

@@ -9,8 +9,12 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import Marquee from "react-fast-marquee";
+import { useAuth } from "../Context/AuthContext";
+import Logout from "./Logout";
 
 const Header = () => {
+  const { isLoggedIn } = useAuth();
+  console.log("Is LoggedIn in Header:", isLoggedIn);
   return (
     <>
       <header className="header-top-strip">
@@ -52,6 +56,7 @@ const Header = () => {
             </div>
             <div className="col-lg-1 col-md-3 col-sm-6 col-12">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
+                {isLoggedIn && (
                 <div>
                   <Link
                     to="/wishlist"
@@ -63,16 +68,16 @@ const Header = () => {
                     </p>
                   </Link>
                 </div>
+                )}
                 <div>
-                  <Link
-                    to="/login"
-                    className="d-flex align-items-center gap-10 text-white me-5"
-                  >
-                    <img src="images/user.svg" alt="user" />
-                    <p className="mb-0">
-                      Login <br /> Profile
-                    </p>
-                  </Link>
+                {isLoggedIn ? (
+                <Logout />
+              ) : (
+                <Link to="/login" className="d-flex align-items-center gap-10 text-white">
+                  <img src="images/user.svg" alt="user" />
+                  <p>Login/Profile</p>
+                </Link>
+              )}
                 </div>
                 <div>
                   <Link

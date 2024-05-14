@@ -14,6 +14,7 @@ import { generateRefreshToken } from "../../config/refreshToken.js";
 import jwt from "jsonwebtoken";
 import { CartModel } from "../../models/cartModel.js";
 import { ProductModel } from "../../models/productModel.js";
+import path from "node:path";
 
 /**
  * Encapsulates the user controller.
@@ -107,7 +108,7 @@ export class UserController {
       const accessToken = await JsonWebToken.encodeUser(user._id);
 
       // Generate a refresh token.
-      const refreshToken = await generateRefreshToken(user._id);
+      const refreshToken = generateRefreshToken();
       const updateUser = await UserModel.findByIdAndUpdate(
         user._id,
         { refreshToken: refreshToken },
@@ -117,10 +118,12 @@ export class UserController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: "none",
+        sameSite: 'none',
+        secure: true,
+        path: "/",
       });
 
-      logger.silly("Autehnticated user.", { user: user });
+      logger.silly("Authenticated user.", { user: user });
 
       res.status(201).json({
         id: user._id,
@@ -220,6 +223,7 @@ export class UserController {
 
       // Check if the refresh token exists in the cookie.
       if (!cookie?.refreshToken) {
+        logger.warn("Refresh token not found in Cookies.");
         return res.status(400).json({
           success: false,
           message: "Refresh token not found in Cookies.",
@@ -229,6 +233,7 @@ export class UserController {
       // Check if the refresh token exists in the database.
       const user = await UserModel.findOne({ refreshToken });
       if (!user) {
+        logger.warn("Invalid refresh token.");
         return res.status(400).json({
           success: false,
           message: "Invalid refresh token.",
@@ -245,8 +250,9 @@ export class UserController {
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
+        path: "/",
       });
 
       logger.silly("Logged out user.", { user: updateUser });
@@ -260,7 +266,7 @@ export class UserController {
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
       err.cause = error;
-
+      logger.error("Logout failed:", error);
       next(err);
     }
   }
@@ -350,7 +356,7 @@ export class UserController {
 
       res.status(200).json(delUser);
     } catch (error) {
-      // Get user by id failed.
+      // Delete user by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -474,7 +480,7 @@ export class UserController {
 
       res.status(200).json(isProductInCart);
     } catch (error) {
-      // Get user by id failed.
+      // Add to cart by user id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -505,7 +511,7 @@ export class UserController {
 
       res.status(200).json(userCart);
     } catch (error) {
-      // Get user by id failed.
+      // Get cart by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -535,6 +541,21 @@ export class UserController {
 
       res.status(200).json(userCart);
     } catch (error) {
+      // Delete cart by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  async createOrder(req, res, next) {
+    try {
+
+    }
+    catch (error) {
       // Get user by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);

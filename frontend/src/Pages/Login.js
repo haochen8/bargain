@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (event) => {
     try {
@@ -21,10 +23,13 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ username, password }),
+          credentials: "include",
         }
       );
 
       if (response.ok) {
+        const data = await response.json();
+        login(data.access_token);
         navigate("/");
       } else {
         setError("Invalid username or password, please try again.");
