@@ -10,6 +10,7 @@ import Blog from "../Components/Blog";
 import BestSeller from "../Components/BestSeller";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { blogData } from "./Blogs";
 
 const Home = () => {
   return (
@@ -262,18 +263,17 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
-              <Blog />
-            </div>
-            <div className="col-3">
-              <Blog />
-            </div>
-            <div className="col-3">
-              <Blog />
-            </div>
-            <div className="col-3">
-              <Blog />
-            </div>
+          {blogData.map((blog) => (
+              <div className="col-3 mb-3" key={blog.id}>
+                <Blog
+                  date={blog.date}
+                  title={blog.title}
+                  description={blog.description}
+                  image={blog.image}
+                  url={blog.url}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

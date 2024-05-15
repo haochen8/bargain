@@ -9,8 +9,15 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Blog = ({ date, title, description, image, url }) => {
+  const handleCardClick = () => {
+    window.open(url, "_blank", "noopener noreferrer");
+  };
   return (
-    <div className="blog-card">
+    <div
+      className="blog-card"
+      onClick={handleCardClick}
+      style={{ cursor: "pointer" }}
+    >
       <div className="blog">
         <div className="blog-images">
           <a href={url} target="_blank" rel="noopener noreferrer">
@@ -21,14 +28,6 @@ const Blog = ({ date, title, description, image, url }) => {
           <p className="date">{date}</p>
           <h5 className="title">{title}</h5>
           <p className="description">{description}</p>
-          <a
-            className="button"
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read More
-          </a>
         </div>
       </div>
     </div>

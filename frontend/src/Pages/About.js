@@ -1,10 +1,13 @@
 import React from 'react'
+import BreadCrumb from "./BreadCrumb";
+import Meta from "../Components/Meta";
 
 const About = () => {
   return (
-    <div>
-      About
-    </div>
+    <>
+      <Meta title="About" />
+      <BreadCrumb title="About" />
+    </>
   )
 }
 

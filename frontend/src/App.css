@@ -333,12 +333,18 @@ footer:not(:first-child) {
   box-shadow: inset 0 0 10px #5555551a;
   cursor: pointer;
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
 }
 .blog-card {
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 20px;
+  height: 100%;
+  display: flex;
+  
+  
 }
 .blog:hover {
   transform: scale(1.05);
@@ -351,11 +357,16 @@ footer:not(:first-child) {
 .blog-images img {
   width: 100%;
   height: auto;
-  display: block; /* Ensure images are displayed as block */
+
 }
 .blog-content {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+
 .date {
   color: #777;
   font-size: 0.9rem;
@@ -608,3 +619,12 @@ b {
 }
 
 /* Login and Register Page  End */
+
+/* Policy Begin */
+.policy {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0000001a;
+
+}
