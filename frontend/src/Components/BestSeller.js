@@ -9,13 +9,17 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const BestSeller = () => {
+const BestSeller = (props) => {
   let location = useLocation();
+  const { grid } = props;
 
   return (
-    <div className="col-3 p-2">
-      <div className="best-seller position-relative">
+    <div
+      className={`${location.pathname == "/product" ? `gr-${grid}` : "col-3"}`}
+    >
+      <Link to=':id' className="best-seller position-relative">
         <div className="wishlist-icon position-absolute">
           <Link>
             <img src="images/wish.svg" alt="" />
@@ -49,9 +53,13 @@ const BestSeller = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
+};
+
+BestSeller.propTypes = {
+  grid: PropTypes.string.isRequired,
 };
 
 export default BestSeller;

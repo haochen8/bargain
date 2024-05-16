@@ -13,7 +13,7 @@ import Layout from "./Components/Layout";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
-import NewArrivals from "./Pages/NewArrivals";
+import Products from "./Pages/Products";
 import Blogs from "./Pages/Blogs";
 import DealsnOffers from "./Pages/DealsnOffers";
 import WishList from "./Pages/WishList";
@@ -23,6 +23,8 @@ import Forgotpassword from "./Pages/Forgotpassword";
 import Resetpassword from "./Pages/Resetpassword";
 import Policys from "./Pages/Policys";
 import TermsnConditions from "./Pages/TermsnConditions";
+import OneProduct from "./Pages/OneProduct";
+
 
 function App() {
   return (
@@ -31,7 +33,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="newarrivals" element={<NewArrivals />} />
+          <Route path="product" element={<Products />} />
+          <Route path="product/:id" element={<OneProduct />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="dealsnoffers" element={<DealsnOffers />} />
           <Route path="contact" element={<Contact />} />
@@ -42,6 +45,8 @@ function App() {
           <Route path="resetpassword" element={<Resetpassword />} />
           <Route path="policys" element={<Policys />} />
           <Route path="termsnconditions" element={<TermsnConditions />} />
+          <Route path="oneproduct" element={<OneProduct />} />
+          
         </Route>
       </Routes>
     </>
