@@ -1,13 +1,19 @@
 import { set } from "mongoose";
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const handleQuantityChange = (e) => {
     setQuantity(parseInt(e.target.value, 10));
   };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
+  }
 
   return (
     <>
@@ -24,7 +30,7 @@ const Cart = () => {
                 />
                 <div className="cart-details flex-grow-1 ml-3">
                   <h5>
-                    AirPods Pro (andra generationen) med MagSafe-laddningsetui
+                    AirPods Pro (second generation) with MagSafe-chargableetui
                     (usb-c)
                   </h5>
                   <div className="form-check mb-2">
@@ -34,7 +40,7 @@ const Cart = () => {
                       id="appleCare"
                     />
                     <label className="form-check-label" htmlFor="appleCare">
-                      Lägg till Försäkring för 395,00 kr
+                      Add insurance for 395,00 kr
                     </label>
                   </div>
                   <div className="form-check mb-2">
@@ -44,7 +50,7 @@ const Cart = () => {
                       id="engraving"
                     />
                     <label className="form-check-label" htmlFor="engraving">
-                      Lägg till gratis gravyr
+                      Add free engraving
                     </label>
                   </div>
                 </div>
@@ -63,14 +69,14 @@ const Cart = () => {
                 </div>
                 <div className="cart-price text-right">
                   <h5>3 301,00 kr</h5>
-                  <button className="btn btn-link p-0">Ta bort</button>
+                  <button className="btn btn-link p-0">Remove</button>
                 </div>
               </div>
               <div className="cart-summary text-right">
                 <h5>Subtotal: 3 301,00 kr</h5>
                 <h5>Delivery: Free</h5>
                 <h3>Total amount: 3 301,00 kr</h3>
-                <button className="button btn-primary">Check Out</button>
+                <button className="button btn-primary" onClick={handleCheckout} >Check Out</button>
               </div>
             </div>
           </div>

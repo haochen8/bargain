@@ -25,6 +25,7 @@ import Policys from "./Pages/Policys";
 import TermsnConditions from "./Pages/TermsnConditions";
 import OneProduct from "./Pages/OneProduct";
 import Cart from "./Pages/Cart";
+import Checkout from "./Pages/Checkout";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="termsnconditions" element={<TermsnConditions />} />
           <Route path="oneproduct" element={<OneProduct />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
           
         </Route>
       </Routes>

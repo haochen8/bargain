@@ -705,3 +705,20 @@ b {
   text-align: right;
   margin-top: 20px;
 }
+
+/* Cart End */
+
+/* Checkout Begin */
+
+.checkout-wrapper {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 20px;
+}
+
+.purchase-btn {
+  text-align: right;
+
+}
+
