@@ -24,6 +24,7 @@ import Resetpassword from "./Pages/Resetpassword";
 import Policys from "./Pages/Policys";
 import TermsnConditions from "./Pages/TermsnConditions";
 import OneProduct from "./Pages/OneProduct";
+import Cart from "./Pages/Cart";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="policys" element={<Policys />} />
           <Route path="termsnconditions" element={<TermsnConditions />} />
           <Route path="oneproduct" element={<OneProduct />} />
+          <Route path="cart" element={<Cart />} />
           
         </Route>
       </Routes>

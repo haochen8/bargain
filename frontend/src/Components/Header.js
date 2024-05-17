@@ -12,6 +12,10 @@ import Marquee from "react-fast-marquee";
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { IoBagOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { CiHeart } from "react-icons/ci";
+
 
 const Header = () => {
   const { isLoggedIn, logout } = useAuth();
@@ -88,7 +92,7 @@ const Header = () => {
                       to="/wishlist"
                       className="d-flex align-items-center gap-10 text-white me-5"
                     >
-                      <img src="images/wishlist.svg" alt="wishlist" />
+                      <CiHeart className="fs-3 me-2" alt="wishlist" />
                       <p className="mb-0">
                         Favourites <br /> Wishlist
                       </p>
@@ -102,7 +106,7 @@ const Header = () => {
                       className="d-flex align-items-center gap-10 text-white me-5"
                       style={{ cursor: "pointer" }}
                     >
-                      <img src="images/user.svg" alt="user" />
+                      <CgProfile className="fs-3 me-2" alt="user" />
                       <p>Logout</p>
                     </a>
                   ) : (
@@ -110,7 +114,8 @@ const Header = () => {
                       to="/login"
                       className="d-flex align-items-center gap-10 text-white me-5"
                     >
-                      <img src="images/user.svg" alt="user" />
+                      <CgProfile className="fs-3 me-2" alt="user" />
+
                       <p>Login/Profile</p>
                     </Link>
                   )}
@@ -120,7 +125,8 @@ const Header = () => {
                     to="/cart"
                     className="d-flex align-items-center text-white"
                   >
-                    <img src="images/cart.svg" alt="cart" />
+                    <IoBagOutline className="fs-3 me-2" alt="cart" />
+
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark">0</span>
                       <p className="mb-0">500kr</p>

@@ -695,3 +695,13 @@ b {
 }
 
 /* Product Detail End */
+
+/* Cart Begin */
+
+.cart-wrapper {
+  background-color: white;
+}
+.cart-summary {
+  text-align: right;
+  margin-top: 20px;
+}

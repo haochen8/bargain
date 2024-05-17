@@ -73,13 +73,6 @@ const Accessories = ({ grid }) => {
               <h5 className="product-title">{product.name}</h5>
               <p className="price">{product.price}</p>
               <p className="description">{product.description}</p>
-              <ReactStars
-                count={5}
-                size={24}
-                value={product.rating}
-                edit={false}
-                activeColor="#ffd700"
-              />
             </div>
             <div className="action-bar position-absolute bottom-0 start-0 p-2">
               <div className="d-flex flex-row gap-2">
