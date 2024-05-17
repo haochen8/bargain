@@ -26,6 +26,10 @@ import TermsnConditions from "./Pages/TermsnConditions";
 import OneProduct from "./Pages/OneProduct";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
+import Healthnfitness from "./Pages/Healthnfitness";
+import Electronics from "./Pages/Electronics";
+import Skincare from "./Pages/Skincare";
+import AddProduct from "./Pages/AddProduct";
 
 
 function App() {
@@ -37,6 +41,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="product" element={<Products />} />
           <Route path="product/:id" element={<OneProduct />} />
+          <Route path="/add-product" element={<AddProduct />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="dealsnoffers" element={<DealsnOffers />} />
           <Route path="contact" element={<Contact />} />
@@ -50,6 +55,9 @@ function App() {
           <Route path="oneproduct" element={<OneProduct />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="electronics" element={<Electronics />} />
+          <Route path="skincare" element={<Skincare />} />
+          <Route path="healthnfitness" element={<Healthnfitness />} />
           
         </Route>
       </Routes>

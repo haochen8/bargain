@@ -25,25 +25,34 @@ router.post('/login', (req, res, next) => controller.login(req, res, next))
 router.post('/logout', (req, res, next) => controller.logout(req, res, next))
 // User Cart
 router.post('/cart', authenticateJWT, (req, res, next) => controller.userCart(req, res, next))
+// Create order
+router.post('/cart/create-order', authenticateJWT, (req, res, next) => controller.createOrder(req, res, next))
 
 
 // Refresh token
 router.get('/refresh-token', (req, res, next) => controller.handleRefreshToken(req, res, next))
+
 // Get all users
-router.get('/all-users', (req, res, next) => controller.getAllUsers(req, res, next))
+router.get('/all-users', authenticateJWT, isAdmin, (req, res, next) => controller.getAllUsers(req, res, next))
+
+// Authenticated user
+router.get('/me', authenticateJWT, (req, res, next) => controller.getMe(req, res, next));
+
 // Get wishlist
 router.get('/wishlist', authenticateJWT, (req, res, next) => controller.getWishList(req, res, next))
+
 // Get cart
 router.get('/cart', authenticateJWT, (req, res, next) => controller.getCart(req, res, next))
+
 // Get user by ID
 router.get('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.getUserById(req, res, next))
 
 // Delete cart
 router.delete('/delete-cart', authenticateJWT, (req, res, next) => controller.deleteCart(req, res, next))
+
 // Delete user by ID
-router.delete('/:id', (req, res, next) => controller.deleteUser(req, res, next))
-
-
+router.delete('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.deleteUser(req, res, next))
 
 // Update user by ID
 router.put('/edit-user', authenticateJWT, (req, res, next) => controller.updateUser(req, res, next))
+

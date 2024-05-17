@@ -15,12 +15,17 @@ import { useState } from "react";
 import { IoBagOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
+import { useEffect } from "react";
 
 
 const Header = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    console.log('Header user:', user); // Debugging line
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -160,18 +165,18 @@ const Header = () => {
                       aria-labelledby="dropdownMenuButton1"
                     >
                       <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Action
+                        <Link className="dropdown-item text-white" to="/electronics">
+                          Electronics
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Another action
+                        <Link className="dropdown-item text-white" to="/skincare">
+                          Skin Care
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item text-white" to="">
-                          Something else here
+                        <Link className="dropdown-item text-white" to="/healthnfitness">
+                          Health & Fitness
                         </Link>
                       </li>
                     </ul>
@@ -184,6 +189,9 @@ const Header = () => {
                     <NavLink to="/DealsnOffers">Deals/Offers</NavLink>
                     <NavLink to="/Blogs">Blogs</NavLink>
                     <NavLink to="/Contact">Contact</NavLink>
+                    {isLoggedIn && user?.role === "admin" && (
+                      <NavLink to="/add-product">Add Product</NavLink>
+                    )}
                   </div>
                 </div>
               </div>

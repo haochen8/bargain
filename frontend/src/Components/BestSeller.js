@@ -13,11 +13,10 @@ import PropTypes from "prop-types";
 
 const BestSeller = (props) => {
   let location = useLocation();
-  const { grid } = props;
 
   return (
     <div
-      className={`${location.pathname == "/product" ? `gr-${grid}` : "col-3"}`}
+      className= "col-3"
     >
       <Link to=':id' className="best-seller position-relative">
         <div className="wishlist-icon position-absolute">
@@ -58,8 +57,6 @@ const BestSeller = (props) => {
   );
 };
 
-BestSeller.propTypes = {
-  grid: PropTypes.string.isRequired,
-};
+
 
 export default BestSeller;

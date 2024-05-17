@@ -10,7 +10,6 @@ import { JsonWebToken } from "../config/JsonWebToken.js";
 import { UserModel } from "../models/UserModel.js";
 import asyncHandler from "express-async-handler";
 
-
 /**
  * Authenticates a request based on a JSON Web Token (JWT).
  *
@@ -32,7 +31,8 @@ export const authenticateJWT = asyncHandler(async (req, res, next) => {
     }
 
     // Decode the JWT and attach the user object to the request.
-    req.user = await JsonWebToken.decodeUser(token, process.env.JWT_SECRET);
+    const decoded = await JsonWebToken.decodeUser(token, process.env.JWT_SECRET);
+    req.user = await UserModel.findById(decoded.id).select("-password");
 
     next();
   } catch (error) {
@@ -48,7 +48,7 @@ export const authenticateJWT = asyncHandler(async (req, res, next) => {
 
 /**
  * Authorizes an admin user.
- * 
+ *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  * @param {Function} next - Express next middleware function.
@@ -57,7 +57,8 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
   const { id } = req.user;
   try {
     const adminUser = await UserModel.findOne({ _id: id });
-    if (!adminUser) {
+    
+    if (!adminUser || adminUser.role !== "admin") {
       throw new Error("Unauthorized access. Admin access required.");
     } else {
       next();

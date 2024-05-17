@@ -1,13 +1,61 @@
 import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const Checkout = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    ccName: "",
+    ccNumber: "",
+    ccExpiration: "",
+    ccCvv: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, name, value, type } = e.target;
+    if (type === "radio") {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/cart/create-order`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Order created successfully!");
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+    }
+  };
+
   return (
     <section className="checkout-wrapper home-wrapper-2 py-5">
       <div className="container-xxl">
         <div className="row">
           <div className="col-12">
             <h2 className="mb-4">Checkout</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <label htmlFor="firstName">First Name</label>
@@ -15,6 +63,8 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -24,6 +74,8 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -34,6 +86,8 @@ const Checkout = () => {
                   type="email"
                   className="form-control"
                   id="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -43,6 +97,8 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="address"
+                  value={formData.address}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -52,6 +108,8 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="city"
+                  value={formData.city}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -62,6 +120,8 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="state"
+                    value={formData.state}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -71,6 +131,8 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="zip"
+                    value={formData.zip}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -84,6 +146,9 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="custom-control-input"
+                    value="Credit card"
+                    checked={formData.paymentMethod === "Credit card"}
+                    onChange={handleChange}
                     required
                   />
                   <label className="custom-control-label" htmlFor="credit">
@@ -96,6 +161,9 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="custom-control-input"
+                    value="Debit card"
+                    checked={formData.paymentMethod === "Debit card"}
+                    onChange={handleChange}
                     required
                   />
                   <label className="custom-control-label" htmlFor="debit">
@@ -108,6 +176,9 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="custom-control-input"
+                    value="PayPal"
+                    checked={formData.paymentMethod === "PayPal"}
+                    onChange={handleChange}
                     required
                   />
                   <label className="custom-control-label" htmlFor="paypal">
@@ -117,11 +188,13 @@ const Checkout = () => {
               </div>
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="cc-name">Name on card</label>
+                  <label htmlFor="ccName">Name on card</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="cc-name"
+                    id="ccName"
+                    value={formData.ccName}
+                    onChange={handleChange}
                     required
                   />
                   <small className="text-muted">
@@ -129,38 +202,46 @@ const Checkout = () => {
                   </small>
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="cc-number">Credit card number</label>
+                  <label htmlFor="ccNumber">Credit card number</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="cc-number"
+                    id="ccNumber"
+                    value={formData.ccNumber}
+                    onChange={handleChange}
                     required
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-3 mb-3">
-                  <label htmlFor="cc-expiration">Expiration</label>
+                  <label htmlFor="ccExpiration">Expiration</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="cc-expiration"
+                    id="ccExpiration"
+                    value={formData.ccExpiration}
+                    onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="col-md-3 mb-3">
-                  <label htmlFor="cc-cvv">CVV</label>
+                  <label htmlFor="ccCvv">CVV</label>
                   <input
                     type="text"
                     className="form-control"
-                    id="cc-cvv"
+                    id="ccCvv"
+                    value={formData.ccCvv}
+                    onChange={handleChange}
                     required
                   />
                 </div>
               </div>
               <hr className="mb-4" />
               <div className="purchase-btn">
-                <button className="button btn-primary btn-lg" type="submit">Complete Purchase</button>
+                <button className="button btn-primary btn-lg" type="submit">
+                  Complete Purchase
+                </button>
               </div>
             </form>
           </div>

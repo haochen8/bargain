@@ -15,6 +15,7 @@ import jwt from "jsonwebtoken";
 import { CartModel } from "../../models/cartModel.js";
 import { ProductModel } from "../../models/productModel.js";
 import path from "node:path";
+import { OrderModel } from "../../models/orderModel.js";
 
 /**
  * Encapsulates the user controller.
@@ -118,7 +119,7 @@ export class UserController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'none',
+        sameSite: "none",
         secure: true,
         path: "/",
       });
@@ -250,7 +251,7 @@ export class UserController {
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: "none",
         secure: true,
         path: "/",
       });
@@ -551,12 +552,83 @@ export class UserController {
     }
   }
 
+  /**
+   * Create order by user id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
   async createOrder(req, res, next) {
     try {
+      const userId = req.user.id;
+      validateMongoDbId(userId);
 
+      // Find cart by user id
+      const userCart = await CartModel.findOne({ orderedBy: userId }).populate(
+        "products.product",
+        "_id name price"
+      );
+
+      // Check if cart exists
+      if (!userCart) {
+        return res.status(400).json({
+          success: false,
+          message: "No cart found.",
+        });
+      }
+
+      // Create a new order
+      const newOrder = new OrderModel({
+        products: userCart.products,
+        paymentIntent: {
+          id: "12345",
+          amount: userCart.cartTotal,
+          currency: "kr",
+          status: "Pending",
+        },
+        orderedBy: userId,
+      });
+
+      // Save the order to the database
+      await newOrder.save();
+
+      // Clear the cart
+      await CartModel.findOneAndDelete({ orderedBy: userId });
+
+      res.status(200).json({
+        success: true,
+        message: "Order created successfully.",
+        order: newOrder,
+      });
+    } catch (error) {
+      // Create order failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
     }
-    catch (error) {
-      // Get user by id failed.
+  }
+
+  /**
+   * Get authenticated user details.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async getMe(req, res, next) {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
