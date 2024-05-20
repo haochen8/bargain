@@ -18,7 +18,7 @@ const controller = new ProductController();
 // Map HTTP verbs and route paths to controller action methods.
 
 // Create a new product
-router.post("/", authenticateJWT, isAdmin, (req, res, next) =>
+router.post("/add-product", authenticateJWT, isAdmin, (req, res, next) =>
   controller.createProduct(req, res, next)
 );
 

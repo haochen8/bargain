@@ -9,7 +9,7 @@ import React from "react";
 import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
-import BestSeller from "../Components/BestSeller";
+import ProductCard from "../Components/ProductCard";
 import { IoIosClose } from "react-icons/io";
 import { useState } from "react";
 import { Link } from "react-router-dom";

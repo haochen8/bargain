@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
-import BestSeller from "../Components/BestSeller";
+import ProductCard from "../Components/ProductCard";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import ReactStars from "react-rating-stars-component";
@@ -21,7 +21,6 @@ const OneProduct = () => {
   const [selectedSize, setSelectedSize] = useState("40mm");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
-
 
   return (
     <>

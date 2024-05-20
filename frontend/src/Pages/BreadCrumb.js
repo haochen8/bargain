@@ -1,33 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-
+import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const BreadCrumb = (props) => {
-  
-
   return (
-    <div className='breadcrumb mb-0 py-4'>
+    <div className="breadcrumb mb-0 py-4">
       <div className="container-xxl">
-      <div className="row">
-        <div className="col-12">
-          <p className='text-center mb-0'>
-            <Link to='/' className='text-dark'>
-              Home &nbsp;
-            </Link>
-             / &nbsp; {props.title}
-          </p>
+        <div className="row">
+          <div className="col-12">
+            <p className="text-center mb-0">
+              <Link to="/" className="text-dark">
+                Home &nbsp;
+              </Link>
+              / &nbsp; {props.title}
+            </p>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 BreadCrumb.propTypes = {
-  title: PropTypes.string.isRequired
-}
+  title: PropTypes.string.isRequired,
+};
 
-
-export default BreadCrumb
- 
+export default BreadCrumb;

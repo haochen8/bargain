@@ -34,9 +34,16 @@ export const authenticateJWT = asyncHandler(async (req, res, next) => {
     const decoded = await JsonWebToken.decodeUser(token, process.env.JWT_SECRET);
     req.user = await UserModel.findById(decoded.id).select("-password");
 
+    if (!req.user) {
+      console.log("User not found.");
+      throw new Error("User not found.");
+    }
+
+    console.log("User authenticated:", req.user);
     next();
   } catch (error) {
     // Authentication failed.
+    console.log("Authentication error:", error);
     const statusCode = 401;
     const err = new Error(http.STATUS_CODES[statusCode]);
     err.status = statusCode;
@@ -59,12 +66,15 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
     const adminUser = await UserModel.findOne({ _id: id });
     
     if (!adminUser || adminUser.role !== "admin") {
+      console.log("Unauthorized access. Admin access required.");
       throw new Error("Unauthorized access. Admin access required.");
     } else {
+      console.log("Admin access granted.");
       next();
     }
   } catch (error) {
     // Authorization failed.
+    console.log("Authorization error:", error);
     const statusCode = 403;
     const err = new Error(http.STATUS_CODES[statusCode]);
     err.status = statusCode;

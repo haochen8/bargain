@@ -18,7 +18,6 @@ const productSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      unique: true,
       lowercase: true,
       required: true,
     },
@@ -48,7 +47,8 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     images: {
-      type: Array,
+      type: [String],
+      required: true,
     },
     color: {
       type: String,

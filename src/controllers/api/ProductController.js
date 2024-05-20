@@ -27,6 +27,8 @@ export class ProductController {
    */
   async createProduct(req, res, next) {
     try {
+      console.log('Incoming request data:', req.body); // Log request data
+
       // Generate slug from title
       if (!req.body.slug && req.body.title) {
         req.body.slug = slugify(req.body.title);
@@ -37,6 +39,7 @@ export class ProductController {
       res.status(201).json(newProduct);
     } catch (error) {
       // Create product failed
+      console.error('Error creating product:', error); // Log the exact error
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;

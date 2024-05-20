@@ -1,7 +1,19 @@
+/**
+ * @file Checkout page component.
+ *
+ * @author Hao Chen
+ * @version: 1.0
+ */
+
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
 
+/**
+ * The Checkout page component.
+ * 
+ * @returns {JSX.Element} The Checkout page component.
+ */
 const Checkout = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -17,6 +29,10 @@ const Checkout = () => {
     ccCvv: "",
   });
 
+  /**
+   * Handles the form change event.
+   * @param {*} e 
+   */
   const handleChange = (e) => {
     const { id, name, value, type } = e.target;
     if (type === "radio") {

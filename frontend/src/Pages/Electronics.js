@@ -10,7 +10,7 @@ import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { useState } from "react";
-import BestSeller from "../Components/BestSeller";
+import ProductCard from "../Components/ProductCard";
 
 const Electronics = () => {
   const [stockStatus, setStockStatus] = useState({
@@ -256,7 +256,7 @@ const Electronics = () => {
               <div className="products-list pb-5">
                 <div className="row">
                   {[...Array(grid)].map((_, index) => (
-                    <BestSeller key={index} />
+                    <ProductCard key={index} />
                   ))}
                 </div>
               </div>

@@ -1,3 +1,13 @@
+/**
+ * Acessories component.
+ *
+ * @author Hao Chen
+ * @component
+ * @returns {JSX.Element} The Accessories component.
+ * @author: Hao Chen
+ * @version: 1.0
+ */
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";

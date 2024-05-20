@@ -1,3 +1,10 @@
+/**
+ * @file Cart.js is the cart page for the webshop
+ *
+ * @author Hao Chen
+ * @version: 1.0
+ */
+
 import { set } from "mongoose";
 import React from "react";
 import { useState } from "react";
@@ -13,7 +20,7 @@ const Cart = () => {
 
   const handleCheckout = () => {
     navigate("/checkout");
-  }
+  };
 
   return (
     <>
@@ -76,7 +83,9 @@ const Cart = () => {
                 <h5>Subtotal: 3 301,00 kr</h5>
                 <h5>Delivery: Free</h5>
                 <h3>Total amount: 3 301,00 kr</h3>
-                <button className="button btn-primary" onClick={handleCheckout} >Check Out</button>
+                <button className="button btn-primary" onClick={handleCheckout}>
+                  Check Out
+                </button>
               </div>
             </div>
           </div>

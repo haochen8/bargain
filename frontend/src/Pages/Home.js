@@ -7,7 +7,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import Blog from "../Components/Blog";
-import BestSeller from "../Components/BestSeller";
+import ProductCard from "../Components/ProductCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { blogData } from "./Blogs";
@@ -45,16 +45,16 @@ const Home = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <h3 className="section-heading">Best Selling Products</h3>
+              <h3 className="section-heading">Featured Products</h3>
             </div>
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
-            <BestSeller />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
           </div>
         </div>
       </section>
@@ -263,7 +263,7 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
-          {blogData.map((blog) => (
+            {blogData.map((blog) => (
               <div className="col-3 mb-3" key={blog.id}>
                 <Blog
                   date={blog.date}

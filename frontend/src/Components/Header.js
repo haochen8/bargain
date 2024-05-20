@@ -17,16 +17,21 @@ import { CgProfile } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
 import { useEffect } from "react";
 
-
+/**
+ * The Header component.
+ *
+ * @returns {JSX.Element} The rendered application.
+ */
 const Header = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    console.log('Header user:', user); // Debugging line
-  }, [user]);
+  useEffect(() => {}, [user]);
 
+  /**
+   * Handles the logout process.
+   */
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -106,14 +111,14 @@ const Header = () => {
                 )}
                 <div>
                   {isLoggedIn ? (
-                    <a
+                    <span
                       onClick={handleLogout}
                       className="d-flex align-items-center gap-10 text-white me-5"
                       style={{ cursor: "pointer" }}
                     >
                       <CgProfile className="fs-3 me-2" alt="user" />
                       <p>Logout</p>
-                    </a>
+                    </span>
                   ) : (
                     <Link
                       to="/login"
@@ -165,17 +170,26 @@ const Header = () => {
                       aria-labelledby="dropdownMenuButton1"
                     >
                       <li>
-                        <Link className="dropdown-item text-white" to="/electronics">
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/electronics"
+                        >
                           Electronics
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item text-white" to="/skincare">
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/skincare"
+                        >
                           Skin Care
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item text-white" to="/healthnfitness">
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/healthnfitness"
+                        >
                           Health & Fitness
                         </Link>
                       </li>
@@ -185,7 +199,7 @@ const Header = () => {
                 <div className="menu-links">
                   <div className="navlinks d-flex align-items-center gap-15">
                     <NavLink to="/">Home</NavLink>
-                    <NavLink to="/Product">Products</NavLink>
+                    <NavLink to="/NewArrivals">Products</NavLink>
                     <NavLink to="/DealsnOffers">Deals/Offers</NavLink>
                     <NavLink to="/Blogs">Blogs</NavLink>
                     <NavLink to="/Contact">Contact</NavLink>
