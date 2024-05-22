@@ -19,11 +19,22 @@ import axios from "axios";
  */
 const WishList = () => {
   const [products, setProducts] = useState([]);
+  const [flashMessage, setFlashMessage] = useState("");
 
   // Fetch products
   useEffect(() => {
     fetchWishListProducts();
   }, []);
+
+  // Set a timeout to remove the flash message
+  useEffect(() => {
+    if (flashMessage) {
+      const timer = setTimeout(() => {
+        setFlashMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [flashMessage]);
 
   /**
    * Fetch products from the backend.
@@ -40,7 +51,6 @@ const WishList = () => {
         }
       );
       if (response.status === 200) {
-        console.log("Fetched Wishlist Products: ", response.data); // Log to check data structure
         setProducts(response.data);
       } else {
         console.error("Failed to fetch products", response);
@@ -53,6 +63,11 @@ const WishList = () => {
     <>
       <Meta title="Wishlist" />
       <BreadCrumb title="Wishlist" />
+      {flashMessage && (
+        <div className={`flash-message ${flashMessage.type}`}>
+          {flashMessage.message}
+        </div>
+      )}
       <div className="store-wrapper py-5">
         <div className="container-xxl">
           <div className="row">
@@ -69,6 +84,9 @@ const WishList = () => {
                   price={product.price}
                   description={product.description}
                   rating={product.rating}
+                  setFlashMessage={(type, message) => {
+                    setFlashMessage({ type, message });
+                  }}
                 />
               </div>
             ))}

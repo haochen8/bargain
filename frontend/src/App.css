@@ -752,3 +752,51 @@ b {
 
 }
 
+/* Flash Message */
+.flash-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  display:flex;
+  align-items:flex-start;
+  animation: slide-in 0.5s ease-in-out, fade-out 0.5s 2.5s ease-in-out forwards;
+}
+
+.flash-message.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.flash-message.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.flash-message.info {
+  background-color: #2196f3;
+  color: white;
+}
+
+@keyframes slide-in {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 20px;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Flash Message End */
+

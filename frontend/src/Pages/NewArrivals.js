@@ -31,27 +31,38 @@ const NewArrivals = () => {
     XL: false,
   });
 
-  // Grid state
   const [grid, setGrid] = useState(4);
   const [products, setProducts] = useState([]);
+  const [flashMessage, setFlashMessage] = useState(null);
 
   // Fetch products
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  // Display flash message and close it after 3 seconds
+  useEffect(() => {
+    if (flashMessage) {
+      const timer = setTimeout(() => {
+        setFlashMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [flashMessage]);
+
   /**
    * Fetch products from the backend.
    */
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/product`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/product`
+      );
       setProducts(response.data);
     } catch (error) {
       console.error(error);
     }
-  }
-
+  };
 
   /**
    * Handle change and blur the checkbox
@@ -72,8 +83,11 @@ const NewArrivals = () => {
 
   return (
     <>
-      <Meta title="New Arrivals" />
-      <BreadCrumb title="New Arrivals" />
+      {flashMessage && (
+        <div className={`flash-message ${flashMessage.type}`}>
+          {flashMessage.message}
+        </div>
+      )}
       <div className="store-wrapper py-5">
         <div className="container-xxl">
           <div className="row">
@@ -281,15 +295,22 @@ const NewArrivals = () => {
               </div>
               <div className="products-list pb-5">
                 <div className="row">
-                {products.map((product) => (
+                  {products.map((product) => (
                     <div key={product.id} className="col-3 mb-4">
                       <ProductCard
                         id={product.id} // Updated to use product.id
                         title={product.title}
-                        image={product.images && product.images[0] ? product.images[0] : 'default-image-url'}
+                        image={
+                          product.images && product.images[0]
+                            ? product.images[0]
+                            : "default-image-url"
+                        }
                         price={product.price}
                         description={product.description}
                         rating={product.rating}
+                        setFlashMessage={(type, message) => {
+                          setFlashMessage({ type, message });
+                        }}
                       />
                     </div>
                   ))}
