@@ -12,6 +12,12 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import PropTypes from "prop-types";
 
+/**
+ * The AddProduct component.
+ *
+ * @param {Object} props - The component props
+ * @returns {JSX.Element} The rendered AddProduct component.
+ */
 const AddProduct = ({ onProductAdded }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,6 +26,8 @@ const AddProduct = ({ onProductAdded }) => {
   const [brand, setBrand] = useState("");
   const [quantity, setQuantity] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [bottomImageUrl1, setBottomImageUrl1] = useState("");
+  const [bottomImageUrl2, setBottomImageUrl2] = useState("");
   const [color, setColor] = useState("");
   const [addedProduct, setAddedProduct] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -34,21 +42,24 @@ const AddProduct = ({ onProductAdded }) => {
       category,
       brand,
       quantity,
-      images: [imageUrl], // Convert the image URL to an array of URLs
+      images: [imageUrl, bottomImageUrl1, bottomImageUrl2].filter(Boolean), // Filter out empty strings
       color,
     };
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/product/add-product`, productData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/product/add-product`,
+        productData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setAddedProduct(response.data);
       setSuccessMessage("Product added successfully!");
       onProductAdded(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -65,7 +76,9 @@ const AddProduct = ({ onProductAdded }) => {
       <form onSubmit={handleSubmit} className="row g-3 justify-content-center">
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="title" className="form-label">Title</label>
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
             <input
               type="text"
               id="title"
@@ -78,7 +91,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="description" className="form-label">Description</label>
+            <label htmlFor="description" className="form-label">
+              Description
+            </label>
             <textarea
               id="description"
               className="form-control"
@@ -90,7 +105,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="price" className="form-label">Price</label>
+            <label htmlFor="price" className="form-label">
+              Price
+            </label>
             <input
               type="number"
               id="price"
@@ -103,7 +120,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="category" className="form-label">Category</label>
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
             <input
               type="text"
               id="category"
@@ -116,7 +135,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="brand" className="form-label">Brand</label>
+            <label htmlFor="brand" className="form-label">
+              Brand
+            </label>
             <input
               type="text"
               id="brand"
@@ -129,7 +150,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="quantity" className="form-label">Quantity</label>
+            <label htmlFor="quantity" className="form-label">
+              Quantity
+            </label>
             <input
               type="number"
               id="quantity"
@@ -142,7 +165,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="color" className="form-label">Color</label>
+            <label htmlFor="color" className="form-label">
+              Color
+            </label>
             <input
               type="text"
               id="color"
@@ -155,7 +180,9 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="image-url" className="form-label">Image URL</label>
+            <label htmlFor="image-url" className="form-label">
+              Main Image URL
+            </label>
             <input
               type="url"
               id="image-url"
@@ -164,11 +191,64 @@ const AddProduct = ({ onProductAdded }) => {
               onChange={(e) => setImageUrl(e.target.value)}
               required
             />
-            {imageUrl && <img src={imageUrl} alt="preview" className="img-thumbnail mt-3" width="100" />}
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt="preview"
+                className="img-thumbnail mt-3"
+                width="100"
+              />
+            )}
+          </div>
+        </div>
+        <div className="col-md-8">
+          <div className="mb-3 text-center">
+            <label htmlFor="bottom-image-url-1" className="form-label">
+              Bottom Image URL 1
+            </label>
+            <input
+              type="url"
+              id="bottom-image-url-1"
+              className="form-control"
+              value={bottomImageUrl1}
+              onChange={(e) => setBottomImageUrl1(e.target.value)}
+            />
+            {bottomImageUrl1 && (
+              <img
+                src={bottomImageUrl1}
+                alt="preview"
+                className="img-thumbnail mt-3"
+                width="100"
+              />
+            )}
+          </div>
+        </div>
+        <div className="col-md-8">
+          <div className="mb-3 text-center">
+            <label htmlFor="bottom-image-url-2" className="form-label">
+              Bottom Image URL 2
+            </label>
+            <input
+              type="url"
+              id="bottom-image-url-2"
+              className="form-control"
+              value={bottomImageUrl2}
+              onChange={(e) => setBottomImageUrl2(e.target.value)}
+            />
+            {bottomImageUrl2 && (
+              <img
+                src={bottomImageUrl2}
+                alt="preview"
+                className="img-thumbnail mt-3"
+                width="100"
+              />
+            )}
           </div>
         </div>
         <div className="col-md-8 text-center">
-          <button type="submit" className="button btn-primary">Add Product</button>
+          <button type="submit" className="button btn-primary">
+            Add Product
+          </button>
         </div>
       </form>
 
@@ -178,7 +258,11 @@ const AddProduct = ({ onProductAdded }) => {
           <ProductCard
             id={addedProduct._id}
             title={addedProduct.title}
-            image={addedProduct.images && addedProduct.images[0] ? addedProduct.images[0] : 'default-image-url'} // Access the first image URL safely
+            image={
+              addedProduct.images && addedProduct.images[0]
+                ? addedProduct.images[0]
+                : "default-image-url"
+            } // Access the first image URL safely
             price={addedProduct.price}
             description={addedProduct.description}
           />

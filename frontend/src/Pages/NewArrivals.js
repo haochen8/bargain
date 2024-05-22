@@ -5,11 +5,10 @@
  * @component
  * @returns {JSX.Element} The New Arrivals page component.
  */
+
 import React, { useEffect } from "react";
 import axios from "axios";
 import ReactStars from "react-rating-stars-component";
-import BreadCrumb from "./BreadCrumb";
-import Meta from "../Components/Meta";
 import { useState } from "react";
 import ProductCard from "../Components/ProductCard";
 
@@ -187,90 +186,6 @@ const NewArrivals = () => {
                     </label>
                   </div>
                 ))}
-              </div>
-              {/* Random Products */}
-              <div className="filter-card mb-3">
-                <h3 className="filter-title">Random Products</h3>
-                <div className="random-products d-flex flex-wrap">
-                  {" "}
-                  {/* Updated for wrapping */}
-                  {/* Product 1 */}
-                  <div className="product-item w-50 p-2">
-                    <img
-                      src="images/beats.jpg"
-                      className="img-fluid"
-                      alt="Beats by Dre"
-                    />
-                    <div className="product-info">
-                      <h5>Beats by Dre</h5>
-                      <b>2500kr</b>
-                      <ReactStars
-                        count={5}
-                        size={24}
-                        value={4}
-                        edit={false}
-                        activeColor="#ffd700"
-                      />
-                    </div>
-                  </div>
-                  {/* Product 2 */}
-                  <div className="product-item w-50 p-2">
-                    <img
-                      src="images/applewatch.jpg"
-                      className="img-fluid"
-                      alt="Apple Watch Series 9"
-                    />
-                    <div className="product-info">
-                      <h5>Apple Watch Series 9</h5>
-                      <b>5499kr</b>
-                      <ReactStars
-                        count={5}
-                        size={24}
-                        value={5}
-                        edit={false}
-                        activeColor="#ffd700"
-                      />
-                    </div>
-                  </div>
-                  {/* Product 3 */}
-                  <div className="product-item w-50 p-2">
-                    <img
-                      src="images/bose.jpg"
-                      className="img-fluid"
-                      alt="Bose Headphones"
-                    />
-                    <div className="product-info">
-                      <h5>Bose</h5>
-                      <b>1000kr</b>
-                      <ReactStars
-                        count={5}
-                        size={24}
-                        value={3}
-                        edit={false}
-                        activeColor="#ffd700"
-                      />
-                    </div>
-                  </div>
-                  {/* Product 4 */}
-                  <div className="product-item w-50 p-2">
-                    <img
-                      src="images/grill.jpg"
-                      className="img-fluid"
-                      alt="George Foreman Grill"
-                    />
-                    <div className="product-info">
-                      <h5>George Foreman Grill</h5>
-                      <b>799kr</b>
-                      <ReactStars
-                        count={5}
-                        size={24}
-                        value={4}
-                        edit={false}
-                        activeColor="#ffd700"
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="col-9">

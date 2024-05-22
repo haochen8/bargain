@@ -3,7 +3,7 @@
  * @author Hao Chen
  * @returns {JSX.Element} The rendered Home component.
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import Blog from "../Components/Blog";
@@ -11,8 +11,42 @@ import ProductCard from "../Components/ProductCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { blogData } from "./Blogs";
+import axios from "axios";
 
 const Home = () => {
+
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [flashMessage, setFlashMessage] = useState("");
+
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  useEffect(() => {
+    if (flashMessage) {
+      const timer = setTimeout(() => {
+        setFlashMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [flashMessage]);
+
+  const fetchFeaturedProducts = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/product`
+      );
+      if (response.status === 200) {
+        setFeaturedProducts(response.data);
+      } else {
+        console.error("Failed to fetch featured products", response);
+      }
+    } catch (error) {
+      console.error("Error fetching featured products:", error);
+    }
+  }
+
+
   return (
     <>
       <section className="home-wrapper-1 py-5">
@@ -47,17 +81,35 @@ const Home = () => {
             <div className="col-12">
               <h3 className="section-heading">Featured Products</h3>
             </div>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <div className="row">
+              {featuredProducts.map((product) => (
+                <div key={product.id} className="col-3 mb-4">
+                  <ProductCard
+                    id={product.id}
+                    title={product.title}
+                    image={
+                      product.images && product.images[0]
+                        ? product.images[0]
+                        : "default-image-url"
+                    }
+                    price={product.price}
+                    description={product.description}
+                    rating={product.rating}
+                    setFlashMessage={(type, message) => {
+                      setFlashMessage({ type, message });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
+      {flashMessage && (
+        <div className={`flash-message ${flashMessage.type}`}>
+          {flashMessage.message}
+        </div>
+      )}
       <section className="home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">

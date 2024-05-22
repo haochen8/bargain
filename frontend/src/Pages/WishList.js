@@ -1,5 +1,5 @@
 /**
- * The Blogs component of the website.
+ * The Wishlist page.
  *
  * @author: Hao Chen
  * @version: 1.0

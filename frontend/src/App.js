@@ -23,13 +23,13 @@ import Forgotpassword from "./Pages/Forgotpassword";
 import Resetpassword from "./Pages/Resetpassword";
 import Policys from "./Pages/Policys";
 import TermsnConditions from "./Pages/TermsnConditions";
-import OneProduct from "./Pages/OneProduct";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
 import Healthnfitness from "./Pages/Healthnfitness";
 import Electronics from "./Pages/Electronics";
 import Skincare from "./Pages/Skincare";
 import AddProduct from "./Components/AddProduct";
+import SingleProduct from "./Components/SingleProduct";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -48,8 +48,11 @@ function App() {
             path="newarrivals"
             element={<NewArrivals products={products} />}
           />
-          <Route path="product/:id" element={<OneProduct />} />
-          <Route path="/add-product" element={<AddProduct onProductAdded={handleAddedProduct} />} />
+          <Route path="product/:id" element={<SingleProduct />} />
+          <Route
+            path="/add-product"
+            element={<AddProduct onProductAdded={handleAddedProduct} />}
+          />
           <Route path="blogs" element={<Blogs />} />
           <Route path="dealsnoffers" element={<DealsnOffers />} />
           <Route path="contact" element={<Contact />} />
@@ -60,7 +63,7 @@ function App() {
           <Route path="resetpassword" element={<Resetpassword />} />
           <Route path="policys" element={<Policys />} />
           <Route path="termsnconditions" element={<TermsnConditions />} />
-          <Route path="oneproduct" element={<OneProduct />} />
+          <Route path="singleproduct" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="electronics" element={<Electronics />} />

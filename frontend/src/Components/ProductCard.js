@@ -20,8 +20,8 @@ import { CiCircleRemove, CiHeart } from "react-icons/ci";
 /**
  * The ProductCard component.
  *
- * @param {*} param0
- * @returns
+ * @param {Object} props - The component props.
+ * @returns {JSX.Element} The rendered ProductCard component.
  */
 const ProductCard = ({
   id,
@@ -119,7 +119,7 @@ const ProductCard = ({
             )}
           </button>
         </div>
-        <div className="mb-3">
+        <div className="mb-3" onClick={() => navigate(`/product/${id}`)}>
           <img
             src={image}
             alt="product"
