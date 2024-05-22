@@ -417,15 +417,21 @@ export class UserController {
   async getWishList(req, res, next) {
     try {
       // Get the id
-      const id = req.user.id;
-      validateMongoDbId(id);
+      const userId = req.user.id;
+      validateMongoDbId(userId);
 
       // Get user by id.
-      const getUser = await UserModel.findById(id);
+      const user = await UserModel.findById(userId).populate("wishlist");
 
-      logger.silly("Got wishlist by id.", { wishlist: getUser.wishlist });
+      // Check if user exists
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
-      res.status(200).json(getUser.wishlist);
+      // Get full product details from wishlist
+      const wishlist = await ProductModel.find({ _id: { $in: user.wishlist } });
+
+      res.status(200).json(wishlist);
     } catch (error) {
       // Get user by id failed.
       const httpStatusCode = 500;

@@ -6,198 +6,72 @@
  */
 
 import React from "react";
-import ReactStars from "react-rating-stars-component";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import ProductCard from "../Components/ProductCard";
-import { IoIosClose } from "react-icons/io";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
+/**
+ * The Wishlist page.
+ *
+ * @returns {JSX.Element} The wishlist page.
+ */
 const WishList = () => {
+  const [products, setProducts] = useState([]);
+
+  // Fetch products
+  useEffect(() => {
+    fetchWishListProducts();
+  }, []);
+
+  /**
+   * Fetch products from the backend.
+   */
+  const fetchWishListProducts = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/wishlist`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Fetched Wishlist Products: ", response.data); // Log to check data structure
+        setProducts(response.data);
+      } else {
+        console.error("Failed to fetch products", response);
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist products:", error);
+    }
+  };
   return (
     <>
       <Meta title="Wishlist" />
       <BreadCrumb title="Wishlist" />
-      <div className="wish-wrapper py-5">
+      <div className="store-wrapper py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-3 p-2">
-              <div className="best-seller position-relative">
-                <div className="wishlist-icon position-absolute">
-                  <Link>
-                    <img src="images/wish.svg" alt="" />
-                  </Link>
-                </div>
-                <button className="close-button">
-                  <IoIosClose size={24} />
-                </button>
-                <div>
-                  <img
-                    src="images/watch.jpg"
-                    alt="productimg"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="product-detail">
-                  <h5 className="product-title">Apple Watch </h5>
-                  <p className="price">3000kr</p>
-                  <p className="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil explicabo temporibus molestias...
-                  </p>
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value="4"
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                </div>
-                <div className="action-bar position-absolute">
-                  <div className="d-flex flex-column gap-15">
-                    <Link>
-                      <img src="images/view.svg" alt="view" />
-                    </Link>
-                    <Link>
-                      <img src="images/add-cart.svg" alt="add-cart" />
-                    </Link>
-                  </div>
-                </div>
+            {products.map((product) => (
+              <div key={product.id} className="col-3 mb-4">
+                <ProductCard
+                  id={product.id}
+                  title={product.title}
+                  image={
+                    product.images && product.images[0]
+                      ? product.images[0]
+                      : "default-image-url"
+                  }
+                  price={product.price}
+                  description={product.description}
+                  rating={product.rating}
+                />
               </div>
-            </div>
-            <div className="col-3 p-2">
-              <div className="best-seller position-relative">
-                <div className="wishlist-icon position-absolute">
-                  <Link>
-                    <img src="images/wish.svg" alt="" />
-                  </Link>
-                </div>
-                <button className="close-button">
-                  <IoIosClose size={24} />
-                </button>
-                <div>
-                  <img
-                    src="images/watch.jpg"
-                    alt="productimg"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="product-detail">
-                  <h5 className="product-title">Apple Watch </h5>
-                  <p className="price">3000kr</p>
-                  <p className="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil explicabo temporibus molestias...
-                  </p>
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value="4"
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                </div>
-                <div className="action-bar position-absolute">
-                  <div className="d-flex flex-column gap-15">
-                    <Link>
-                      <img src="images/view.svg" alt="view" />
-                    </Link>
-                    <Link>
-                      <img src="images/add-cart.svg" alt="add-cart" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-3 p-2">
-              <div className="best-seller position-relative">
-                <div className="wishlist-icon position-absolute">
-                  <Link>
-                    <img src="images/wish.svg" alt="" />
-                  </Link>
-                </div>
-                <button className="close-button">
-                  <IoIosClose size={24} />
-                </button>
-                <div>
-                  <img
-                    src="images/watch.jpg"
-                    alt="productimg"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="product-detail">
-                  <h5 className="product-title">Apple Watch </h5>
-                  <p className="price">3000kr</p>
-                  <p className="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil explicabo temporibus molestias...
-                  </p>
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value="4"
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                </div>
-                <div className="action-bar position-absolute">
-                  <div className="d-flex flex-column gap-15">
-                    <Link>
-                      <img src="images/view.svg" alt="view" />
-                    </Link>
-                    <Link>
-                      <img src="images/add-cart.svg" alt="add-cart" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-3 p-2">
-              <div className="best-seller position-relative">
-                <div className="wishlist-icon position-absolute">
-                  <Link>
-                    <img src="images/wish.svg" alt="" />
-                  </Link>
-                </div>
-                <button className="close-button">
-                  <IoIosClose size={24} />
-                </button>
-                <div>
-                  <img
-                    src="images/watch.jpg"
-                    alt="productimg"
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="product-detail">
-                  <h5 className="product-title">Apple Watch </h5>
-                  <p className="price">3000kr</p>
-                  <p className="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil explicabo temporibus molestias...
-                  </p>
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value="4"
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                </div>
-                <div className="action-bar position-absolute">
-                  <div className="d-flex flex-column gap-15">
-                    <Link>
-                      <img src="images/view.svg" alt="view" />
-                    </Link>
-                    <Link>
-                      <img src="images/add-cart.svg" alt="add-cart" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

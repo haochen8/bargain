@@ -24,26 +24,29 @@ import asyncHandler from "express-async-handler";
 export const authenticateJWT = asyncHandler(async (req, res, next) => {
   try {
     const [authenticationScheme, token] = req.headers.authorization?.split(" ");
+    console.log(authenticationScheme, token)
 
     // Check if the authorization header is missing or has an invalid format.
     if (authenticationScheme !== "Bearer" || !token) {
       throw new Error("Invalid authorization header, or missing token.");
     }
+    console.log('Token received:', token); // Debug log to verify token
 
     // Decode the JWT and attach the user object to the request.
     const decoded = await JsonWebToken.decodeUser(token, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded); // Debug log to verify decoded token
+
     req.user = await UserModel.findById(decoded.id).select("-password");
+    console.log('User found:', req.user); // Debug log to verify user
 
     if (!req.user) {
-      console.log("User not found.");
-      throw new Error("User not found.");
+      console.error('User not found');
+      return res.status(401).json({ message: 'User not found' });
     }
 
-    console.log("User authenticated:", req.user);
     next();
   } catch (error) {
     // Authentication failed.
-    console.log("Authentication error:", error);
     const statusCode = 401;
     const err = new Error(http.STATUS_CODES[statusCode]);
     err.status = statusCode;
@@ -69,12 +72,10 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
       console.log("Unauthorized access. Admin access required.");
       throw new Error("Unauthorized access. Admin access required.");
     } else {
-      console.log("Admin access granted.");
       next();
     }
   } catch (error) {
     // Authorization failed.
-    console.log("Authorization error:", error);
     const statusCode = 403;
     const err = new Error(http.STATUS_CODES[statusCode]);
     err.status = statusCode;

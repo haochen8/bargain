@@ -72,8 +72,8 @@ const Header = () => {
       <header className="header-upper py-3"></header>
       <header className="header-upper py-3">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-1 col-md-3 col-sm-6 col-12 me-lg-3">
+          <div className="row align-items-center">
+            <div className="col-lg-2 col-md-3 col-sm-6 col-12">
               <h2>
                 <Link to="/" className="text-white">
                   Bargain
@@ -95,7 +95,7 @@ const Header = () => {
               </div>
             </div>
             <div className="col-lg-1 col-md-3 col-sm-6 col-12">
-              <div className="header-upper-links d-flex align-items-center justify-content-between">
+              <div className="header-upper-links">
                 {isLoggedIn && (
                   <div>
                     <Link

@@ -12,6 +12,41 @@ import Meta from "../Components/Meta";
 import { useState } from "react";
 import ProductCard from "../Components/ProductCard";
 
+  // const products = [
+  //   {
+  //     id: 1,
+  //     title: "Apple Watch SE",
+  //     image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/HQWW2?wid=1144&hei=1144&fmt=jpeg&qlt=95&.v=1681150922615",
+  //     price: "3000kr",
+  //     description: "Apple Watch SE 2nd Gen.",
+  //     rating: 5,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Beats by Dre",
+  //     image: "https://www.beatsbydre.com/content/dam/beats/web/product/headphones/studiopro-wireless/global/serp/studiopro-pdp-global-serp-black.jpg",
+  //     price: "2500",
+  //     description: "Beats by Dre headphones.",
+  //     rating: 4,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Bose",
+  //     image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR98t18So9l9QOxQ8_Cl8AO9JPKobr-Bt6jM_oaIWn_HDKgOKwZch9Az7GqBqSGA4xksDOrvA90VYft2AEUQ0jWC8ZxV6K87LJYRS_xRrT5drlUVZ2oLfSaOxdPD60F1-IRk3hlaZM&usqp=CAc",
+  //     price: "2999",
+  //     description: "Bose headphones, noise cancelling.",
+  //     rating: 4,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "George Foreman Grill",
+  //     image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQiqjGYftqNRZHYS4J94It4S38z8ntWoLFHqjJUaIdOiMS0gp-B1ZTfz3NXLmR_VSAKUKHMHR0fzy3CJlMRHK7evEhNqvW87dLgFupiNFzIqaNDlNytOpNO-tkJqGlg&usqp=CAc",
+  //     price: "1199",
+  //     description: "George Foreman Grill.",
+  //     rating: 4,
+  //   },
+  // ];
+
 const Electronics = () => {
   const [stockStatus, setStockStatus] = useState({
     inStock: false,

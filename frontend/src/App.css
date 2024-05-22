@@ -64,6 +64,24 @@ a {
   background-color: var(--color-131921);
 }
 
+.header-upper .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.header-upper .header-upper-links {
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.header-upper-links > div {
+  margin-left: 40px;
+}
+
+
 .header-upper .input-group-text {
   background-color: var(--color-febd69);
 }
@@ -154,51 +172,56 @@ a {
 }
 /* Header End */
 
-/* Best Seller Product Begin */
+/* Product-Card Product Begin */
 
-.best-seller {
+.product-card {
   padding: 15px;
   background-color: white;
-  box-shadow: 0 0 10px #0000001a;
+  box-shadow: 0 0 10px white;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
 }
-.best-seller:hover {
+
+
+
+.product-card:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-color: #b0b0b0;
 }
 
-.productimg {
-  transition: transform 0.8s ease;
-  transition: opacity 0.3s ease;
+.product-card .card {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+}
+.product-card .card {
+  min-width: 200px !important;
 }
 
-.productimg:hover {
-  transform: scale(2.2);
-  opacity: 0.9;
-}
-
-.best-seller:hover .action-bar {
+.product-card:hover .action-bar {
   right: 13px;
 }
 .product-detail h5 {
   font-size: 15px;
 }
 .product-title {
-  font-size: 18px;
-  color: #181818;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
 }
 
 .price {
-  font-size: 15px;
-  color: #434040;
+  font-size: 1rem;
+  color:#3b4149;
+  font-weight: bold;
+  margin: 0.5rem 0;
 }
 .description {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #595959;
+  margin-bottom: 1rem;
 }
 .action-bar {
   top: 10%;
@@ -209,7 +232,14 @@ a {
   top: 10px;
   right: 15px;
 }
-/* Best Seller Product End */
+.card-body {
+  padding: 1rem;
+}
+
+.card-body img {
+  border-radius: 10px;
+}
+/* Product-Card Product End */
 
 /* Footer Begin */
 
@@ -377,7 +407,7 @@ footer:not(:first-child) {
 
 /* Blog End */
 
-/* New Arrivals Begin */
+/* Filters/Sidebar Begin */
 
 .filter-card {
   background-color: white;
@@ -460,7 +490,7 @@ footer:not(:first-child) {
 }
 
 .product-item {
-  width: 48%; /* Adjusted width to fit two products nicely */
+  width: 50%;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
@@ -518,7 +548,7 @@ b {
   flex-wrap: wrap;
   justify-content: start;
 }
-/* New Arrival End */
+/* Filters/Sidebar End */
 
 /* Contact Begin */
 

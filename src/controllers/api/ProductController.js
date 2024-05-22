@@ -27,7 +27,7 @@ export class ProductController {
    */
   async createProduct(req, res, next) {
     try {
-      console.log('Incoming request data:', req.body); // Log request data
+      console.log("Incoming request data:", req.body); // Log request data
 
       // Generate slug from title
       if (!req.body.slug && req.body.title) {
@@ -39,7 +39,7 @@ export class ProductController {
       res.status(201).json(newProduct);
     } catch (error) {
       // Create product failed
-      console.error('Error creating product:', error); // Log the exact error
+      console.error("Error creating product:", error); // Log the exact error
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -240,6 +240,8 @@ export class ProductController {
    */
   async addToWishList(req, res, next) {
     try {
+      console.log("Request user:", req.user); // Debug log to verify user
+      console.log("Request body:", req.body); // Debug log to verify request body
       // Get user id and product id
       const userId = req.user.id;
       const productId = req.body.productId;
@@ -247,8 +249,12 @@ export class ProductController {
       // Check if user exists
       const user = await UserModel.findById(userId);
       if (!user) {
+        console.error("User not found");
         return res.status(404).json({ message: "User not found" });
       }
+
+      console.log("User:", user); // Debug log to verify user
+      console.log("Product ID:", productId); // Debug log to verify product ID
 
       // Check if product exists
       const isProductInWishList = user.wishlist.includes(productId);
@@ -258,6 +264,7 @@ export class ProductController {
         await UserModel.findByIdAndUpdate(userId, {
           $pull: { wishlist: productId },
         });
+        console.log("Product removed from wishlist");
         return res
           .status(200)
           .json({ message: "Product removed from wishlist" });
@@ -266,9 +273,11 @@ export class ProductController {
         await UserModel.findByIdAndUpdate(userId, {
           $push: { wishlist: productId },
         });
+        console.log("Product added to wishlist");
         return res.status(200).json({ message: "Product added to wishlist" });
       }
     } catch (error) {
+      console.error("Error in addToWishList controller:", error); // Debug log for error
       // Add to wishlist failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
