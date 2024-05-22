@@ -116,6 +116,13 @@ export class UserController {
         { new: true }
       );
 
+      // Store the refresh token with expiry.
+      user.refreshTokens.push({
+        token: refreshToken,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      });
+      await user.save();
+
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
@@ -219,11 +226,10 @@ export class UserController {
       logger.silly("Logging out user...");
 
       // Get the refresh token from the request cookies.
-      const cookie = req.cookies;
-      const refreshToken = cookie.refreshToken;
+      const { refreshToken } = req.cookies;
 
       // Check if the refresh token exists in the cookie.
-      if (!cookie?.refreshToken) {
+      if (!refreshToken) {
         logger.warn("Refresh token not found in Cookies.");
         return res.status(400).json({
           success: false,
@@ -232,7 +238,9 @@ export class UserController {
       }
 
       // Check if the refresh token exists in the database.
-      const user = await UserModel.findOne({ refreshToken });
+      const user = await UserModel.findOne({
+        "refreshTokens.token": refreshToken,
+      });
       if (!user) {
         logger.warn("Invalid refresh token.");
         return res.status(400).json({
@@ -242,11 +250,8 @@ export class UserController {
       }
 
       // Remove the refresh token from the user.
-      const updateUser = await UserModel.findByIdAndUpdate(
-        user._id,
-        { refreshToken: "" },
-        { new: true }
-      );
+      user.refreshTokens = user.refreshTokens.filter(rt => rt.token !== refreshToken);
+      await user.save();
 
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {

@@ -7,7 +7,7 @@
  * @version: 1.0
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard";
 import PropTypes from "prop-types";
@@ -29,9 +29,33 @@ const AddProduct = ({ onProductAdded }) => {
   const [bottomImageUrl1, setBottomImageUrl1] = useState("");
   const [bottomImageUrl2, setBottomImageUrl2] = useState("");
   const [color, setColor] = useState("");
-  const [addedProduct, setAddedProduct] = useState(null);
+  const [addedProducts, setAddedProducts] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  /**
+   * Fetches the added products.
+   */
+  const fetchAddedProducts = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/product`
+      );
+      setAddedProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  // Use effect to fetch added products
+  useEffect(() => {
+    fetchAddedProducts();
+  }, []);
+
+  /**
+   * Handles the form submit event.
+   *
+   * @param {Event} e - The form submit event
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,9 +81,49 @@ const AddProduct = ({ onProductAdded }) => {
           },
         }
       );
-      setAddedProduct(response.data);
       setSuccessMessage("Product added successfully!");
       onProductAdded(response.data);
+      setAddedProducts([...addedProducts, response.data]);
+      resetForm();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /**
+   * Resets the form fields.
+   */
+  const resetForm = () => {
+    setTitle("");
+    setDescription("");
+    setPrice("");
+    setCategory("");
+    setBrand("");
+    setQuantity("");
+    setImageUrl("");
+    setBottomImageUrl1("");
+    setBottomImageUrl2("");
+    setColor("");
+  };
+
+  /**
+   * Handles the delete product event.
+   */
+  const handleDelete = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/api/product/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAddedProducts(
+        addedProducts.filter((product) => product.id !== productId)
+      );
+      setSuccessMessage("Product deleted successfully!");
     } catch (error) {
       console.error(error);
     }
@@ -74,6 +138,7 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
       )}
       <form onSubmit={handleSubmit} className="row g-3 justify-content-center">
+        {/* Form fields */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="title" className="form-label">
@@ -252,22 +317,32 @@ const AddProduct = ({ onProductAdded }) => {
         </div>
       </form>
 
-      {addedProduct && (
-        <div className="mt-5">
-          <h3>Product Added:</h3>
-          <ProductCard
-            id={addedProduct._id}
-            title={addedProduct.title}
-            image={
-              addedProduct.images && addedProduct.images[0]
-                ? addedProduct.images[0]
-                : "default-image-url"
-            } // Access the first image URL safely
-            price={addedProduct.price}
-            description={addedProduct.description}
-          />
+      <div className="mt-5">
+        <h3>Added Products:</h3>
+        <div className="row">
+          {addedProducts.map((product) => (
+            <div key={product.id} className="col-3 -md-4 mb-3 d-flex flex-column align-items-center">
+              <ProductCard
+                id={product.id}
+                title={product.title}
+                image={
+                  product.images && product.images[0]
+                    ? product.images[0]
+                    : "default-image-url"
+                }
+                price={product.price}
+                description={product.description}
+              />
+              <button
+                className="delete-btn btn-danger mt-2"
+                onClick={() => handleDelete(product.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
