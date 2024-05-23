@@ -7,7 +7,7 @@
  * @param {string} props.title - The product title
  * @param {string} props.image - The product image URL
  * @param {string} props.price - The product price
- * @param {string} props.description - The product description
+ * @param {string} props.descriptionUrl - The product description
  * @returns {JSX.Element} The Product Card component.
  */
 
@@ -28,7 +28,7 @@ const ProductCard = ({
   title,
   image,
   price,
-  description,
+  descriptionUrl,
   setFlashMessage,
 }) => {
   const navigate = useNavigate();
@@ -129,7 +129,7 @@ const ProductCard = ({
         </div>
         <h6 className="product-title text-center">{title}</h6>
         <p className="price text-center">{price}kr</p>
-        <p className="description text-center">{description}</p>
+        <p className="description text-center">{descriptionUrl}</p>
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ ProductCard.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  descriptionUrl: PropTypes.string.isRequired,
   setFlashMessage: PropTypes.func.isRequired,
 };
 

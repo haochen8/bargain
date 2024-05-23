@@ -1,8 +1,3 @@
-§* {
-  margin: 0;
-  padding: 100;
-  box-sizing: border-box;
-}
 :root {
   --color-131921: #131921;
   --color-3b4149: #3b4149;
@@ -707,19 +702,19 @@ b {
 
 .main-product-details h4 {
   font-size: 1.5rem;
-  font-weight: 300;
-  line-height: 30px;
+  font-weight: bold;
 }
 
-.main-product-details p.price {
+.main-product-details .price {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 30px;
   margin-top: 20px;
 }
 
 .product-header {
   font-size: 20px;
+  margin-top: 50px;
 }
 
 .product-name {
@@ -729,6 +724,16 @@ b {
 .quantity-input {
   width: auto;
   cursor: pointer;
+}
+.badge {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.badge:hover {
+  background-color: #e2e6ea;
 }
 
 /* Product Detail End */
@@ -805,3 +810,16 @@ b {
 }
 
 /* Flash Message End */
+
+/* Single Product Begin */
+
+.description-image-wrapper {
+  text-align: center;
+}
+
+.description-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 1200px;
+  margin: auto;
+}

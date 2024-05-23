@@ -8,11 +8,9 @@
  */
 
 import React, { useEffect } from "react";
-import ProductCard from "./ProductCard";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useState } from "react";
-import Accessories from "./Accessories";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -22,9 +20,10 @@ import axios from "axios";
  * @returns {JSX.Element} The rendered SingleProduct component.
  */
 const SingleProduct = () => {
+  // Declare the state variables
   const { id } = useParams();
   const [product, setProduct] = useState({});
-  const [selectedSize, setSelectedSize] = useState("40mm");
+  const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -56,11 +55,6 @@ const SingleProduct = () => {
   useEffect(() => {
     fetchProduct();
   }, [id]);
-
-  // Show loading message if the product is not loaded yet
-  if (!product) {
-    return <div>Loading...</div>;
-  }
 
   // Display the main image and other images
   const mainImage =
@@ -171,22 +165,26 @@ const SingleProduct = () => {
             <div className="col-12">
               <div className="product-description bg-white p-3">
                 <h4>Product Description</h4>
-                <p>{product.description}</p>
+                {product.description &&
+                Array.isArray(product.description) &&
+                product.description.length > 0 ? (
+                  product.description.map((imageUrl, index) => (
+                    <div key={index} className="description-image-wrapper mb-2">
+                      <img
+                        src={imageUrl}
+                        alt={`Description ${index + 1}`}
+                        className="description-image img-fluid"
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p>No description images available.</p>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <section className="popular-wrapper py-5 home-wrapper-5">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-12">
-              <h3 className="section-heading">Accessories</h3>
-            </div>
-            <Accessories grid={4} />
-          </div>
-        </div>
-      </section>
     </>
   );
 };

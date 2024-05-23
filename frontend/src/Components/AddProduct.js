@@ -21,7 +21,8 @@ import { set } from "mongoose";
  */
 const AddProduct = ({ onProductAdded }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [descriptionImageUrl, setDescriptionImageUrl] = useState("");
+  const [descriptionImageUrls, setDescriptionImageUrls] = useState([]);
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -65,7 +66,7 @@ const AddProduct = ({ onProductAdded }) => {
 
     const productData = {
       title,
-      description,
+      description: descriptionImageUrls,
       price,
       category,
       brand,
@@ -100,7 +101,8 @@ const AddProduct = ({ onProductAdded }) => {
    */
   const resetForm = () => {
     setTitle("");
-    setDescription("");
+    setDescriptionImageUrl("");
+    setDescriptionImageUrls([]);
     setPrice("");
     setCategory("");
     setBrand("");
@@ -120,7 +122,7 @@ const AddProduct = ({ onProductAdded }) => {
   const handleDelete = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/api/product/${productId}`,
         {
           headers: {
@@ -157,6 +159,16 @@ const AddProduct = ({ onProductAdded }) => {
     }
   };
 
+  const handleAddDescriptionImageUrl = () => {
+    if (
+      descriptionImageUrl &&
+      !descriptionImageUrls.includes(descriptionImageUrl)
+    ) {
+      setDescriptionImageUrls([...descriptionImageUrls, descriptionImageUrl]);
+      setDescriptionImageUrl("");
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">Add New Product</h2>
@@ -182,19 +194,40 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
-        {/* Description */}
+        {/* Description Image URL */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="description" className="form-label">
-              Description
+            <label htmlFor="descriptionImageUrl" className="form-label">
+              Description Image URL
             </label>
-            <textarea
-              id="description"
-              className="form-control"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
+            <div className="input-group">
+              <input
+                type="url"
+                id="descriptionImageUrl"
+                className="form-control"
+                value={descriptionImageUrl}
+                onChange={(e) => setDescriptionImageUrl(e.target.value)}
+              />
+              <button
+                type="button"
+                className="button btn-secondary"
+                onClick={handleAddDescriptionImageUrl}
+              >
+                Add Image
+              </button>
+            </div>
+            <div className="mt-2">
+              {descriptionImageUrls.map((url, index) => (
+                <div key={index} className="mb-2">
+                  <img
+                    src={url}
+                    alt={`Description ${index + 1}`}
+                    className="img-thumbnail"
+                    width="100"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         {/* Price */}
