@@ -50,8 +50,12 @@ const productSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
-    color: {
-      type: String,
+    colors: {
+      type: [String],
+      required: true,
+    },
+    sizes: {
+      type: [String],
       required: true,
     },
     ratings: [

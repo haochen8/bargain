@@ -6,15 +6,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
-import Blog from "../Components/Blog";
-import ProductCard from "../Components/ProductCard";
+import Blog from "./Blog";
+import ProductCard from "./ProductCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { blogData } from "./Blogs";
+import { blogData } from "../Pages/Blogs";
 import axios from "axios";
 
 const Home = () => {
-
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [flashMessage, setFlashMessage] = useState("");
 
@@ -44,8 +43,7 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching featured products:", error);
     }
-  }
-
+  };
 
   return (
     <>
@@ -93,7 +91,6 @@ const Home = () => {
                         : "default-image-url"
                     }
                     price={product.price}
-                    description={product.description}
                     rating={product.rating}
                     setFlashMessage={(type, message) => {
                       setFlashMessage({ type, message });

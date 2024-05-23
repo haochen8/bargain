@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard";
 import PropTypes from "prop-types";
+import { set } from "mongoose";
 
 /**
  * The AddProduct component.
@@ -29,6 +30,9 @@ const AddProduct = ({ onProductAdded }) => {
   const [bottomImageUrl1, setBottomImageUrl1] = useState("");
   const [bottomImageUrl2, setBottomImageUrl2] = useState("");
   const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
   const [addedProducts, setAddedProducts] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -67,7 +71,8 @@ const AddProduct = ({ onProductAdded }) => {
       brand,
       quantity,
       images: [imageUrl, bottomImageUrl1, bottomImageUrl2].filter(Boolean), // Filter out empty strings
-      color,
+      colors,
+      sizes,
     };
 
     try {
@@ -104,6 +109,9 @@ const AddProduct = ({ onProductAdded }) => {
     setBottomImageUrl1("");
     setBottomImageUrl2("");
     setColor("");
+    setColors([]);
+    setSize("");
+    setSizes([]);
   };
 
   /**
@@ -126,6 +134,26 @@ const AddProduct = ({ onProductAdded }) => {
       setSuccessMessage("Product deleted successfully!");
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  /**
+   * Handles the add color event.
+   */
+  const handleAddColor = () => {
+    if (colors && !colors.includes(color)) {
+      setColors([...colors, color]);
+      setColor("");
+    }
+  };
+
+  /**
+   * Handles the add size event.
+   */
+  const handleAddSize = () => {
+    if (sizes && !sizes.includes(size)) {
+      setSizes([...sizes, size]);
+      setSize("");
     }
   };
 
@@ -154,6 +182,7 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Description */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="description" className="form-label">
@@ -168,6 +197,7 @@ const AddProduct = ({ onProductAdded }) => {
             ></textarea>
           </div>
         </div>
+        {/* Price */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="price" className="form-label">
@@ -183,6 +213,7 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Category */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="category" className="form-label">
@@ -198,6 +229,7 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Brand */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="brand" className="form-label">
@@ -213,6 +245,7 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Quantity */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="quantity" className="form-label">
@@ -228,21 +261,68 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Add color */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
-            <label htmlFor="color" className="form-label">
+            <label htmlFor="colors" className="form-label">
               Color
             </label>
-            <input
-              type="text"
-              id="color"
-              className="form-control"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              required
-            />
+            <div className="input-group">
+              <input
+                type="text"
+                id="colors"
+                className="form-control"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+              <button
+                type="button"
+                className="button btn-secondary"
+                onClick={handleAddColor}
+              >
+                Add Color
+              </button>
+            </div>
+            <div className="mt-2">
+              {colors.map((col, index) => (
+                <span key={index} className="badge bg-primary me-2">
+                  {col}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
+        <div className="col-md-8">
+          <div className="mb-3 text-center">
+            <label htmlFor="sizes" className="form-label">
+              Size
+            </label>
+            <div className="input-group">
+              <input
+                type="text"
+                id="sizes"
+                className="form-control"
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+              />
+              <button
+                type="button"
+                className="button btn-secondary"
+                onClick={handleAddSize}
+              >
+                Add Size
+              </button>
+            </div>
+            <div className="mt-2">
+              {sizes.map((sz, index) => (
+                <span key={index} className="badge bg-primary me-2">
+                  {sz}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Main image URL */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="image-url" className="form-label">
@@ -266,6 +346,7 @@ const AddProduct = ({ onProductAdded }) => {
             )}
           </div>
         </div>
+        {/* Bottom image URL 1 */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="bottom-image-url-1" className="form-label">
@@ -288,6 +369,7 @@ const AddProduct = ({ onProductAdded }) => {
             )}
           </div>
         </div>
+        {/* Bottom image URL 2 */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
             <label htmlFor="bottom-image-url-2" className="form-label">
@@ -316,12 +398,15 @@ const AddProduct = ({ onProductAdded }) => {
           </button>
         </div>
       </form>
-
+      {/* Added products */}
       <div className="mt-5">
         <h3>Added Products:</h3>
         <div className="row">
           {addedProducts.map((product) => (
-            <div key={product.id} className="col-3 -md-4 mb-3 d-flex flex-column align-items-center">
+            <div
+              key={product.id}
+              className="col-3 -md-4 mb-3 d-flex flex-column align-items-center"
+            >
               <ProductCard
                 id={product.id}
                 title={product.title}
@@ -331,7 +416,6 @@ const AddProduct = ({ onProductAdded }) => {
                     : "default-image-url"
                 }
                 price={product.price}
-                description={product.description}
               />
               <button
                 className="delete-btn btn-danger mt-2"

@@ -82,7 +82,6 @@ const WishList = () => {
                       : "default-image-url"
                   }
                   price={product.price}
-                  description={product.description}
                   rating={product.rating}
                   setFlashMessage={(type, message) => {
                     setFlashMessage({ type, message });

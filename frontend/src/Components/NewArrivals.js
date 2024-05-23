@@ -8,9 +8,8 @@
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
-import ProductCard from "../Components/ProductCard";
+import ProductCard from "./ProductCard";
 
 /**
  * Handles stock status and sizes.
@@ -220,8 +219,6 @@ const NewArrivals = () => {
                             : "default-image-url"
                         }
                         price={product.price}
-                        description={product.description}
-                        rating={product.rating}
                         setFlashMessage={(type, message) => {
                           setFlashMessage({ type, message });
                         }}

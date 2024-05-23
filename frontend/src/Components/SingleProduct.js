@@ -11,7 +11,6 @@ import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
 import Accessories from "./Accessories";
 import { useParams } from "react-router-dom";
@@ -19,7 +18,7 @@ import axios from "axios";
 
 /**
  * Renders the Single Product component.
- * 
+ *
  * @returns {JSX.Element} The rendered SingleProduct component.
  */
 const SingleProduct = () => {
@@ -29,6 +28,9 @@ const SingleProduct = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
 
+  /**
+   * Fetches the product data by ID.
+   */
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
@@ -36,6 +38,12 @@ const SingleProduct = () => {
       );
       if (response.data) {
         setProduct(response.data);
+        if (response.data.sizes && response.data.sizes.length > 0) {
+          setSelectedSize(response.data.sizes[0]);
+        }
+        if (response.data.colors && response.data.colors.length > 0) {
+          setSelectedColor(response.data.colors[0]);
+        }
       } else {
         console.error("Product not found");
       }
@@ -44,21 +52,23 @@ const SingleProduct = () => {
     }
   };
 
+  // Fetch the product data on component mount
   useEffect(() => {
     fetchProduct();
   }, [id]);
 
+  // Show loading message if the product is not loaded yet
   if (!product) {
     return <div>Loading...</div>;
   }
 
+  // Display the main image and other images
   const mainImage =
     product.images && product.images.length > 0
       ? product.images[0]
       : "default-image-url";
   const otherImages =
     product.images && product.images.length > 1 ? product.images.slice(1) : [];
-
 
   return (
     <>
@@ -75,8 +85,9 @@ const SingleProduct = () => {
                   />
                 </Zoom>
               </div>
+              {/* Display the other images as small images */}
               <div className="bottom-images d-flex gap-2">
-              {otherImages.slice(0, 2).map((image, index) => (
+                {otherImages.slice(0, 2).map((image, index) => (
                   <div key={index} className="col">
                     <Zoom>
                       <img
@@ -89,9 +100,10 @@ const SingleProduct = () => {
                 ))}
               </div>
             </div>
+            {/* Display the product details */}
             <div className="col-6">
               <div className="main-product-details">
-                <div className="">
+                <div className="title">
                   <h4>{product.title}</h4>
                 </div>
                 <div className="">
@@ -99,20 +111,21 @@ const SingleProduct = () => {
                   <div className="product-sizes">
                     <h3 className="product-header">Size:</h3>
                     <div className="d-flex flex-wrap gap-15">
-                      {["40mm", "44mm"].map((size) => (
-                        <span
-                          key={size}
-                          className={`badge ${
-                            selectedSize === size
-                              ? "bg-secondary"
-                              : "bg-white text-dark"
-                          } border-secondary`}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setSelectedSize(size)}
-                        >
-                          {size}
-                        </span>
-                      ))}
+                      {product.sizes &&
+                        product.sizes.map((size) => (
+                          <span
+                            key={size}
+                            className={`badge ${
+                              selectedSize === size
+                                ? "bg-secondary"
+                                : "bg-white text-dark"
+                            } border-secondary`}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setSelectedSize(size)}
+                          >
+                            {size}
+                          </span>
+                        ))}
                     </div>
                   </div>
                   <div className="product-colors my-3">
@@ -124,9 +137,12 @@ const SingleProduct = () => {
                       onChange={(e) => setSelectedColor(e.target.value)}
                     >
                       <option value="">Select Color</option>
-                      <option value="Starlight">Starlight</option>
-                      <option value="Midnight">Midnight</option>
-                      <option value="Silver">Silver</option>
+                      {product.colors &&
+                        product.colors.map((color) => (
+                          <option key={color} value={color}>
+                            {color}
+                          </option>
+                        ))}
                     </select>
                   </div>
                   <div className="product-quantity my-3">
