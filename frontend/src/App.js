@@ -15,7 +15,6 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import NewArrivals from "./Components/NewArrivals";
 import Blogs from "./Pages/Blogs";
-import DealsnOffers from "./Pages/DealsnOffers";
 import WishList from "./Pages/WishList";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
@@ -25,11 +24,14 @@ import Policys from "./Pages/Policys";
 import TermsnConditions from "./Pages/TermsnConditions";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
-import Healthnfitness from "./Pages/Healthnfitness";
-import Electronics from "./Pages/Electronics";
-import Skincare from "./Pages/Skincare";
+import Healthnfitness from "./Components/Healthnfitness";
+import Electronics from "./Components/Electronics";
+import Skincare from "./Components/Skincare";
 import AddProduct from "./Components/AddProduct";
 import SingleProduct from "./Components/SingleProduct";
+import Fashion from "./Components/Fashion";
+import Kitchen from "./Components/Kitchen";
+import HomeProducts from "./Components/HomeProducts";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -54,7 +56,6 @@ function App() {
             element={<AddProduct onProductAdded={handleAddedProduct} />}
           />
           <Route path="blogs" element={<Blogs />} />
-          <Route path="dealsnoffers" element={<DealsnOffers />} />
           <Route path="contact" element={<Contact />} />
           <Route path="wishlist" element={<WishList />} />
           <Route path="login" element={<Login />} />
@@ -69,6 +70,10 @@ function App() {
           <Route path="electronics" element={<Electronics />} />
           <Route path="skincare" element={<Skincare />} />
           <Route path="healthnfitness" element={<Healthnfitness />} />
+          <Route path="fashion" element={<Fashion />} />
+          <Route path="kitchen" element={<Kitchen />} />
+          <Route path="home-products" element={<HomeProducts />} />
+
         </Route>
       </Routes>
     </>

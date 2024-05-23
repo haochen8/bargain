@@ -1,9 +1,9 @@
 /**
- * Renders the New Arrivals page.
+ * This component displays products in the Skincare category.
  *
  * @author Hao Chen
  * @component
- * @returns {JSX.Element} The New Arrivals page component.
+ * @returns {JSX.Element} The Skincare page component.
  */
 
 import React, { useEffect, useState } from "react";
@@ -12,24 +12,17 @@ import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 
 /**
- * Handles stock status and sizes.
+ * Handles displaying products in the Skincare category.
  *
- * @returns {JSX.Element} The New Arrivals page component.
+ * @returns {JSX.Element} The Skincare page component.
  */
-const NewArrivals = () => {
-  const [stockStatus, setStockStatus] = useState({
-    inStock: false,
-    outOfStock: false,
-  });
-
-  const [sizes, setSizes] = useState("");
-  const [grid, setGrid] = useState(4);
+const Skincare = () => {
   const [products, setProducts] = useState([]);
   const [flashMessage, setFlashMessage] = useState(null);
 
-  // Fetch products
+  // Fetch products in the Skincare category
   useEffect(() => {
-    fetchProducts();
+    fetchSkincareProducts();
   }, []);
 
   // Display flash message and close it after 3 seconds
@@ -43,34 +36,17 @@ const NewArrivals = () => {
   }, [flashMessage]);
 
   /**
-   * Fetch products from the backend.
+   * Fetch Skincare products from the backend.
    */
-  const fetchProducts = async () => {
+  const fetchSkincareProducts = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/product`
+        `${process.env.REACT_APP_BACKEND_URL}/api/product?category=Skincare`
       );
       setProducts(response.data);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  /**
-   * Handle change and blur the checkbox
-   *
-   * @param {*} event - The event object.
-   */
-  const handleCheckboxChange = (event) => {
-    const { id, checked } = event.target;
-
-    if (id in stockStatus) {
-      setStockStatus((prev) => ({ ...prev, [id]: checked }));
-    } else if (id in sizes) {
-      setSizes((prev) => ({ ...prev, [id]: checked }));
-    }
-
-    event.target.blur();
   };
 
   return (
@@ -122,90 +98,6 @@ const NewArrivals = () => {
                   </ul>
                 </div>
               </div>
-              {/* Availability Filters */}
-              <div className="filter-card mb-3">
-                <h3 className="filter-title">Filter</h3>
-                <h5 className="sub-title">Availability</h5>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={stockStatus.inStock}
-                    id="inStock"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label className="form-check-label" htmlFor="inStock">
-                    In Stock (10)
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={stockStatus.outOfStock}
-                    id="outOfStock"
-                    onChange={handleCheckboxChange}
-                  />
-                  <label className="form-check-label" htmlFor="outOfStock">
-                    Out of Stock (10)
-                  </label>
-                </div>
-                {/* Price filter */}
-                <h5 className="sub-title">Price</h5>
-                <h6>SEK</h6>
-                <div className="d-flex align-items-center gap-10">
-                  <div className="form-floating mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="floatingInput"
-                      placeholder="From"
-                    />
-                    <label htmlFor="floatingInput">From</label>
-                  </div>
-                  <div className="form-floating mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="floatingInput"
-                      placeholder="To"
-                    />
-                    <label htmlFor="floatingInput">To</label>
-                  </div>
-                </div>
-                {/* Colors filter*/}
-                <h5 className="sub-title">Colors</h5>
-                <div className="d-flex flex-wrap">
-                  <div className="colors">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                  </div>
-                </div>
-                {/* Sizes filter */}
-                <h5 className="sub-title">Sizes</h5>
-                {["XS", "S", "M", "L", "XL"].map((size) => (
-                  <div key={size} className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={sizes[size]}
-                      id={size}
-                      onChange={handleCheckboxChange}
-                    />
-                    <label className="form-check-label" htmlFor={size}>
-                      {size}
-                    </label>
-                  </div>
-                ))}
-              </div>
             </div>
             <div className="col-9">
               <div className="filter-sort-grid">
@@ -254,4 +146,4 @@ const NewArrivals = () => {
   );
 };
 
-export default NewArrivals;
+export default Skincare;

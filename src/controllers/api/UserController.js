@@ -110,7 +110,7 @@ export class UserController {
 
       // Generate a refresh token.
       const refreshToken = generateRefreshToken();
-      const updateUser = await UserModel.findByIdAndUpdate(
+      await UserModel.findByIdAndUpdate(
         user._id,
         { refreshToken: refreshToken },
         { new: true }
@@ -261,7 +261,7 @@ export class UserController {
         path: "/",
       });
 
-      logger.silly("Logged out user.", { user: updateUser });
+      logger.silly("Logged out user.", { user: user });
 
       res.status(200).json({
         message: "User logged out successfully.",

@@ -55,4 +55,3 @@ router.delete('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.d
 
 // Update user by ID
 router.put('/edit-user', authenticateJWT, (req, res, next) => controller.updateUser(req, res, next))
-

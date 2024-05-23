@@ -199,8 +199,7 @@ const Header = () => {
                 <div className="menu-links">
                   <div className="navlinks d-flex align-items-center gap-15">
                     <NavLink to="/">Home</NavLink>
-                    <NavLink to="/NewArrivals">Products</NavLink>
-                    <NavLink to="/DealsnOffers">Deals/Offers</NavLink>
+                    <NavLink to="/NewArrivals">New Products</NavLink>
                     <NavLink to="/Blogs">Blogs</NavLink>
                     <NavLink to="/Contact">Contact</NavLink>
                     {isLoggedIn && user?.role === "admin" && (

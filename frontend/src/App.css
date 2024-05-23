@@ -129,6 +129,7 @@ a {
   background-color: transparent;
   color: #cacaca !important;
 }
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .header-bottom .menu-links .navlinks a {
@@ -412,6 +413,16 @@ footer:not(:first-child) {
 
 /* Filters/Sidebar Begin */
 
+.category-link {
+  color: #000;
+  text-decoration: none;
+}
+
+.category-link:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
 .filter-card {
   background-color: white;
   border-radius: 10px;
@@ -439,7 +450,13 @@ footer:not(:first-child) {
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
-.filter-card li:hover {
+.filter-card li span {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.filter-card li:hover span {
   background-color: #e9e9e9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
