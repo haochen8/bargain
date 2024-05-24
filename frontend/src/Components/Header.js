@@ -26,8 +26,32 @@ const Header = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {}, [user]);
+
+  /**
+   * Handles the search query change event.
+   *
+   * @param {Event} e
+   */
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
+  /**
+   * Handles the enter key press event.
+   *
+   * @param {Event} e
+   */
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(e);
+    }
+  };
 
   /**
    * Handles the logout process.
@@ -88,8 +112,15 @@ const Header = () => {
                   placeholder="Search Product Here..."
                   aria-label="Search Product Here..."
                   aria-describedby="basic-addon2"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
-                <button className="input-group-text" id="basic-addon2">
+                <button
+                  className="input-group-text"
+                  id="basic-addon2"
+                  onClick={handleSearch}
+                >
                   <BsSearch className="fs-5" />
                 </button>
               </div>

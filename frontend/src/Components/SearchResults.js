@@ -14,13 +14,14 @@ import ProductCard from "./ProductCard";
 
 /**
  * The SearchResults component.
- * 
+ *
  * @returns {JSX.Element} The rendered SearchResults component.
  */
 const SearchResults = () => {
+
+  // State variables
   const [products, setProducts] = useState([]);
   const location = useLocation();
-
   const query = new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const SearchResults = () => {
 
   /**
    * Fetches the search results.
-   * 
+   *
    * @param {string} searchTerm - The search term.
    */
   const fetchSearchResults = async (searchTerm) => {
@@ -46,7 +47,7 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="container-xxl py-5">
+    <div className="search-page container-xxl py-5">
       <div className="row">
         <div className="col-12">
           <h3 className="section-heading">Search Results for {query} </h3>
