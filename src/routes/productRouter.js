@@ -22,11 +22,17 @@ router.post("/add-product", authenticateJWT, isAdmin, (req, res, next) =>
   controller.createProduct(req, res, next)
 );
 
+// Search for products
+router.get("/search", (req, res, next) =>
+  controller.searchProducts(req, res, next)
+);
+
 // Get a product
 router.get("/:id", (req, res, next) => controller.getProduct(req, res, next));
 
 // Get all products
 router.get("/", (req, res, next) => controller.getAllProducts(req, res, next));
+
 
 // Add to wishlist
 router.put("/wishlist", authenticateJWT, (req, res, next) =>

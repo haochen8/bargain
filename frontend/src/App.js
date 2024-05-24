@@ -32,6 +32,7 @@ import SingleProduct from "./Components/SingleProduct";
 import Fashion from "./Components/Fashion";
 import Kitchen from "./Components/Kitchen";
 import HomeProducts from "./Components/HomeProducts";
+import SearchResults from "./Components/SearchResults";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -73,7 +74,7 @@ function App() {
           <Route path="fashion" element={<Fashion />} />
           <Route path="kitchen" element={<Kitchen />} />
           <Route path="home-products" element={<HomeProducts />} />
-
+          <Route path="/search" element={<SearchResults />} />
         </Route>
       </Routes>
     </>

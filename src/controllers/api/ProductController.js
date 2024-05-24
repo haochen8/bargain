@@ -27,8 +27,6 @@ export class ProductController {
    */
   async createProduct(req, res, next) {
     try {
-      console.log("Incoming request data:", req.body); // Log request data
-
       // Generate slug from title
       if (!req.body.slug && req.body.title) {
         req.body.slug = slugify(req.body.title);
@@ -342,6 +340,36 @@ export class ProductController {
       });
     } catch (error) {
       // Rate product failed
+      const httpStatusCode = 400;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Search for products by query string.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @param {NextFunction} next - The next middleware function.
+   */
+  async searchProducts(req, res, next) {
+    try {
+      // Extract query string
+      const { query } = req.query;
+
+      // Search for products
+      const products = await ProductModel.find({
+        title: { $regex: query, $options: "i" },
+      });
+
+      // Send response
+      res.status(200).json(products);
+    } catch (error) {
+      // Search products failed
       const httpStatusCode = 400;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
