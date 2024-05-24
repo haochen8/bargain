@@ -120,9 +120,7 @@ const ProductCard = ({
       const productData = {
         product: id,
         count: 1,
-        color: "defaultColor",
       };
-      console.log("Adding product to cart:", productData);
 
       await addToCart(productData);
       setFlashMessage("success", "Product added to cart");

@@ -8,7 +8,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const CartContext = createContext();
 
@@ -33,7 +32,7 @@ export const cartReducer = (state, action) => {
     case "REMOVE_FROM_CART":
       return {
         ...state,
-        cart: state.cart.filter((item) => item.product !== action.payload),
+        cart: state.cart.filter((item) => item.product.id !== action.payload),
       };
     case "CLEAR_CART":
       return {
@@ -63,6 +62,7 @@ export const CartProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
+          console.error("No token found, user is not logged in.");
           throw new Error("User not logged in");
         }
 
@@ -94,6 +94,7 @@ export const CartProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
+        console.error("No token found, user is not logged in.");
         throw new Error("User not logged in");
       }
       console.log("Adding to cart:", product);
@@ -124,6 +125,8 @@ export const CartProvider = ({ children }) => {
       if (!token) {
         throw new Error("User not logged in");
       }
+      console.log("Removing from cart:", productId);
+
       await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/cart/${productId}`,
         {
@@ -161,7 +164,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart: state, addToCart, removeFromCart, clearCart }}
+      value={{ cart: state.cart, addToCart, removeFromCart, clearCart }}
     >
       {children}
     </CartContext.Provider>

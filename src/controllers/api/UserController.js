@@ -461,64 +461,75 @@ export class UserController {
     try {
       const cart = req.body.cart;
       const userId = req.user.id;
-      console.log("Incoming request data:", req.body); // Debug log
+
       console.log("Incoming request data:", { cart }); // Debug log
       validateMongoDbId(userId);
 
-      if (!Array.isArray(cart)) {
-        console.error("Cart is not an array:", cart); // Debug log
-        return res.status(400).json({
-          success: false,
-          message: "Cart must be an array.",
-        });
-      }
+      // Find or create the user's cart
+      let userCart = await CartModel.findOne({ orderedBy: userId });
 
-      // Check product exists in cart
-      let isProductInCart = await CartModel.findOne({ orderedBy: userId });
-      console.log("Current cart for user:", isProductInCart); // Debug log
-
-      if (!isProductInCart) {
-        isProductInCart = new CartModel({ orderedBy: userId });
+      if (!userCart) {
+        userCart = new CartModel({ orderedBy: userId });
         console.log("Creating a new cart for user:", userId); // Debug log
-      } else {
-        isProductInCart.products = [];
-        console.log("Clearing existing products in cart."); // Debug log
       }
 
       let cartTotal = 0;
+
+      // Create a map of existing products for quick lookup
+      const existingProductsMap = new Map(
+        userCart.products.map((item) => [item.product.toString(), item])
+      );
+
+      // Process incoming cart items
       for (let i = 0; i < cart.length; i++) {
-        const object = {
-          product: cart[i].product,
-          count: parseInt(cart[i].count),
-          color: cart[i].color,
-        };
-        const getPrice = await ProductModel.findById(cart[i].product)
+        const productId = cart[i].product;
+        const count = parseInt(cart[i].count);
+        const color = cart[i].color;
+
+        const getPrice = await ProductModel.findById(productId)
           .select("price")
           .exec();
-        
+
         if (!getPrice) {
-          console.error(`Product with ID ${cart[i].product} not found.`);
+          console.error(`Product with ID ${productId} not found.`);
           continue;
         }
-        
-        object.price = getPrice.price;
-        cartTotal += getPrice.price * object.count;
-        isProductInCart.products.push(object);
-  
-        console.log("Processing cart item:", object);
+
+        const price = getPrice.price;
+
+        if (existingProductsMap.has(productId)) {
+          // Update the count and price of the existing product
+          const existingProduct = existingProductsMap.get(productId);
+          existingProduct.count += count;
+          existingProduct.price = price; // Ensure price is up-to-date
+        } else {
+          // Add new product to the cart
+          userCart.products.push({
+            product: productId,
+            count,
+            color,
+            price,
+          });
+        }
       }
-  
-      isProductInCart.cartTotal = cartTotal;
-      const savedCart = await isProductInCart.save();
+
+      // Calculate the new cart total
+      userCart.products.forEach((product) => {
+        cartTotal += product.price * product.count;
+      });
+
+      userCart.cartTotal = cartTotal;
+
+      const savedCart = await userCart.save();
       console.log("Cart updated and saved:", savedCart);
-  
+
       // Fetch the cart immediately after saving to verify
-      const fetchedCart = await CartModel.findOne({ orderedBy: userId }).populate(
-        "products.product",
-        "_id name price"
-      );
+      const fetchedCart = await CartModel.findOne({
+        orderedBy: userId,
+      }).populate("products.product", "_id name price");
       console.log("Fetched cart data after saving:", fetchedCart);
-      res.status(200).json(isProductInCart);
+
+      res.status(200).json(fetchedCart);
     } catch (error) {
       console.error("Error in userCart:", error); // Detailed logging
       // Add to cart by user id failed.
@@ -547,7 +558,7 @@ export class UserController {
       // Find cart by user id
       const userCart = await CartModel.findOne({ orderedBy: userId }).populate(
         "products.product",
-        "_id name price"
+        "_id title price images"
       );
 
       res.status(200).json(userCart);
@@ -606,10 +617,14 @@ export class UserController {
       const userId = req.user.id;
       validateMongoDbId(userId);
 
-      const { productId } = req.params;
+      const productId = req.params.id;
+
 
       // Find cart by user id
-      const userCart = await CartModel.findOne({ orderedBy: userId });
+      const userCart = await CartModel.findOne({ orderedBy: userId }).populate(
+        "products.product",
+        "id title price"
+      );
 
       // Check if cart exists
       if (!userCart) {
@@ -620,9 +635,12 @@ export class UserController {
       }
 
       // Check if product exists in cart
-      const productExists = userCart.products.find(
-        (product) => product.product == productId
-      );
+      const productExists = userCart.products.find((product) => {
+        return (
+          product.product.id === productId ||
+          product.product._id.toString() === productId
+        );
+      });
 
       if (!productExists) {
         return res.status(400).json({
@@ -633,15 +651,21 @@ export class UserController {
 
       // Remove product from cart
       userCart.products = userCart.products.filter(
-        (product) => product.product != productId
+        (product) => product.product._id.toString() !== productId
       );
 
       // Calculate cart total
       let cartTotal = 0;
-      for (let i = 0; i < userCart.products.length; i++) {
-        cartTotal +=
-          userCart.products[i].product.price * userCart.products[i].count;
-      }
+      userCart.products.forEach((product) => {
+        if (
+          typeof product.product.price !== "number" ||
+          typeof product.count !== "number"
+        ) {
+          console.error("Invalid data type for price or count:", product);
+        } else {
+          cartTotal += product.product.price * product.count;
+        }
+      });
 
       // Update cart total
       userCart.cartTotal = cartTotal;

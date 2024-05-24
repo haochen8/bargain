@@ -779,10 +779,40 @@ b {
 .cart-wrapper {
   background-color: white;
 }
-.cart-summary {
-  text-align: right;
-  margin-top: 20px;
+
+.cart-wrapper ul {
+  padding: 0;
 }
+
+.cart-wrapper li {
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-wrapper li img {
+  max-width: 100px;
+  margin-right: 15px;
+}
+
+.cart-wrapper li button {
+  align-self: flex-start;
+}
+
+.cart-wrapper .list-unstyled li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-wrapper .list-unstyled li .btn-danger {
+  margin-left: auto;
+}
+
+
 
 /* Cart End */
 
