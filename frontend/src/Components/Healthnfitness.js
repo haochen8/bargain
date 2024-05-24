@@ -41,7 +41,7 @@ const HealthnFitness = () => {
   const fetchHealthnFitnessProducts = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/product?category=HealthnFitness`
+        `${process.env.REACT_APP_BACKEND_URL}/api/product?category=Fitness`
       );
       setProducts(response.data);
     } catch (error) {
@@ -119,7 +119,6 @@ const HealthnFitness = () => {
                   </div>
                 </div>
               </div>
-              <div className="products-list pb-5">
                 <div className="row">
                   {products.map((product) => (
                     <div key={product.id} className="col-3 mb-4">
@@ -143,7 +142,6 @@ const HealthnFitness = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

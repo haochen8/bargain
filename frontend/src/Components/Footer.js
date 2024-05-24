@@ -54,7 +54,6 @@ const Footer = () => {
           <div className="col-3">
             <h4 className='text-white mb-4'>Information</h4>
             <div className='footer-link d-flex flex-column'>
-              <Link className='text-white py-2 mb-1'>Refund & Returns</Link>
               <Link to='/policys' className='text-white py-2 mb-1'>Policys</Link>
               <Link className='text-white py-2 mb-1'></Link>
             </div>

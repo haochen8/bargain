@@ -193,6 +193,22 @@ const Header = () => {
                           Health & Fitness
                         </Link>
                       </li>
+                      <li>
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/fashion"
+                        >
+                          Fashion
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/kitchen"
+                        >
+                          Kitchen
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>

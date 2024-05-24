@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard";
 import PropTypes from "prop-types";
-import { set } from "mongoose";
 
 /**
  * The AddProduct component.
@@ -21,8 +20,9 @@ import { set } from "mongoose";
  */
 const AddProduct = ({ onProductAdded }) => {
   const [title, setTitle] = useState("");
+  const [descriptionText, setDescriptionText] = useState("");
   const [descriptionImageUrl, setDescriptionImageUrl] = useState("");
-  const [descriptionImageUrls, setDescriptionImageUrls] = useState([]);
+  const [descriptionImages, setDescriptionImages] = useState([]);
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -66,7 +66,8 @@ const AddProduct = ({ onProductAdded }) => {
 
     const productData = {
       title,
-      description: descriptionImageUrls,
+      description: descriptionText,
+      descriptionImages,
       price,
       category,
       brand,
@@ -101,8 +102,9 @@ const AddProduct = ({ onProductAdded }) => {
    */
   const resetForm = () => {
     setTitle("");
+    setDescriptionText("");
     setDescriptionImageUrl("");
-    setDescriptionImageUrls([]);
+    setDescriptionImages([]);
     setPrice("");
     setCategory("");
     setBrand("");
@@ -159,12 +161,12 @@ const AddProduct = ({ onProductAdded }) => {
     }
   };
 
-  const handleAddDescriptionImageUrl = () => {
+  const handleAddDescriptionImage = () => {
     if (
       descriptionImageUrl &&
-      !descriptionImageUrls.includes(descriptionImageUrl)
+      !descriptionImages.includes(descriptionImageUrl)
     ) {
-      setDescriptionImageUrls([...descriptionImageUrls, descriptionImageUrl]);
+      setDescriptionImages([...descriptionImages, descriptionImageUrl]);
       setDescriptionImageUrl("");
     }
   };
@@ -194,6 +196,20 @@ const AddProduct = ({ onProductAdded }) => {
             />
           </div>
         </div>
+        {/* Description Text */}
+        <div className="col-md-8">
+          <div className="mb-3 text-center">
+            <label htmlFor="description" className="form-label">
+              Description Text
+            </label>
+            <textarea
+              id="description-text"
+              className="form-control"
+              value={descriptionText}
+              onChange={(e) => setDescriptionText(e.target.value)}
+            ></textarea>
+          </div>
+        </div>
         {/* Description Image URL */}
         <div className="col-md-8">
           <div className="mb-3 text-center">
@@ -211,13 +227,13 @@ const AddProduct = ({ onProductAdded }) => {
               <button
                 type="button"
                 className="button btn-secondary"
-                onClick={handleAddDescriptionImageUrl}
+                onClick={handleAddDescriptionImage}
               >
                 Add Image
               </button>
             </div>
             <div className="mt-2">
-              {descriptionImageUrls.map((url, index) => (
+              {descriptionImages.map((url, index) => (
                 <div key={index} className="mb-2">
                   <img
                     src={url}

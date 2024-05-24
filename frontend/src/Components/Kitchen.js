@@ -119,26 +119,24 @@ const Kitchen = () => {
                   </div>
                 </div>
               </div>
-              <div className="products-list pb-5">
-                <div className="row">
-                  {products.map((product) => (
-                    <div key={product.id} className="col-3 mb-4">
-                      <ProductCard
-                        id={product.id} // Updated to use product.id
-                        title={product.title}
-                        image={
-                          product.images && product.images[0]
-                            ? product.images[0]
-                            : "default-image-url"
-                        }
-                        price={product.price}
-                        setFlashMessage={(type, message) => {
-                          setFlashMessage({ type, message });
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
+              <div className="row">
+                {products.map((product) => (
+                  <div key={product.id} className="col-3 mb-4">
+                    <ProductCard
+                      id={product.id} // Updated to use product.id
+                      title={product.title}
+                      image={
+                        product.images && product.images[0]
+                          ? product.images[0]
+                          : "default-image-url"
+                      }
+                      price={product.price}
+                      setFlashMessage={(type, message) => {
+                        setFlashMessage({ type, message });
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

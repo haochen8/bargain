@@ -95,7 +95,6 @@ const HomeProducts = () => {
                   </div>
                 </div>
               </div>
-              <div className="products-list pb-5">
                 <div className="row">
                   {products.map((product) => (
                     <div key={product.id} className="col-3 mb-4">
@@ -119,7 +118,6 @@ const HomeProducts = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

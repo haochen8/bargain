@@ -61,13 +61,19 @@ const Home = () => {
               stopOnHover={true}
             >
               <div>
+                <Link to="/skincare">
                 <img src="images/skin-care.jpg" alt="Skincare" />
+                </Link>
               </div>
               <div>
-                <img src="images/product-banner.jpg" alt="Skincare" />
+                <Link to="/electronics">
+                <img src="images/product-banner.jpg" alt="electronics" />
+                </Link>
               </div>
               <div>
-                <img src="images/shoes.jpg" alt="Electronic" />
+                <Link to="/fashion">
+                <img src="images/shoes.jpg" alt="shoes" />
+                </Link>
               </div>
             </Carousel>
           </div>
@@ -77,10 +83,11 @@ const Home = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <h3 className="section-heading">Featured Products</h3>
+              <h3 className="section-heading">Newest Releases</h3>
             </div>
             <div className="row">
-              {featuredProducts.map((product) => (
+              { /* Display the 8 newest products */}
+              {featuredProducts.slice(0, 8).map((product) => (
                 <div key={product.id} className="col-3 mb-4">
                   <ProductCard
                     id={product.id}
@@ -91,7 +98,6 @@ const Home = () => {
                         : "default-image-url"
                     }
                     price={product.price}
-                    rating={product.rating}
                     setFlashMessage={(type, message) => {
                       setFlashMessage({ type, message });
                     }}
@@ -145,85 +151,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="home-wrapper-2 py-5">
-        <div className="container-xxl">
-          <h4 className="specprod">Special Products</h4>
-          <div className="row">
-            <div className="col-12">
-              <div className="categories d-flex justify-content-between align-items-center flex-wrap">
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Apple Watch</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img
-                    src="images/applewatch.jpg"
-                    alt=""
-                    className="img-fuid"
-                  />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Headphones</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img src="images/beats.jpg" alt="" className="img-fuid" />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Carbon Steel Pan</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img
-                    src="images/carbon-steel.jpg"
-                    alt=""
-                    className="img-fuid"
-                  />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Kettlebell</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img
-                    src="images/kettlebell.png"
-                    alt=""
-                    className="img-fuid"
-                  />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Espresso Machine</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img src="images/espresso.png" alt="" className="img-fuid" />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Toaster</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img src="images/toaster.png" alt="" className="img-fuid" />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Speaker</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img src="images/speaker.jpg" alt="" className="img-fuid" />
-                </div>
-                <div className="d-flex gap-30 align-items-center">
-                  <div>
-                    <h6>Sandwich grill</h6>
-                    <p>10 Items</p>
-                  </div>
-                  <img src="images/grill.jpg" alt="" className="img-fuid" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       <section className="marquee-wrapper py-5">
         <div className="row">
           <div className="col-12">
@@ -266,39 +193,47 @@ const Home = () => {
           <div className="row">
             <div className="col-6">
               <div className="main-banner position-relative">
+                <Link to="/electronics">
                 <img
                   src="images/m-banner.jpg"
                   className="img-fluid rounded-3"
                   alt="main banner"
                 />
+                </Link>
               </div>
             </div>
             <div className="col-6">
               <div className="main-banner position-relative">
+                <Link to="/fashion">
                 <img
                   src="images/shoe-banner.png"
                   className="img-fluid rounded-3"
                   alt="main banner"
                 />
+                </Link>
               </div>
             </div>
             <div className="col-6">
               <div className="main-banner position-relative">
+                <Link to="/healthnfitness">
                 <img
                   src="images/health.jpg"
                   className="img-fluid rounded-3"
                   alt="main banner"
                 />
+                </Link>
                 <div className="small-banner-content position-absolute"></div>
               </div>
             </div>
             <div className="col-6">
               <div className="main-banner position-relative p-4">
+                <Link to="/kitchen">
                 <img
                   src="images/kitchen.jpg"
                   className="img-fluid rounded-3"
                   alt="main banner"
                 />
+                </Link>
               </div>
             </div>
           </div>

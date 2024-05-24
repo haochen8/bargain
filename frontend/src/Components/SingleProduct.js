@@ -165,10 +165,11 @@ const SingleProduct = () => {
             <div className="col-12">
               <div className="product-description bg-white p-3">
                 <h4>Product Description</h4>
+                {product.description && <h5>{product.description}</h5>}
                 {product.description &&
-                Array.isArray(product.description) &&
-                product.description.length > 0 ? (
-                  product.description.map((imageUrl, index) => (
+                  Array.isArray(product.description) &&
+                  product.descriptionImages.length > 0 &&
+                  product.descriptionImages.map((imageUrl, index) => (
                     <div key={index} className="description-image-wrapper mb-2">
                       <img
                         src={imageUrl}
@@ -176,10 +177,7 @@ const SingleProduct = () => {
                         className="description-image img-fluid"
                       />
                     </div>
-                  ))
-                ) : (
-                  <p>No description images available.</p>
-                )}
+                  ))}
               </div>
             </div>
           </div>

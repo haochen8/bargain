@@ -207,21 +207,27 @@ a {
 .product-card:hover .action-bar {
   right: 13px;
 }
+
+.product-card .product-image {
+  max-height: 150px;
+  object-fit: contain;
+  width: 100%;
+}
+
 .product-detail h5 {
   font-size: 15px;
 }
-.product-title {
-  font-size: 1.1rem;
+.product-card h6.product-title {
+  font-size: 1rem;
   font-weight: bold;
-  margin: 0.5rem 0;
+  margin: 10px 0;
 }
 
-.price {
+.product-card p.price {
   font-size: 1rem;
-  color: #3b4149;
-  font-weight: bold;
-  margin: 0.5rem 0;
+  color: #333;
 }
+
 .description {
   font-size: 0.9rem;
   color: #595959;

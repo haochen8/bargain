@@ -123,11 +123,13 @@ const ProductCard = ({
           <img
             src={image}
             alt="product"
-            className="img-fluid"
-            style={{ maxHeight: "200px", objectFit: "contain" }}
+            className="img-fluid product-image"
+            // style={{ maxHeight: "200px", objectFit: "contain" }}
           />
         </div>
-        <h6 className="product-title text-center">{title}</h6>
+        <h6 className="product-title text-center">
+          {title.length > 15 ? `${title.substring(0, 20)}...` : title}{" "}
+        </h6>
         <p className="price text-center">{price}kr</p>
         <p className="description text-center">{descriptionUrl}</p>
       </div>
