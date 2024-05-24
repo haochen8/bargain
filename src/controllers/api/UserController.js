@@ -14,7 +14,6 @@ import { generateRefreshToken } from "../../config/refreshToken.js";
 import jwt from "jsonwebtoken";
 import { CartModel } from "../../models/cartModel.js";
 import { ProductModel } from "../../models/productModel.js";
-import path from "node:path";
 import { OrderModel } from "../../models/orderModel.js";
 
 /**
@@ -250,7 +249,9 @@ export class UserController {
       }
 
       // Remove the refresh token from the user.
-      user.refreshTokens = user.refreshTokens.filter(rt => rt.token !== refreshToken);
+      user.refreshTokens = user.refreshTokens.filter(
+        (rt) => rt.token !== refreshToken
+      );
       await user.save();
 
       // Clear the refresh token cookie.
@@ -460,38 +461,66 @@ export class UserController {
     try {
       const cart = req.body.cart;
       const userId = req.user.id;
+      console.log("Incoming request data:", req.body); // Debug log
+      console.log("Incoming request data:", { cart }); // Debug log
       validateMongoDbId(userId);
+
+      if (!Array.isArray(cart)) {
+        console.error("Cart is not an array:", cart); // Debug log
+        return res.status(400).json({
+          success: false,
+          message: "Cart must be an array.",
+        });
+      }
 
       // Check product exists in cart
       let isProductInCart = await CartModel.findOne({ orderedBy: userId });
+      console.log("Current cart for user:", isProductInCart); // Debug log
 
       if (!isProductInCart) {
         isProductInCart = new CartModel({ orderedBy: userId });
+        console.log("Creating a new cart for user:", userId); // Debug log
       } else {
         isProductInCart.products = [];
+        console.log("Clearing existing products in cart."); // Debug log
       }
 
       let cartTotal = 0;
       for (let i = 0; i < cart.length; i++) {
-        let object = {
-          product: cart[i]._id,
+        const object = {
+          product: cart[i].product,
           count: parseInt(cart[i].count),
           color: cart[i].color,
         };
-        let getPrice = await ProductModel.findById(cart[i]._id)
+        const getPrice = await ProductModel.findById(cart[i].product)
           .select("price")
           .exec();
+        
+        if (!getPrice) {
+          console.error(`Product with ID ${cart[i].product} not found.`);
+          continue;
+        }
+        
         object.price = getPrice.price;
         cartTotal += getPrice.price * object.count;
         isProductInCart.products.push(object);
+  
+        console.log("Processing cart item:", object);
       }
-
-      // Update and save cart
+  
       isProductInCart.cartTotal = cartTotal;
-      await isProductInCart.save();
-
+      const savedCart = await isProductInCart.save();
+      console.log("Cart updated and saved:", savedCart);
+  
+      // Fetch the cart immediately after saving to verify
+      const fetchedCart = await CartModel.findOne({ orderedBy: userId }).populate(
+        "products.product",
+        "_id name price"
+      );
+      console.log("Fetched cart data after saving:", fetchedCart);
       res.status(200).json(isProductInCart);
     } catch (error) {
+      console.error("Error in userCart:", error); // Detailed logging
       // Add to cart by user id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
@@ -523,6 +552,7 @@ export class UserController {
 
       res.status(200).json(userCart);
     } catch (error) {
+      console.error("Error in getCart:", error); // Detailed logging
       // Get cart by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
@@ -546,7 +576,7 @@ export class UserController {
       const userId = req.user.id;
       validateMongoDbId(userId);
 
-      const user = await UserModel.findById(userId);
+      await UserModel.findById(userId);
 
       // Find cart by user id
       const userCart = await CartModel.findOneAndDelete({ orderedBy: userId });
@@ -554,6 +584,74 @@ export class UserController {
       res.status(200).json(userCart);
     } catch (error) {
       // Delete cart by id failed.
+      const httpStatusCode = 500;
+      const err = new Error(http.STATUS_CODES[httpStatusCode]);
+      err.status = httpStatusCode;
+      err.cause = error;
+
+      next(err);
+    }
+  }
+
+  /**
+   * Delete cart item by id.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {void} This function does not return a value; it either calls next() or sends a response.
+   */
+  async deleteCartItem(req, res, next) {
+    try {
+      const userId = req.user.id;
+      validateMongoDbId(userId);
+
+      const { productId } = req.params;
+
+      // Find cart by user id
+      const userCart = await CartModel.findOne({ orderedBy: userId });
+
+      // Check if cart exists
+      if (!userCart) {
+        return res.status(400).json({
+          success: false,
+          message: "No cart found.",
+        });
+      }
+
+      // Check if product exists in cart
+      const productExists = userCart.products.find(
+        (product) => product.product == productId
+      );
+
+      if (!productExists) {
+        return res.status(400).json({
+          success: false,
+          message: "Product not found in cart.",
+        });
+      }
+
+      // Remove product from cart
+      userCart.products = userCart.products.filter(
+        (product) => product.product != productId
+      );
+
+      // Calculate cart total
+      let cartTotal = 0;
+      for (let i = 0; i < userCart.products.length; i++) {
+        cartTotal +=
+          userCart.products[i].product.price * userCart.products[i].count;
+      }
+
+      // Update cart total
+      userCart.cartTotal = cartTotal;
+
+      // Save the cart
+      await userCart.save();
+
+      res.status(200).json(userCart);
+    } catch (error) {
+      // Delete cart item by id failed.
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;

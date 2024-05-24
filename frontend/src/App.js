@@ -36,7 +36,6 @@ import SearchResults from "./Components/SearchResults";
 
 function App() {
   const [products, setProducts] = useState([]);
-
   const handleAddedProduct = (newProduct) => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);
   };
@@ -74,7 +73,7 @@ function App() {
           <Route path="fashion" element={<Fashion />} />
           <Route path="kitchen" element={<Kitchen />} />
           <Route path="home-products" element={<HomeProducts />} />
-          <Route path="/search" element={<SearchResults />} />
+          <Route path="search" element={<SearchResults />} />
         </Route>
       </Routes>
     </>

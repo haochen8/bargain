@@ -23,7 +23,7 @@ router.post('/register', (req, res, next) => controller.register(req, res, next)
 router.post('/login', (req, res, next) => controller.login(req, res, next))
 // Logout
 router.post('/logout', (req, res, next) => controller.logout(req, res, next))
-// User Cart
+// Add to cart
 router.post('/cart', authenticateJWT, (req, res, next) => controller.userCart(req, res, next))
 // Create order
 router.post('/cart/create-order', authenticateJWT, (req, res, next) => controller.createOrder(req, res, next))
@@ -48,7 +48,10 @@ router.get('/cart', authenticateJWT, (req, res, next) => controller.getCart(req,
 router.get('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.getUserById(req, res, next))
 
 // Delete cart
-router.delete('/delete-cart', authenticateJWT, (req, res, next) => controller.deleteCart(req, res, next))
+router.delete('/cart', authenticateJWT, (req, res, next) => controller.deleteCart(req, res, next))
+
+// Delete product id from cart
+router.delete('/cart/:id', authenticateJWT, (req, res, next) => controller.deleteCartItem(req, res, next))
 
 // Delete user by ID
 router.delete('/:id', authenticateJWT, isAdmin, (req, res, next) => controller.deleteUser(req, res, next))

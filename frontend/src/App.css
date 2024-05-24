@@ -178,7 +178,7 @@ a {
 }
 /* Header End */
 
-/* Product-Card Product Begin */
+/* Product-Card Begin */
 
 .product-card {
   padding: 15px;
@@ -249,7 +249,7 @@ a {
 .card-body img {
   border-radius: 10px;
 }
-/* Product-Card Product End */
+/* Product-Card End */
 
 /* Footer Begin */
 
@@ -757,6 +757,19 @@ b {
 
 .badge:hover {
   background-color: #e2e6ea;
+}
+
+.product-image-wrapper {
+  position: relative;
+}
+
+.cart-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 5px;
 }
 
 /* Product Detail End */

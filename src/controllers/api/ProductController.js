@@ -10,7 +10,6 @@ import { ProductModel } from "../../models/productModel.js";
 import slugify from "slugify";
 import { validateMongoDbId } from "../../middlewares/validateMongoDbId.js";
 import { UserModel } from "../../models/UserModel.js";
-import mongoose, { mongo } from "mongoose";
 
 /**
  * Encapsulates Product related methods and

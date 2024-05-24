@@ -23,7 +23,6 @@ const NewArrivals = () => {
   });
 
   const [sizes, setSizes] = useState("");
-  const [grid, setGrid] = useState(4);
   const [products, setProducts] = useState([]);
   const [flashMessage, setFlashMessage] = useState(null);
 

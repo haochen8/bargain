@@ -15,7 +15,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { CiCircleRemove, CiHeart } from "react-icons/ci";
+import { CiCircleRemove, CiHeart, CiShoppingCart } from "react-icons/ci";
+import { useCart } from "../Context/CartContext";
 
 /**
  * The ProductCard component.
@@ -32,7 +33,7 @@ const ProductCard = ({
   setFlashMessage,
 }) => {
   const navigate = useNavigate();
-
+  const { addToCart, removeFromCart } = useCart();
   const [isInWishList, setIsInWishList] = useState(false);
 
   useEffect(() => {
@@ -104,6 +105,33 @@ const ProductCard = ({
     }
   };
 
+  /**
+   * Handles the add to cart process.
+   */
+  const handleAddToCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setFlashMessage("info", "Please login to add to cart");
+        navigate("/login");
+        return;
+      }
+
+      const productData = {
+        product: id,
+        count: 1,
+        color: "defaultColor",
+      };
+      console.log("Adding product to cart:", productData);
+
+      await addToCart(productData);
+      setFlashMessage("success", "Product added to cart");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setFlashMessage("error", "Error adding to cart. Please try again.");
+    }
+  };
+
   return (
     <div className="card h-100">
       <div className="card-body product-card">
@@ -120,13 +148,14 @@ const ProductCard = ({
           </button>
         </div>
         <div className="mb-3" onClick={() => navigate(`/product/${id}`)}>
-          <img
-            src={image}
-            alt="product"
-            className="img-fluid product-image"
-            // style={{ maxHeight: "200px", objectFit: "contain" }}
-          />
+          <img src={image} alt="product" className="img-fluid product-image" />
         </div>
+        <button
+          className="btn btn-link p-0 border-0 cart-icon"
+          onClick={handleAddToCart}
+        >
+          <CiShoppingCart size={20} color="black" />
+        </button>
         <h6 className="product-title text-center">
           {title.length > 15 ? `${title.substring(0, 20)}...` : title}{" "}
         </h6>
