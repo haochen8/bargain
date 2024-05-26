@@ -210,6 +210,7 @@ a {
 
 .product-card .product-image {
   max-height: 150px;
+  max-height: 150px;
   object-fit: contain;
   width: 100%;
 }
@@ -217,10 +218,21 @@ a {
 .product-detail h5 {
   font-size: 15px;
 }
-.product-card h6.product-title {
+.product-card h6
+.product-title {
   font-size: 1rem;
   font-weight: bold;
   margin: 10px 0;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 1.2em;
+  margin-bottom: 10px;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
 }
 
 .product-card p.price {
@@ -811,7 +823,6 @@ b {
 .cart-wrapper .list-unstyled li .btn-danger {
   margin-left: auto;
 }
-
 
 
 /* Cart End */

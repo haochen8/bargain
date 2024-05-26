@@ -130,6 +130,14 @@ const ProductCard = ({
     }
   };
 
+  // Truncate long product titles
+  const truncateTitle = (title, maxLength = 20) => {
+    if (title.length > maxLength) {
+      return title.slice(0, maxLength) + "...";
+    }
+    return title;
+  };
+
   return (
     <div className="card h-100">
       <div className="card-body product-card">
@@ -154,9 +162,7 @@ const ProductCard = ({
         >
           <CiShoppingCart size={20} color="black" />
         </button>
-        <h6 className="product-title text-center">
-          {title.length > 15 ? `${title.substring(0, 20)}...` : title}{" "}
-        </h6>
+        <h6 className="product-title text-center">{truncateTitle(title)}</h6>
         <p className="price text-center">{price}kr</p>
         <p className="description text-center">{descriptionUrl}</p>
       </div>
