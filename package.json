@@ -11,9 +11,7 @@
     "start": "node server.js",
     "dev": "nodemon --inspect --env-file=.env server.js",
     "lint": "npx eslint ./src || exit 0",
-    "lint:fix": "npx eslint ./src --fix || exit 0",
-    "install:legacy": "npm install --legacy-peer-deps",
-    "build": "npm run install:legacy && react-scripts build"
+    "lint:fix": "npx eslint ./src --fix || exit 0"
   },
   "author": "Hao Chen",
   "license": "ISC",
