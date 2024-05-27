@@ -76,25 +76,7 @@ const HomeProducts = () => {
               </div>
             </div>
             <div className="col-9">
-              <div className="filter-sort-grid">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="d-flex align-items-center gap-10">
-                    <h6 className="mb-0 d-block" style={{ width: "50px" }}>
-                      Sort:
-                    </h6>
-                    <select name="" className="form-control form-select" id="">
-                      <option value="newest">Newest</option>
-                      <option value="most-popular">Most Popular</option>
-                      <option value="price-ascending">
-                        Price, low to high
-                      </option>
-                      <option value="price-descending">
-                        Price, high to low
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+            <h3 className="section-heading">Home Essentials</h3>
                 <div className="row">
                   {products.map((product) => (
                     <div key={product.id} className="col-3 mb-4">

@@ -100,48 +100,30 @@ const HealthnFitness = () => {
               </div>
             </div>
             <div className="col-9">
-              <div className="filter-sort-grid">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="d-flex align-items-center gap-10">
-                    <h6 className="mb-0 d-block" style={{ width: "50px" }}>
-                      Sort:
-                    </h6>
-                    <select name="" className="form-control form-select" id="">
-                      <option value="newest">Newest</option>
-                      <option value="most-popular">Most Popular</option>
-                      <option value="price-ascending">
-                        Price, low to high
-                      </option>
-                      <option value="price-descending">
-                        Price, high to low
-                      </option>
-                    </select>
+              <h3 className="section-heading">Health & Fitness</h3>
+              <div className="row">
+                {products.map((product) => (
+                  <div key={product.id} className="col-3 mb-4">
+                    <ProductCard
+                      id={product.id} // Updated to use product.id
+                      title={product.title}
+                      image={
+                        product.images && product.images[0]
+                          ? product.images[0]
+                          : "default-image-url"
+                      }
+                      price={product.price}
+                      setFlashMessage={(type, message) => {
+                        setFlashMessage({ type, message });
+                      }}
+                    />
                   </div>
-                </div>
-              </div>
-                <div className="row">
-                  {products.map((product) => (
-                    <div key={product.id} className="col-3 mb-4">
-                      <ProductCard
-                        id={product.id} // Updated to use product.id
-                        title={product.title}
-                        image={
-                          product.images && product.images[0]
-                            ? product.images[0]
-                            : "default-image-url"
-                        }
-                        price={product.price}
-                        setFlashMessage={(type, message) => {
-                          setFlashMessage({ type, message });
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 };

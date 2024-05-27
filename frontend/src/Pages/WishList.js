@@ -59,6 +59,17 @@ const WishList = () => {
       console.error("Error fetching wishlist products:", error);
     }
   };
+
+  /**
+   * Handles the removal of a product from the wishlist.
+   * @param {string} productId - The ID of the product to remove.
+   */
+  const handleRemoveFromWishlist = (productId) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== productId)
+    );
+  };
+
   return (
     <>
       <Meta title="Wishlist" />
@@ -86,6 +97,7 @@ const WishList = () => {
                   setFlashMessage={(type, message) => {
                     setFlashMessage({ type, message });
                   }}
+                  removeFromWishlist={handleRemoveFromWishlist} // Pass the handler to ProductCard
                 />
               </div>
             ))}

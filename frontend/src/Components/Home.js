@@ -13,6 +13,11 @@ import { Carousel } from "react-responsive-carousel";
 import { blogData } from "../Pages/Blogs";
 import axios from "axios";
 
+/**
+ * The Home component.
+ * 
+ * @returns {JSX.Element} The Home component.
+ */
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [flashMessage, setFlashMessage] = useState("");

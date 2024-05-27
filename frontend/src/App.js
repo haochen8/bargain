@@ -33,6 +33,7 @@ import Fashion from "./Components/Fashion";
 import Kitchen from "./Components/Kitchen";
 import HomeProducts from "./Components/HomeProducts";
 import SearchResults from "./Components/SearchResults";
+import OrderConfirmation from "./Pages/OrderConfirmation";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -74,6 +75,7 @@ function App() {
           <Route path="kitchen" element={<Kitchen />} />
           <Route path="home-products" element={<HomeProducts />} />
           <Route path="search" element={<SearchResults />} />
+          <Route path="order-confirmation" element={<OrderConfirmation />} />
         </Route>
       </Routes>
     </>

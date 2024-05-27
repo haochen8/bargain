@@ -10,7 +10,11 @@ import { FaLinkedin, FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
 
-
+/**
+ * Footer component.
+ * 
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer = () => {
   return (
     <>

@@ -5,48 +5,51 @@
  * @version: 1.0
  */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
-import axios from "axios";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, clearCart, removeFromCart } = useCart();
+  const { cart, clearCart, removeFromCart, loadCart } = useCart();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      await loadCart();
+      setIsLoading(false);
+    }
+    fetchCartData();
+  }, []); // Run only once when the component mounts
 
   /**
    * Handles the checkout process.
    */
   const handleCheckout = async () => {
-    // Create an order
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found, user is not logged in.");
-        throw new Error("User not logged in");
-      }
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/user/wishlist`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      clearCart();
-      navigate(`/order/${response.data.order.id}`);
-    } catch (error) {
-      console.error("Error during checkout:", error);
-    }
-  };
+    navigate("/checkout");
+  }
+
+  // If the cart is still loading, display a loading message
+  if (isLoading) {
+    return (
+      <section className="cart-wrapper home-wrapper-2 py-5">
+        <div className="container-xxl py-5">
+          <div className="col-12">
+            <h3 className="section-heading">Loading your cart...</h3>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   // If the cart is empty, display a message
   if (!cart || cart.length === 0) {
     return (
       <section className="cart-wrapper home-wrapper-2 py-5">
-        <div className="container">
-          <h2>Your Cart</h2>
-          <p>Your cart is empty</p>
+        <div className="container-xxl py-5">
+          <div className="col-12">
+            <h3 className="section-heading">Your Cart is empty</h3>
+          </div>
         </div>
       </section>
     );
@@ -60,6 +63,9 @@ const Cart = () => {
 
   // Truncate long product titles
   const truncateTitle = (title, maxLength = 20) => {
+    if (!title) {
+      return "";
+    }
     if (title.length > maxLength) {
       return title.slice(0, maxLength) + "...";
     }
@@ -100,7 +106,6 @@ const Cart = () => {
                   <button
                     className="delete-btn btn-danger"
                     onClick={() => {
-                      console.log("Removing from cart:", item.product.id);
                       removeFromCart(item.product.id);
                     }}
                   >

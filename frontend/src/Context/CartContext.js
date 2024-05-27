@@ -5,7 +5,13 @@
  * @version: 1.0
  */
 
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 
@@ -55,35 +61,32 @@ export const CartProvider = ({ children }) => {
     cart: [],
   });
 
-  // Fetch the cart from the backend.
-
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found, user is not logged in.");
-          throw new Error("User not logged in");
-        }
-
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/user/cart`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Fetched cart data:", response.data);
-        if (response.data) {
-          dispatch({ type: "SET_CART", payload: response.data.products || [] });
-        }
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
-    };
-    fetchCart();
+    loadCart();
   }, []);
+
+  /**
+   * Loads the cart from the backend.
+   * @returns {Promise<void>}
+   * @throws {Error} If the user is not logged in.
+   * @throws {Error} If the cart fails to load.
+   */
+  const loadCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/cart`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch({ type: "SET_CART", payload: response.data.products || [] });
+    } catch (error) {
+      console.error("Failed to load cart:", error);
+    }
+  };
 
   /**
    * Adds a product to the cart.
@@ -164,7 +167,13 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart: state.cart, addToCart, removeFromCart, clearCart }}
+      value={{
+        cart: state.cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        loadCart,
+      }}
     >
       {children}
     </CartContext.Provider>

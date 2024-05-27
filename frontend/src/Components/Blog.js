@@ -8,6 +8,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * The Blog component.
+ * 
+ * @param {string} date
+ * @param {string} title
+ * @param {string} description
+ * @param {string} image
+ * @param {string} url
+ * @returns 
+ */
 const Blog = ({ date, title, description, image, url }) => {
   const handleCardClick = () => {
     window.open(url, "_blank", "noopener noreferrer");

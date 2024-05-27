@@ -8,6 +8,8 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 /**
  * The Checkout page component.
@@ -27,7 +29,10 @@ const Checkout = () => {
     ccNumber: "",
     ccExpiration: "",
     ccCvv: "",
+    paymentMethod: "",
   });
+
+  const navigate = useNavigate();
 
   /**
    * Handles the form change event.
@@ -42,9 +47,14 @@ const Checkout = () => {
     }
   };
 
+  /**
+   * Handles the form submit event.
+   * 
+   * @param {*} e
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // Send the form data, create an order
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
@@ -58,7 +68,7 @@ const Checkout = () => {
       );
 
       if (response.status === 200) {
-        alert("Order created successfully!");
+        navigate("/order-confirmation");
       }
     } catch (error) {
       console.error("An unexpected error occurred:", error);

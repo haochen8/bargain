@@ -462,7 +462,6 @@ export class UserController {
       const cart = req.body.cart;
       const userId = req.user.id;
 
-      console.log("Incoming request data:", { cart }); // Debug log
       validateMongoDbId(userId);
 
       // Find or create the user's cart
@@ -470,7 +469,6 @@ export class UserController {
 
       if (!userCart) {
         userCart = new CartModel({ orderedBy: userId });
-        console.log("Creating a new cart for user:", userId); // Debug log
       }
 
       let cartTotal = 0;
@@ -520,14 +518,12 @@ export class UserController {
 
       userCart.cartTotal = cartTotal;
 
-      const savedCart = await userCart.save();
-      console.log("Cart updated and saved:", savedCart);
+      await userCart.save();
 
       // Fetch the cart immediately after saving to verify
       const fetchedCart = await CartModel.findOne({
         orderedBy: userId,
       }).populate("products.product", "_id name price");
-      console.log("Fetched cart data after saving:", fetchedCart);
 
       res.status(200).json(fetchedCart);
     } catch (error) {

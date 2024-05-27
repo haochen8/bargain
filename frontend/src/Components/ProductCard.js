@@ -31,6 +31,7 @@ const ProductCard = ({
   price,
   descriptionUrl,
   setFlashMessage,
+  removeFromWishlist,
 }) => {
   const navigate = useNavigate();
   const { addToCart, removeFromCart } = useCart();
@@ -95,6 +96,9 @@ const ProductCard = ({
         setIsInWishList((prev) => !prev);
         if (message.includes("removed")) {
           setFlashMessage("error", "Product removed from wishlist");
+          if (removeFromWishlist) {
+            removeFromWishlist(id);
+          }
         } else if (message.includes("added")) {
           setFlashMessage("success", "Product added to wishlist");
         }
@@ -177,6 +181,7 @@ ProductCard.propTypes = {
   price: PropTypes.string.isRequired,
   descriptionUrl: PropTypes.string.isRequired,
   setFlashMessage: PropTypes.func.isRequired,
+  removeFromWishlist: PropTypes.func.isRequired,
 };
 
 export default ProductCard;
