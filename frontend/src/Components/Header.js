@@ -70,24 +70,28 @@ const Header = () => {
    */
   const handleLogout = async () => {
     try {
+      console.log("Initiating logout...");
+
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/logout`,
+        {}, // Ensure body is empty as the method is POST
         {
-          method: "POST",
-          credentials: "include",
+          withCredentials: true, // Ensure credentials (cookies) are included
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError("Logout failed: " + errorData.message);
+      console.log("Logout response status:", response.status);
+      console.log("Logout response data:", response.data);
+
+      if (response.status !== 200) {
+        setError("Logout failed: " + response.data.message);
       } else {
         logout();
         navigate("/login");
       }
     } catch (error) {
-      console.error("An unexpected error happened occurred:", error);
-      setError("An unexpected error happened occurred, please try again.");
+      console.error("An unexpected error occurred:", error);
+      setError("An unexpected error occurred, please try again.");
     }
   };
 
@@ -169,7 +173,7 @@ const Header = () => {
                     >
                       <CgProfile className="fs-3 me-2" alt="user" />
 
-                      <p>Login/Profile</p>
+                      <p>Login</p>
                     </Link>
                   )}
                 </div>
@@ -181,7 +185,9 @@ const Header = () => {
                     <IoBagOutline className="fs-3 me-2" alt="cart" />
 
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">{cartItemCount}</span>
+                      <span className="badge bg-white text-dark">
+                        {cartItemCount}
+                      </span>
                       <p className="mb-0">{cartTotalPrice}</p>
                     </div>
                   </Link>

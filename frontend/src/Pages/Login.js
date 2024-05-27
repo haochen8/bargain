@@ -77,6 +77,9 @@ const Login = () => {
                       placeholder="Password"
                       className="form-control"
                     />
+                    <Link className="d-flex justify-content-end align-items-center mt-4" to="/signup">
+                      Sign Up
+                    </Link>
                     {/* <Link className="forgot mt-3" to="/forgotpassword">
                       Forgot Password?
                     </Link> */}
@@ -87,9 +90,6 @@ const Login = () => {
                       <button className="button" type="submit">
                         Login
                       </button>
-                      <Link className="button" to="/signup">
-                        Sign Up
-                      </Link>
                     </div>
                   </div>
                 </form>
