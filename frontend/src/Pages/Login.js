@@ -4,6 +4,7 @@ import { useAuth } from "../Context/AuthContext";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     try {
       event.preventDefault();
-      const response = await fetch(
+      const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
         {
           method: "POST",

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const SignUp = () => {
   const handleSignUp = async (event) => {
     try {
       event.preventDefault();
-      const response = await fetch(
+      const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
         {
           method: "POST",
