@@ -1,4 +1,5 @@
 {
+  "author": "Hao Chen",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -34,7 +35,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "prebuild": "npm install --legacy-peer-deps",
+    "build": "npm run prebuild && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npx eslint ./src || exit 0",
