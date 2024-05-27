@@ -21,8 +21,6 @@ const Login = () => {
         password,
       };
 
-      console.log("Sending login payload:", payload);
-
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
         payload,
@@ -33,8 +31,6 @@ const Login = () => {
           withCredentials: true,
         }
       );
-
-      console.log("Login response:", response);
 
       if (response.status === 201) {
         login(response.data.access_token);

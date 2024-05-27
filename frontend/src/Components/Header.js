@@ -17,6 +17,7 @@ import { CgProfile } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
 import { useEffect } from "react";
 import { useCart } from "../Context/CartContext";
+import axios from "axios";
 
 /**
  * The Header component.
@@ -69,7 +70,7 @@ const Header = () => {
    */
   const handleLogout = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/logout`,
         {
           method: "POST",

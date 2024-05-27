@@ -48,7 +48,7 @@ const SignUp = () => {
       }
     } catch (error) {
       console.error("An unexpected error occurred:", error);
-      setError("An unexpected error occurred, please try again.");
+      setError("Username or email already exists. Please try again.");
     }
   };
 
