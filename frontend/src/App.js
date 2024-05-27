@@ -34,6 +34,7 @@ import Kitchen from "./Components/Kitchen";
 import HomeProducts from "./Components/HomeProducts";
 import SearchResults from "./Components/SearchResults";
 import OrderConfirmation from "./Pages/OrderConfirmation";
+import ScrollToTop from "./Components/ScrollToTop";
 
 /**
  * Main application component.
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

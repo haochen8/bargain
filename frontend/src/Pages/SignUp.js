@@ -15,17 +15,25 @@ const SignUp = () => {
   const [error, setError] = useState("");
 
   const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    if (password.length < 10) {
+      setError("Password must be at least 10 characters long.");
+      return;
+    }
+
     try {
-      event.preventDefault();
+      const payload = {
+        username,
+        email,
+        password,
+        firstName,
+        lastName,
+      };
+
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
-        {
-          username,
-          password,
-          firstName,
-          lastName,
-          email,
-        },
+        payload,
         {
           headers: {
             "Content-Type": "application/json",
@@ -33,14 +41,14 @@ const SignUp = () => {
         }
       );
 
-      if (response.ok) {
+      if (response.status === 201) {
         navigate("/login");
       } else {
         setError("Failed to sign up, please try again.");
       }
     } catch (error) {
-      console.error("An unexpected error happened occurred:", error);
-      setError("An unexpected error happened occurred, please try again.");
+      console.error("An unexpected error occurred:", error);
+      setError("An unexpected error occurred, please try again.");
     }
   };
 

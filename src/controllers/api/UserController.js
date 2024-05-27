@@ -65,6 +65,7 @@ export class UserController {
       });
     } catch (error) {
       // Registration failed.
+      console.error('Registration error:', error);
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -86,7 +87,7 @@ export class UserController {
     try {
       logger.silly("Logging in user...", { body: req.body });
 
-      // Get the username from the request body.
+      // Get the username, password from the request body.
       const { username } = req.body;
 
       // Check if user exists

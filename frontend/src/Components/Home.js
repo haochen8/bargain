@@ -3,6 +3,7 @@
  * @author Hao Chen
  * @returns {JSX.Element} The rendered Home component.
  */
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";

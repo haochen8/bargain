@@ -14,14 +14,18 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLogin = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault();
+      const payload = {
+        username,
+        password,
+      };
+
+      console.log("Sending login payload:", payload);
+
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
-        {
-          username,
-          password,
-        },
+        payload,
         {
           headers: {
             "Content-Type": "application/json",
@@ -30,15 +34,17 @@ const Login = () => {
         }
       );
 
-      if (response.ok) {
+      console.log("Login response:", response);
+
+      if (response.status === 201) {
         login(response.data.access_token);
         navigate("/");
       } else {
         setError("Invalid username or password, please try again.");
       }
     } catch (error) {
-      console.error("An unexpected error happened occurred:", error);
-      setError("An unexpected error happened occurred, please try again.");
+      console.error("An unexpected error occurred:", error);
+      setError("Invalid username or password, please try again.");
     }
   };
 
