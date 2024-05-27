@@ -16,6 +16,7 @@ import { IoBagOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
 import { useEffect } from "react";
+import { useCart } from "../Context/CartContext";
 
 /**
  * The Header component.
@@ -27,8 +28,18 @@ const Header = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const { cart } = useCart();
 
   useEffect(() => {}, [user]);
+
+  // Calculate the total number of items in the cart
+  const cartItemCount = cart.reduce((total, item) => total + item.count, 0);
+
+  // Calculate the total price of the items in the cart
+  const cartTotalPrice = cart.reduce(
+    (total, item) => total + item.count * item.product.price,
+    0
+  );
 
   /**
    * Handles the search query change event.
@@ -169,8 +180,8 @@ const Header = () => {
                     <IoBagOutline className="fs-3 me-2" alt="cart" />
 
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">500kr</p>
+                      <span className="badge bg-white text-dark">{cartItemCount}</span>
+                      <p className="mb-0">{cartTotalPrice}</p>
                     </div>
                   </Link>
                 </div>

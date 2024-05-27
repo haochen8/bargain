@@ -35,6 +35,11 @@ import HomeProducts from "./Components/HomeProducts";
 import SearchResults from "./Components/SearchResults";
 import OrderConfirmation from "./Pages/OrderConfirmation";
 
+/**
+ * Main application component.
+ * 
+ * @returns {JSX.Element} The rendered application.
+ */
 function App() {
   const [products, setProducts] = useState([]);
   const handleAddedProduct = (newProduct) => {
