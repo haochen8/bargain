@@ -20,17 +20,16 @@ const SignUp = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/register`,
         {
-          method: "POST",
+          username,
+          password,
+          firstName,
+          lastName,
+          email,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username,
-            password,
-            firstName,
-            lastName,
-            email,
-          }),
         }
       );
 

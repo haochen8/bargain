@@ -19,18 +19,19 @@ const Login = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/login`,
         {
-          method: "POST",
+          username,
+          password,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username, password }),
-          credentials: "include",
+          withCredentials: true,
         }
       );
 
       if (response.ok) {
-        const data = await response.json();
-        login(data.access_token);
+        login(response.data.access_token);
         navigate("/");
       } else {
         setError("Invalid username or password, please try again.");
