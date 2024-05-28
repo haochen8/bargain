@@ -259,7 +259,7 @@ export class UserController {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         sameSite: "none",
-        secure: true,
+        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
         path: "/",
       });
 
