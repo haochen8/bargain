@@ -129,7 +129,7 @@ export class UserController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: "Lax",
+        sameSite: "None",
         secure: process.env.NODE_ENV === 'production', // Secure cookies in production
         path: "/",
       });
@@ -264,7 +264,7 @@ export class UserController {
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "Lax",
+        sameSite: "None",
         secure: process.env.NODE_ENV === 'production', // Secure cookies in production
         path: "/",
       });
