@@ -115,6 +115,7 @@ export class UserController {
         { refreshToken: refreshToken },
         { new: true }
       );
+      console.log("refreshToken", refreshToken);
 
       // Store the refresh token with expiry.
       user.refreshTokens.push({
@@ -127,7 +128,7 @@ export class UserController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: "Lax", // Ensure cross-site requests work
+        sameSite: "None",
         secure: true,
         path: "/",
       });
@@ -259,7 +260,7 @@ export class UserController {
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "Lax",
+        sameSite: "None",
         secure: true,
         path: "/",
       });
