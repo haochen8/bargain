@@ -178,10 +178,10 @@ ProductCard.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  descriptionUrl: PropTypes.string.isRequired,
-  setFlashMessage: PropTypes.func.isRequired,
-  removeFromWishlist: PropTypes.func.isRequired,
+  price: PropTypes.number.isRequired,
+  descriptionUrl: PropTypes.string,
+  setFlashMessage: PropTypes.func,
+  removeFromWishlist: PropTypes.func,
 };
 
 export default ProductCard;

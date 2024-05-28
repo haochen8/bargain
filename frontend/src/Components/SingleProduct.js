@@ -48,7 +48,7 @@ const SingleProduct = () => {
 
       const productData = {
         product: id,
-        count: quantity,
+        count: 1,
       };
 
       await addToCart(productData);

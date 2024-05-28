@@ -100,7 +100,6 @@ export const CartProvider = ({ children }) => {
         console.error("No token found, user is not logged in.");
         throw new Error("User not logged in");
       }
-      console.log("Adding to cart:", product);
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/cart`,
         {
@@ -112,7 +111,6 @@ export const CartProvider = ({ children }) => {
           },
         }
       );
-      console.log("Added to cart response:", response.data);
       dispatch({ type: "ADD_TO_CART", payload: response.data.products });
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -128,7 +126,6 @@ export const CartProvider = ({ children }) => {
       if (!token) {
         throw new Error("User not logged in");
       }
-      console.log("Removing from cart:", productId);
 
       await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/cart/${productId}`,
