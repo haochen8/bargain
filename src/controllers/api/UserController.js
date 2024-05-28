@@ -128,7 +128,7 @@ export class UserController {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
         sameSite: "Lax", // Ensure cross-site requests work
-        secure: process.env.NODE_ENV === "production", // Secure cookies in production
+        secure: true,
         path: "/",
       });
 
@@ -260,7 +260,7 @@ export class UserController {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         sameSite: "Lax",
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         path: "/",
       });
 
