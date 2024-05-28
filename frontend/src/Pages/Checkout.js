@@ -71,7 +71,7 @@ const Checkout = () => {
         navigate("/order-confirmation");
       }
     } catch (error) {
-      console.error("An unexpected error occurred:", error);
+      console.error("Invalid information provided, please try again", error);
     }
   };
 

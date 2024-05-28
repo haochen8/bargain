@@ -98,7 +98,9 @@ export const CartProvider = ({ children }) => {
           },
         }
       );
-      dispatch({ type: "SET_CART", payload: response.data.products || [] });
+      const cartData =
+        response.data && response.data.products ? response.data.products : [];
+      dispatch({ type: "SET_CART", payload: cartData });
     } catch (error) {
       console.error("Failed to load cart:", error);
     }
