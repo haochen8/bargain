@@ -63,7 +63,8 @@ try {
       credentials: true, // Allow cookies to be sent to/from the client.
       methods: "GET, POST, PUT, DELETE",
       allowedHeaders: "Content-Type, Authorization",
-      optionsSuccessStatus: 200,
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
     })
   );
 
