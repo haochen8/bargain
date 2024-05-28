@@ -13,10 +13,12 @@ export const sessionOptions = {
   saveUninitialized: false, // Don't save a created but not modified session.
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
-    sameSite: 'strict' // CSRF protection.
+    sameSite: 'None', // Allow cross-origin cookies
+    secure: process.env.NODE_ENV === 'production', // Serve secure cookies in production
   }
 }
 
 if (process.env.NODE_ENV === 'production') {
-  sessionOptions.cookie.secure = true // serve secure cookies
+  app.set('trust proxy', 1); // Trust first proxy if you're behind one (e.g., Heroku, AWS ELB)
+  sessionOptions.cookie.secure = true; // Serve secure cookies
 }

@@ -1,5 +1,5 @@
 /**
- * @file Defines the main application.
+ * @file Defines the server for the application.
  * @module src/server
  * @author Hao Chen
  * @version 3.1.0
@@ -60,7 +60,7 @@ try {
         }
         return callback(null, true);
       },
-      credentials: true,
+      credentials: true, // Allow cookies to be sent to/from the client.
       methods: "GET, POST, PUT, DELETE",
       allowedHeaders: "Content-Type, Authorization",
       optionsSuccessStatus: 200,
