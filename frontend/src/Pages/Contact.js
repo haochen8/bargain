@@ -13,8 +13,8 @@ import { FaHome, FaPhoneAlt, FaMailBulk, FaInfoCircle } from "react-icons/fa";
 const Contact = () => {
   return (
     <>
-      <Meta title="Contact" />
-      <BreadCrumb title="Contact" />
+      <Meta title="" />
+      <BreadCrumb title="" />
       <div className="contact-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">

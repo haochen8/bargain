@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
 
 const Cart = () => {
@@ -14,7 +14,7 @@ const Cart = () => {
   const { cart, clearCart, removeFromCart, loadCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const [flashMessage, setFlashMessage] = useState(null);
-
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -24,13 +24,13 @@ const Cart = () => {
     fetchCartData();
   }, []); // Run only once when the component mounts
 
-
   /**
    * Handles the checkout process.
    */
   const handleCheckout = async () => {
     navigate("/checkout");
   };
+
 
   // If the cart is still loading, display a loading message
   if (isLoading) {
@@ -91,6 +91,7 @@ const Cart = () => {
             {cart.map((item) => (
               <div key={item.product.id} className="col-3 mb-4 product-cart">
                 <div className="text-center">
+                  <Link to={`/product/${item.product.id}`}>
                   {item.product.images && item.product.images[0] ? (
                     <img
                       src={item.product.images[0]}
@@ -106,6 +107,7 @@ const Cart = () => {
                       }}
                     />
                   )}
+                  </Link>
                   <h5 className="product-title">
                     {truncateTitle(item.product.title)}
                   </h5>

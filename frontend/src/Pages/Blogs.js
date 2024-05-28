@@ -9,6 +9,7 @@ import React from "react";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import Blog from "../Components/Blog";
+import { Link } from "react-router-dom";
 
 export const blogData = [
   {
@@ -53,8 +54,8 @@ export const blogData = [
 const Blogs = () => {
   return (
     <>
-      <Meta title="Blogs" />
-      <BreadCrumb title="Blogs" />
+      <Meta title="" />
+      <BreadCrumb title="" />
       <div className="blog-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -63,10 +64,36 @@ const Blogs = () => {
                 <h3 className="filter-title">Categories</h3>
                 <div>
                   <ul className="ps-0">
-                    <li>Electronics</li>
-                    <li>Fashion</li>
-                    <li>Home Products</li>
-                    <li>Skin Care</li>
+                    <li>
+                      <Link to="/electronics" className="category-link">
+                        <span>Electronics</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/fashion" className="category-link">
+                        <span>Fashion</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/home-products" className="category-link">
+                        <span>Home Products</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/skincare" className="category-link">
+                        <span>Skincare</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/healthnfitness" className="category-link">
+                        <span>Health & Fitness</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/kitchen" className="category-link">
+                        <span>Kitchen</span>
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
