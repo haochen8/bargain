@@ -115,7 +115,6 @@ export class UserController {
         { refreshToken: refreshToken },
         { new: true }
       );
-      console.log("refreshToken", refreshToken);
 
       // Store the refresh token with expiry.
       user.refreshTokens.push({
@@ -234,7 +233,6 @@ export class UserController {
       // Check if the refresh token exists in the cookie.
       if (!refreshToken) {
         logger.warn("Refresh token not found in Cookies.");
-        console.log("Refresh token not found in Cookies.");
         return res.status(400).json({
           success: false,
           message: "Refresh token not found in Cookies.",
@@ -260,7 +258,6 @@ export class UserController {
       );
       await user.save();
 
-      console.log("Clearing refresh token cookie:", refreshToken); // Log clearing cookie
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,

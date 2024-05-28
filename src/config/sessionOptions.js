@@ -14,11 +14,9 @@ export const sessionOptions = {
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
     sameSite: 'None', // Allow cross-origin cookies
-    secure: process.env.NODE_ENV === 'production', // Serve secure cookies in production
   }
 }
 
 if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1); // Trust first proxy if you're behind one (e.g., Heroku, AWS ELB)
   sessionOptions.cookie.secure = true; // Serve secure cookies
 }
