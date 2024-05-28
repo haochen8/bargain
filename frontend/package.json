@@ -32,8 +32,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "npm install --force",
-    "build": "npm run prebuild && react-scripts build",
+    "prebuild": "npm install --include=dev --force",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npx eslint ./src || exit 0",
