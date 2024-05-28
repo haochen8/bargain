@@ -183,7 +183,7 @@ const Header = () => {
                       <span className="badge bg-white text-dark">
                         {cartItemCount}
                       </span>
-                      <p className="mb-0">{cartTotalPrice}</p>
+                      <p className="mb-0">{cartTotalPrice}kr</p>
                     </div>
                   </Link>
                 </div>

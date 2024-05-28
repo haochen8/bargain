@@ -13,21 +13,24 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cart, clearCart, removeFromCart, loadCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
+  const [flashMessage, setFlashMessage] = useState(null);
+
 
   useEffect(() => {
     const fetchCartData = async () => {
       await loadCart();
       setIsLoading(false);
-    }
+    };
     fetchCartData();
   }, []); // Run only once when the component mounts
+
 
   /**
    * Handles the checkout process.
    */
   const handleCheckout = async () => {
     navigate("/checkout");
-  }
+  };
 
   // If the cart is still loading, display a loading message
   if (isLoading) {
@@ -74,6 +77,11 @@ const Cart = () => {
 
   return (
     <>
+      {flashMessage && (
+        <div className={`flash-message ${flashMessage.type}`}>
+          {flashMessage.message}
+        </div>
+      )}
       <section className="cart-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="col-12">

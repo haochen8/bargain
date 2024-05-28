@@ -14,6 +14,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
@@ -61,9 +62,20 @@ export const CartProvider = ({ children }) => {
     cart: [],
   });
 
+  const [flashMessage, setFlashMessage] = useState(null);
+  const { isLoggedIn, logout } = useAuth();
+
   useEffect(() => {
     loadCart();
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadCart();
+    } else {
+      dispatch({ type: "CLEAR_CART" });
+    }
+  }, [isLoggedIn]);
 
   /**
    * Loads the cart from the backend.
@@ -74,6 +86,10 @@ export const CartProvider = ({ children }) => {
   const loadCart = async () => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found, user is not logged in.");
+        throw new Error("User not logged in");
+      }
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/cart`,
         {
@@ -112,6 +128,7 @@ export const CartProvider = ({ children }) => {
         }
       );
       dispatch({ type: "ADD_TO_CART", payload: response.data.products });
+      setFlashMessage("success", "Product added to cart");
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
