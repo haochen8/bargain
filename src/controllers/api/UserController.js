@@ -126,7 +126,7 @@ export class UserController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === 'production', // Use secure cookies in production
         secure: true,
         path: "/",
       });
