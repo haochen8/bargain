@@ -1,3 +1,10 @@
+/**
+ * @file Login.js is the page where the user can login to the application.
+ *
+ * @author: Hao Chen
+ * @version: 1.0
+ */
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
@@ -6,6 +13,11 @@ import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+/**
+ * The Login component.
+ * 
+ * @returns {JSX.Element} The rendered application.
+ */
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +25,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  /**
+   * Handles the login event.
+   * 
+   * @param {*} event 
+   */
   const handleLogin = async (event) => {
     event.preventDefault();
     try {

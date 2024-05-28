@@ -123,13 +123,14 @@ export class UserController {
         expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
       });
       await user.save();
-  
+
+      console.log("Setting refresh token cookie:", refreshToken); // Log setting cookie
       // Set the refresh token in a cookie.
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: "None",
-        secure: true,
+        sameSite: "Lax",
+        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
         path: "/",
       });
 
@@ -233,6 +234,7 @@ export class UserController {
       // Check if the refresh token exists in the cookie.
       if (!refreshToken) {
         logger.warn("Refresh token not found in Cookies.");
+        console.log("Refresh token not found in Cookies.");
         return res.status(400).json({
           success: false,
           message: "Refresh token not found in Cookies.",
@@ -245,6 +247,7 @@ export class UserController {
       });
       if (!user) {
         logger.warn("Invalid refresh token.");
+        console.log("Invalid refresh token.");
         return res.status(400).json({
           success: false,
           message: "Invalid refresh token.",
@@ -257,11 +260,12 @@ export class UserController {
       );
       await user.save();
 
+      console.log("Clearing refresh token cookie:", refreshToken); // Log clearing cookie
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "None",
-        secure: true,
+        sameSite: "Lax",
+        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
         path: "/",
       });
 

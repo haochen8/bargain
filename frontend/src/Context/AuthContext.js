@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/me`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true, // Ensure credentials (cookies) are included
         }
       );
       setUser(response.data);
