@@ -130,7 +130,7 @@ const SingleProduct = () => {
                 </Zoom>
               </div>
               {/* Display the other images as small images */}
-              <div className="bottom-images d-flex gap-2">
+              <div className="bottom-images d-flex py-5">
                 {otherImages.slice(0, 2).map((image, index) => (
                   <div key={index} className="col">
                     <Zoom>
@@ -219,8 +219,8 @@ const SingleProduct = () => {
               <div className="product-description bg-white p-3">
                 <h4>Product Description</h4>
                 {product.description && <h5>{product.description}</h5>}
-                {product.description &&
-                  Array.isArray(product.description) &&
+                {product.descriptionImages &&
+                  Array.isArray(product.descriptionImages) &&
                   product.descriptionImages.length > 0 &&
                   product.descriptionImages.map((imageUrl, index) => (
                     <div key={index} className="description-image-wrapper mb-2">

@@ -707,15 +707,19 @@ b {
 .main-product-image {
   width: 100%;
   height: auto;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .bottom-images .col {
-  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .bottom-images .small-image {
   width: 100%;
   height: auto;
+  padding: 5px;
 }
 
 .main-image {
