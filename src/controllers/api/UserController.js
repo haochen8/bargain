@@ -65,7 +65,7 @@ export class UserController {
       });
     } catch (error) {
       // Registration failed.
-      console.error('Registration error:', error);
+      console.error("Registration error:", error);
       const httpStatusCode = 500;
       const err = new Error(http.STATUS_CODES[httpStatusCode]);
       err.status = httpStatusCode;
@@ -119,15 +119,16 @@ export class UserController {
       // Store the refresh token with expiry.
       user.refreshTokens.push({
         token: refreshToken,
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
       });
       await user.save();
-
+  
+      // Set the refresh token in a cookie.
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: "none",
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        sameSite: "Lax", // Ensure cross-site requests work
+        secure: process.env.NODE_ENV === "production", // Secure cookies in production
         path: "/",
       });
 
@@ -258,8 +259,8 @@ export class UserController {
       // Clear the refresh token cookie.
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "none",
-        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+        sameSite: "Lax",
+        secure: process.env.NODE_ENV === 'production',
         path: "/",
       });
 
@@ -615,7 +616,6 @@ export class UserController {
       validateMongoDbId(userId);
 
       const productId = req.params.id;
-
 
       // Find cart by user id
       const userCart = await CartModel.findOne({ orderedBy: userId }).populate(
