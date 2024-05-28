@@ -7,12 +7,12 @@
  * @version 3.1.0
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../Context/CartContext";
 
 /**
  * Renders the Single Product component.
@@ -26,6 +26,41 @@ const SingleProduct = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [flashMessage, setFlashMessage] = useState(null);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
+
+  /**
+   * Handles the add to cart process.
+   */
+  const handleAddToCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setFlashMessage({
+          type: "info",
+          message: "Please login to add to cart",
+        });
+        // Delay the navigation to allow the user to see the message
+        setTimeout(() => navigate("/login"), 2000);
+        return;
+      }
+
+      const productData = {
+        product: id,
+        count: quantity,
+      };
+
+      await addToCart(productData);
+      setFlashMessage({ type: "success", message: "Product added to cart" });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setFlashMessage({
+        type: "error",
+        message: "Error adding to cart. Please try again.",
+      });
+    }
+  };
 
   /**
    * Fetches the product data by ID.
@@ -56,6 +91,16 @@ const SingleProduct = () => {
     fetchProduct();
   }, [id]);
 
+  // Display the flash message
+  useEffect(() => {
+    if (flashMessage) {
+      const timer = setTimeout(() => {
+        setFlashMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [flashMessage]);
+
   // Display the main image and other images
   const mainImage =
     product.images && product.images.length > 0
@@ -66,6 +111,11 @@ const SingleProduct = () => {
 
   return (
     <>
+      {flashMessage && (
+        <div className={`flash-message ${flashMessage.type}`}>
+          {flashMessage.message}
+        </div>
+      )}
       <div className="main-product-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
@@ -150,7 +200,10 @@ const SingleProduct = () => {
                       className="form-control quantity-input"
                     />
                   </div>
-                  <button className="button btn-primary my-3">
+                  <button
+                    className="button btn-primary my-3"
+                    onClick={handleAddToCart}
+                  >
                     Add to Cart
                   </button>
                 </div>

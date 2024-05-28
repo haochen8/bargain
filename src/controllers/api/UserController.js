@@ -224,18 +224,13 @@ export class UserController {
   async logout(req, res, next) {
     try {
       logger.silly("Logging out user...");
-      console.log("Logging out user...");
-    
-      // Log request headers and cookies for debugging
-      console.log('Logout request headers:', req.headers);
-      console.log('Logout request cookies:', req.cookies);
 
       // Get the refresh token from the request cookies.
       const { refreshToken } = req.cookies;
 
       // Check if the refresh token exists in the cookie.
       if (!refreshToken) {
-        console.warn("Refresh token not found in Cookies.");
+        logger.warn("Refresh token not found in Cookies.");
         return res.status(400).json({
           success: false,
           message: "Refresh token not found in Cookies.",
@@ -247,7 +242,7 @@ export class UserController {
         "refreshTokens.token": refreshToken,
       });
       if (!user) {
-        console.warn("Invalid refresh token.");
+        logger.warn("Invalid refresh token.");
         return res.status(400).json({
           success: false,
           message: "Invalid refresh token.",
@@ -269,8 +264,6 @@ export class UserController {
       });
 
       logger.silly("Logged out user.", { user: user });
-
-      console.log("Logged out user.", { user: user });
 
       res.status(200).json({
         message: "User logged out successfully.",

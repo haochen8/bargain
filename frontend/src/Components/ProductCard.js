@@ -77,7 +77,7 @@ const ProductCard = ({
       const token = localStorage.getItem("token");
       if (!token) {
         setFlashMessage("info", "Please login to add to wishlist");
-        navigate("/login");
+        setTimeout(() => navigate("/login"), 2000);
         return;
       }
 
@@ -117,7 +117,7 @@ const ProductCard = ({
       const token = localStorage.getItem("token");
       if (!token) {
         setFlashMessage("info", "Please login to add to cart");
-        navigate("/login");
+        setTimeout(() => navigate("/login"), 2000);
         return;
       }
 

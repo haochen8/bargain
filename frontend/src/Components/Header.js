@@ -70,8 +70,6 @@ const Header = () => {
    */
   const handleLogout = async () => {
     try {
-      console.log("Initiating logout...");
-
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/logout`,
         {}, // Ensure body is empty as the method is POST
@@ -79,9 +77,6 @@ const Header = () => {
           withCredentials: true, // Ensure credentials (cookies) are included
         }
       );
-
-      console.log("Logout response status:", response.status);
-      console.log("Logout response data:", response.data);
 
       if (response.status !== 200) {
         setError("Logout failed: " + response.data.message);
