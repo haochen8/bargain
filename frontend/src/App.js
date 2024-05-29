@@ -36,7 +36,6 @@ import SearchResults from "./Components/SearchResults";
 import OrderConfirmation from "./Pages/OrderConfirmation";
 import ScrollToTop from "./Components/ScrollToTop";
 import PrivateRoute from "./Components/PrivateRoute";
-import axios from "axios";
 
 /**
  * Main application component.
@@ -45,29 +44,6 @@ import axios from "axios";
  */
 function App() {
   const [products, setProducts] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    // Check if the user is authenticated and an admin
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      // Assuming you have an API endpoint to verify the token and get user info
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(response => {
-        setIsAuthenticated(true);
-        setIsAdmin(response.data.role === "admin"); // Check user's role
-      })
-      .catch(() => {
-        console.error('Error fetching user data:', error); // Log any errors
-        setIsAuthenticated(false);
-        setIsAdmin(false);
-      });
-    }
-  }, []);
-
 
   /**
    * Adds a new product to the list of products.
@@ -92,8 +68,6 @@ function App() {
             path="add-product"
             element={<PrivateRoute
                         component={AddProduct}
-                        isAuthenticated={isAuthenticated}
-                        isAdmin={isAdmin}
                         fallback="/login"
                         onProductAdded={handleAddedProduct}
                      />}

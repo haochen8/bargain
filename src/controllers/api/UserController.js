@@ -219,7 +219,6 @@ export class UserController {
 
       // Get the refresh token from the request body
       const { refreshToken } = req.body;
-      console.log("Received logout request:", req.body);
       
       // Check if the refresh token exists in the request body.
       if (!refreshToken) {

@@ -8,6 +8,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { set } from "mongoose";
 
 const AuthContext = createContext();
 
@@ -22,21 +23,24 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       fetchUser(token);
     } else {
+      setLoading(false);
     }
 
     // Set up Axios interceptor
-    axios.interceptors.request.use(
+    const interceptor = axios.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("accessToken");
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
-        } else {
         }
         return config;
       },
@@ -44,6 +48,10 @@ export const AuthProvider = ({ children }) => {
         return Promise.reject(error);
       }
     );
+
+    return () => {
+      axios.interceptors.request.eject(interceptor);
+    };
   }, []);
 
   /**
@@ -61,11 +69,13 @@ export const AuthProvider = ({ children }) => {
       );
       setUser(response.data);
       setIsLoggedIn(true);
+      setIsAdmin(response.data.role === "admin");
+      setIsAuthenticated(true);
     } catch (error) {
       console.error("Error fetching user:", error);
-      if (isLoggedIn) {
-        logout();
-      }
+      logout();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,10 +96,22 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     setIsLoggedIn(false);
     setUser(null);
+    setIsAdmin(false);
+    setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        user,
+        login,
+        logout,
+        isAdmin,
+        isAuthenticated,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
