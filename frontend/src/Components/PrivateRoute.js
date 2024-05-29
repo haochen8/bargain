@@ -27,7 +27,11 @@ const PrivateRoute = ({ component: Component, fallback, ...rest }) => {
     return <div>Loading...</div>; // Show a loading state while checking auth
   }
 
-  return isAuthenticated && isAdmin ? <Component {...rest} /> : <Navigate to={fallback} />;
+  return isAuthenticated && isAdmin ? (
+    <Component {...rest} />
+  ) : (
+    <Navigate to={fallback} />
+  );
 };
 
 PrivateRoute.propTypes = {

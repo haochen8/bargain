@@ -6,7 +6,7 @@
  * @returns {JSX.Element} The rendered application.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
@@ -39,7 +39,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 
 /**
  * Main application component.
- * 
+ *
  * @returns {JSX.Element} The rendered application.
  */
 function App() {
@@ -66,11 +66,13 @@ function App() {
           <Route path="product/:id" element={<SingleProduct />} />
           <Route
             path="add-product"
-            element={<PrivateRoute
-                        component={AddProduct}
-                        fallback="/login"
-                        onProductAdded={handleAddedProduct}
-                     />}
+            element={
+              <PrivateRoute
+                component={AddProduct}
+                fallback="/login"
+                onProductAdded={handleAddedProduct}
+              />
+            }
           />
           <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
