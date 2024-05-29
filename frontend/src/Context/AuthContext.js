@@ -1,47 +1,52 @@
-/**
- * This file provides the AuthContext and AuthProvider components.
- *
- * @author: Hao Chen
- * @version: 1.0
- */
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 
 const AuthContext = createContext();
 
-/**
- * Provides authentication context to its children.
- *
- * @param {*} param0 The children components.
- * @returns {JSX.Element} The rendered application.
- */
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
+    console.log("Retrieved token from localStorage on mount:", token);
     if (token) {
       fetchUser(token);
+    } else {
+      console.log("No token found in localStorage on mount");
     }
+
+    // Set up Axios interceptor
+    axios.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+          console.log("Added Authorization header with token:", token);
+        } else {
+          console.log("No token found in localStorage for request");
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
   }, []);
 
-  /**
-   * Fetches the user information from the backend.
-   */
-  const fetchUser = async () => {
+  const fetchUser = async (token) => {
     try {
+      console.log("Fetching user with token:", token);
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/me`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true, // Ensure credentials (cookies) are included
         }
       );
       setUser(response.data);
       setIsLoggedIn(true);
+      console.log("User fetched successfully:", response.data);
     } catch (error) {
       console.error("Error fetching user:", error);
       if (isLoggedIn) {
@@ -50,22 +55,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Logs in the user with the provided token.
-   *
-   * @param {*} token
-   */
   const login = (token) => {
-    localStorage.setItem("token", token);
+    console.log("Storing token in localStorage:", token);
+    localStorage.setItem("accessToken", token);
     setIsLoggedIn(true);
     fetchUser(token);
   };
 
-  /**
-   * Logs out the user.
-   */
   const logout = () => {
-    localStorage.removeItem("token");
+    console.log("Removing token from localStorage");
+    localStorage.removeItem("accessToken");
     setIsLoggedIn(false);
     setUser(null);
   };
@@ -76,6 +75,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

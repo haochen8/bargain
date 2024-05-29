@@ -123,16 +123,6 @@ export class UserController {
       });
       await user.save();
 
-      console.log("Setting refresh token cookie:", refreshToken); // Log setting cookie
-      // Set the refresh token in a cookie.
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: "None",
-        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
-        path: "/",
-      });
-
       logger.silly("Authenticated user.", { user: user });
 
       res.status(201).json({
@@ -141,6 +131,7 @@ export class UserController {
         email: user.email,
         role: user.role,
         access_token: accessToken,
+        refresh_token: refreshToken,
       });
     } catch (error) {
       // Authentication failed.
@@ -163,20 +154,19 @@ export class UserController {
    */
   async handleRefreshToken(req, res, next) {
     try {
-      // Get the refresh token from the request cookies.
-      const cookie = req.cookies;
-      const refreshToken = cookie.refreshToken;
+      // Get the refresh token from the request body.
+      const refreshToken = req.body;
 
       // Check if the refresh token exists in the cookie.
-      if (!cookie?.refreshToken) {
+      if (!refreshToken) {
         return res.status(400).json({
           success: false,
-          message: "Refresh token not found in Cookies.",
+          message: "Refresh token not found in request body.",
         });
       }
 
       // Check if the refresh token exists in the database.
-      const user = await UserModel.findOne({ refreshToken });
+      const user = await UserModel.findOne({ "refreshTokens.token": refreshToken });
       if (!user) {
         return res.status(400).json({
           success: false,
@@ -227,15 +217,16 @@ export class UserController {
     try {
       logger.silly("Logging out user...");
 
-      // Get the refresh token from the request cookies.
-      const { refreshToken } = req.cookies;
-
-      // Check if the refresh token exists in the cookie.
+      // Get the refresh token from the request body
+      const { refreshToken } = req.body;
+      console.log("Received logout request:", req.body);
+      
+      // Check if the refresh token exists in the request body.
       if (!refreshToken) {
-        logger.warn("Refresh token not found in Cookies.");
+        logger.warn("Refresh token not found in request body.");
         return res.status(400).json({
           success: false,
-          message: "Refresh token not found in Cookies.",
+          message: "Refresh token not found in request body.",
         });
       }
 
@@ -245,7 +236,6 @@ export class UserController {
       });
       if (!user) {
         logger.warn("Invalid refresh token.");
-        console.log("Invalid refresh token.");
         return res.status(400).json({
           success: false,
           message: "Invalid refresh token.",
@@ -257,14 +247,6 @@ export class UserController {
         (rt) => rt.token !== refreshToken
       );
       await user.save();
-
-      // Clear the refresh token cookie.
-      res.clearCookie("refreshToken", {
-        httpOnly: true,
-        sameSite: "None",
-        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
-        path: "/",
-      });
 
       logger.silly("Logged out user.", { user: user });
 

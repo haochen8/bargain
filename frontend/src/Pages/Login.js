@@ -45,12 +45,14 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,
         }
       );
 
       if (response.status === 201) {
-        login(response.data.access_token);
+        const { access_token, refresh_token } = response.data;
+        localStorage.setItem("accessToken", access_token);
+        localStorage.setItem("refreshToken", refresh_token); // Store the refresh token in localStorage
+        login(access_token);
         navigate("/");
       } else {
         setError("Invalid username or password, please try again.");
