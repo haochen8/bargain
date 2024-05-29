@@ -89,24 +89,23 @@ const Cart = () => {
           </div>
           <div className="row">
             {cart.map((item) => (
-              <div key={item.product.id} className="col-3 mb-4 product-cart">
-                <div className="text-center">
+              <div key={item.product.id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div className="product-cart text-center">
                   <Link to={`/product/${item.product.id}`}>
-                  {item.product.images && item.product.images[0] ? (
-                    <img
-                      src={item.product.images[0]}
-                      alt={item.product.title}
-                      className="img-fluid mb-2"
-                      style={{ maxWidth: "100px", maxHeight: "100px" }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        backgroundColor: "#eaeaea",
-                        marginBottom: "10px",
-                      }}
-                    />
-                  )}
+                    {item.product.images && item.product.images[0] ? (
+                      <div className="product-image-wrapper">
+                        <img
+                          src={item.product.images[0]}
+                          alt={item.product.title}
+                          className="img-fluid mb-2 product-image"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="product-image-wrapper"
+                        style={{ backgroundColor: "#eaeaea", marginBottom: "10px" }}
+                      />
+                    )}
                   </Link>
                   <h5 className="product-title">
                     {truncateTitle(item.product.title)}
@@ -130,7 +129,7 @@ const Cart = () => {
           <h4 className="main-product-details mb-0">
             Subtotal: {cartTotal} kr
           </h4>
-          <button onClick={handleCheckout} className="button btn-primary me-5">
+          <button onClick={handleCheckout} className="btn btn-primary me-5">
             Proceed to Checkout
           </button>
         </div>

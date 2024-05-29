@@ -69,8 +69,8 @@ const Login = () => {
       <BreadCrumb title="Login" />
       <div className="login-wrapper home-wrapper-2 py-5">
         <div className="container">
-          <div className="row">
-            <div className="col-12">
+          <div className="row justify-content-center">
+            <div className="col-12 col-md-8 col-lg-6 col-xl-4">
               <div className="auth">
                 <h3 className="loginh3 text-center mb-3">Login</h3>
                 <form
@@ -106,7 +106,7 @@ const Login = () => {
                   <div className="text-center text-danger">{error}</div>
                   <div>
                     <div className="d-flex justify-content-center align-items-center gap-15">
-                      <button className="button" type="submit">
+                      <button className="btn btn-primary w-100" type="submit">
                         Login
                       </button>
                     </div>
