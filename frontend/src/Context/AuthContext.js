@@ -46,6 +46,11 @@ export const AuthProvider = ({ children }) => {
     );
   }, []);
 
+  /**
+   * Fetches the user data from the backend.
+   *
+   * @param {*} token
+   */
   const fetchUser = async (token) => {
     try {
       const response = await axios.get(
@@ -64,12 +69,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Logs the user in and fetches the user data.
+   * @param {*} token
+   */
   const login = (token) => {
     localStorage.setItem("accessToken", token);
     setIsLoggedIn(true);
     fetchUser(token);
   };
 
+  /*
+   * Logs the user out and removes the user data.
+   */
   const logout = () => {
     localStorage.removeItem("accessToken");
     setIsLoggedIn(false);

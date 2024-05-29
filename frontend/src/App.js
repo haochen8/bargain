@@ -6,7 +6,7 @@
  * @returns {JSX.Element} The rendered application.
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
@@ -35,6 +35,8 @@ import HomeProducts from "./Components/HomeProducts";
 import SearchResults from "./Components/SearchResults";
 import OrderConfirmation from "./Pages/OrderConfirmation";
 import ScrollToTop from "./Components/ScrollToTop";
+import PrivateRoute from "./Components/PrivateRoute";
+import axios from "axios";
 
 /**
  * Main application component.
@@ -43,6 +45,33 @@ import ScrollToTop from "./Components/ScrollToTop";
  */
 function App() {
   const [products, setProducts] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is authenticated and an admin
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      // Assuming you have an API endpoint to verify the token and get user info
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(response => {
+        setIsAuthenticated(true);
+        setIsAdmin(response.data.role === "admin"); // Check user's role
+      })
+      .catch(() => {
+        console.error('Error fetching user data:', error); // Log any errors
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      });
+    }
+  }, []);
+
+
+  /**
+   * Adds a new product to the list of products.
+   */
   const handleAddedProduct = (newProduct) => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);
   };
@@ -60,8 +89,14 @@ function App() {
           />
           <Route path="product/:id" element={<SingleProduct />} />
           <Route
-            path="/add-product"
-            element={<AddProduct onProductAdded={handleAddedProduct} />}
+            path="add-product"
+            element={<PrivateRoute
+                        component={AddProduct}
+                        isAuthenticated={isAuthenticated}
+                        isAdmin={isAdmin}
+                        fallback="/login"
+                        onProductAdded={handleAddedProduct}
+                     />}
           />
           <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
