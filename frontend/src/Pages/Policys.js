@@ -1,7 +1,17 @@
-import React from "react";
-import BreadCrumb from "./BreadCrumb";
-import Meta from "../Components/Meta";
+/**
+ * @file Policies.js is the policies page for the webshop
+ *
+ * @author Hao Chen
+ * @version: 1.0
+ */
 
+import React from "react";
+
+/**
+ * The Policies page component.
+ * 
+ * @returns {JSX.Element} The Policies page component.
+ */
 const Policies = () => {
   return (
     <>

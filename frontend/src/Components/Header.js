@@ -69,17 +69,13 @@ const Header = () => {
    * Handles the logout process.
    */
   const handleLogout = async () => {
-    console.log("handleLogout called"); // Debugging statement
     
     try {
       const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) {
-        console.log("No refresh token found in localStorage"); // Debugging statement
         setError("No refresh token found, unable to logout.");
         return;
       }
-
-      console.log("Sending logout request with refresh token:", refreshToken); // Debugging statement
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/logout`,
@@ -90,8 +86,6 @@ const Header = () => {
           },
         }
       );
-
-      console.log("Logout response:", response); // Debugging statement
 
       if (response.status !== 200) {
         setError("Logout failed: " + response.data.message);

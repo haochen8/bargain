@@ -56,7 +56,7 @@ const Checkout = () => {
     e.preventDefault();
     // Send the form data, create an order
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/cart/create-order`,
         formData,

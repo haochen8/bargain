@@ -78,7 +78,7 @@ const AddProduct = ({ onProductAdded }) => {
     };
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/product/add-product`,
         productData,
@@ -123,7 +123,7 @@ const AddProduct = ({ onProductAdded }) => {
    */
   const handleDelete = async (productId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/api/product/${productId}`,
         {

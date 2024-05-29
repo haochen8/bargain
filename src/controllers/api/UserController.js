@@ -157,7 +157,7 @@ export class UserController {
       // Get the refresh token from the request body.
       const refreshToken = req.body;
 
-      // Check if the refresh token exists in the cookie.
+      // Check if the refresh token exists in the body.
       if (!refreshToken) {
         return res.status(400).json({
           success: false,

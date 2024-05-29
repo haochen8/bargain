@@ -47,7 +47,7 @@ const ProductCard = ({
    */
   const checkWishlistStatus = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         return;
       }
@@ -74,7 +74,7 @@ const ProductCard = ({
    */
   const handleAddToWishList = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         setFlashMessage("info", "Please login to add to wishlist");
         setTimeout(() => navigate("/login"), 2000);
@@ -114,7 +114,7 @@ const ProductCard = ({
    */
   const handleAddToCart = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         setFlashMessage("info", "Please login to add to cart");
         setTimeout(() => navigate("/login"), 2000);
@@ -157,18 +157,18 @@ const ProductCard = ({
             )}
           </button>
         </div>
-        <div className="mb-3" onClick={() => navigate(`/product/${id}`)}>
-          <img src={image} alt="product" className="img-fluid product-image" />
-        </div>
         <button
           className="btn btn-link p-0 border-0 cart-icon"
           onClick={handleAddToCart}
         >
           <CiShoppingCart size={20} color="black" />
         </button>
-        <h6 className="product-title text-center">{truncateTitle(title)}</h6>
-        <p className="price text-center">{price}kr</p>
-        <p className="description text-center">{descriptionUrl}</p>
+        <div className="mb-3" onClick={() => navigate(`/product/${id}`)}>
+          <img src={image} alt="product" className="img-fluid product-image" />
+          <h6 className="product-title text-center">{truncateTitle(title)}</h6>
+          <p className="price text-center">{price}kr</p>
+          <p className="description text-center">{descriptionUrl}</p>
+        </div>
       </div>
     </div>
   );

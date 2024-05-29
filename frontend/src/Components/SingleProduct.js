@@ -35,7 +35,7 @@ const SingleProduct = () => {
    */
   const handleAddToCart = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         setFlashMessage({
           type: "info",

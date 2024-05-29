@@ -1,5 +1,5 @@
 /**
- * The Wishlist page.
+ * The Wishlist page component.
  *
  * @author: Hao Chen
  * @version: 1.0
@@ -41,7 +41,7 @@ const WishList = () => {
    */
   const fetchWishListProducts = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/user/wishlist`,
         {

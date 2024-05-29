@@ -66,10 +66,6 @@ export const CartProvider = ({ children }) => {
   const { isLoggedIn, logout } = useAuth();
 
   useEffect(() => {
-    loadCart();
-  }, []);
-
-  useEffect(() => {
     if (isLoggedIn) {
       loadCart();
     } else {
@@ -85,7 +81,7 @@ export const CartProvider = ({ children }) => {
    */
   const loadCart = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         console.error("No token found, user is not logged in.");
         throw new Error("User not logged in");
@@ -113,7 +109,7 @@ export const CartProvider = ({ children }) => {
    */
   const addToCart = async (product) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         console.error("No token found, user is not logged in.");
         throw new Error("User not logged in");
@@ -141,7 +137,7 @@ export const CartProvider = ({ children }) => {
    */
   const removeFromCart = async (productId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         throw new Error("User not logged in");
       }
@@ -166,7 +162,7 @@ export const CartProvider = ({ children }) => {
    */
   const clearCart = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         throw new Error("User not logged in");
       }

@@ -1,3 +1,10 @@
+/**
+ * @file SignUp.js is the sign up page for the webshop
+ *
+ * @author Hao Chen
+ * @version: 1.0
+ */
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BreadCrumb from "./BreadCrumb";
@@ -5,6 +12,11 @@ import Meta from "../Components/Meta";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+/**
+ * The SignUp page component.
+ * 
+ * @returns {JSX.Element} The SignUp component.
+ */
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
