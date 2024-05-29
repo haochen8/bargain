@@ -51,6 +51,12 @@ export const blogData = [
     url: "https://www.cnbc.com/2024/05/14/gamestop-amc-shares-jump-another-40percent-in-premarket-trading-as-meme-stock-craze-returns.html",
   },
 ];
+
+/**
+ * Blogs page
+ *
+ * @returns Blogs page
+ */
 const Blogs = () => {
   return (
     <>
@@ -59,7 +65,7 @@ const Blogs = () => {
       <div className="blog-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-3">
+            <div className="col-lg-3 d-none d-lg-block">
               <div className="filter-card mb-3">
                 <h3 className="filter-title">Categories</h3>
                 <div>
@@ -98,10 +104,10 @@ const Blogs = () => {
                 </div>
               </div>
             </div>
-            <div className="col-9">
+            <div className="col-12 col-lg-9">
               <div className="row">
                 {blogData.map((blog) => (
-                  <div className="col-6 mb-3" key={blog.id}>
+                  <div className="col-12 col-md-6 mb-3" key={blog.id}>
                     <Blog
                       date={blog.date}
                       title={blog.title}

@@ -94,7 +94,7 @@ const Home = () => {
             <div className="row">
               { /* Display the 8 newest products */}
               {featuredProducts.slice(0, 8).map((product) => (
-                <div key={product.id} className="col-3 mb-4">
+                <div key={product.id} className="col-6 col-md-4 col-lg-3 mb-4">
                   <ProductCard
                     id={product.id}
                     title={product.title}
@@ -254,7 +254,7 @@ const Home = () => {
           </div>
           <div className="row">
             {blogData.map((blog) => (
-              <div className="col-3 mb-3" key={blog.id}>
+              <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={blog.id}>
                 <Blog
                   date={blog.date}
                   title={blog.title}
