@@ -408,6 +408,23 @@ footer:not(:first-child) {
   }
 }
 
+@media (max-width: 768px) {
+  .home-wrapper-2 .services {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-wrapper-2 .services .d-flex {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+  }
+
+  .home-wrapper-2 .services .d-flex:last-child {
+    margin-bottom: 0;
+  }
+}
+
 /* Home End */
 
 /* Blog Begin */
