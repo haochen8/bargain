@@ -69,7 +69,6 @@ const Header = () => {
    * Handles the logout process.
    */
   const handleLogout = async () => {
-    
     try {
       const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) {
@@ -100,6 +99,19 @@ const Header = () => {
     }
   };
 
+  /**
+   * Handles the wishlist click event.
+   * @param {*} e event
+   */
+  const handleWishlistClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      navigate("/login");
+    } else {
+      navigate("/wishlist");
+    }
+  };
+
   return (
     <>
       <header className="header-top-strip">
@@ -114,18 +126,17 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <header className="header-upper py-3"></header>
-      <header className="header-upper py-3">
-        <div className="container">
+      <header className="header-main py-3">
+        <div className="container-xxl">
           <div className="row align-items-center">
-            <div className="col-lg-2 col-md-3 col-sm-6 col-12">
+            <div className="col-6 col-md-2">
               <h2>
                 <Link to="/" className="text-white">
                   Bargain
                 </Link>
               </h2>
             </div>
-            <div className="col-lg-8 col-md-6 col-sm-4 col-12">
+            <div className="col-12 col-md-7 my-2 my-md-0">
               <div className="input-group">
                 <input
                   type="text"
@@ -146,78 +157,67 @@ const Header = () => {
                 </button>
               </div>
             </div>
-            <div className="col-lg-1 col-md-3 col-sm-6 col-12">
-              <div className="header-upper-links">
-                {isLoggedIn && (
-                  <div>
-                    <Link
-                      to="/wishlist"
-                      className="d-flex align-items-center gap-10 text-white me-5"
-                    >
-                      <CiHeart className="fs-3 me-2" alt="wishlist" />
-                      <p className="mb-0">
-                        Favourites <br /> Wishlist
-                      </p>
-                    </Link>
-                  </div>
-                )}
-                <div>
-                  {isLoggedIn ? (
-                    <span
-                      onClick={handleLogout}
-                      className="d-flex align-items-center gap-10 text-white me-5"
-                      style={{ cursor: "pointer" }}
-                    >
-                      <CgProfile className="fs-3 me-2" alt="user" />
-                      <p>Logout</p>
-                    </span>
-                  ) : (
-                    <Link
-                      to="/login"
-                      className="d-flex align-items-center gap-10 text-white me-5"
-                    >
-                      <CgProfile className="fs-3 me-2" alt="user" />
-
-                      <p>Login</p>
-                    </Link>
-                  )}
-                </div>
-                <div>
-                  <Link
-                    to="/cart"
-                    className="d-flex align-items-center text-white"
+            <div className="col-6 col-md-3">
+              <div className="header-links d-flex  gap-5">
+                <Link
+                  to="/wishlist"
+                  className="d-flex align-items-center gap-2 text-white"
+                  onClick={handleWishlistClick}
+                >
+                  <CiHeart className="fs-3" alt="wishlist" />
+                  <span className="d-inline ">Wishlist</span>
+                </Link>
+                {isLoggedIn ? (
+                  <span
+                    onClick={handleLogout}
+                    className="d-flex align-items-center gap-10 text-white"
+                    style={{ cursor: "pointer" }}
                   >
-                    <IoBagOutline className="fs-3 me-2" alt="cart" />
-
-                    <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">
-                        {cartItemCount}
-                      </span>
-                      <p className="mb-0">{cartTotalPrice}kr</p>
-                    </div>
+                    <CgProfile className="fs-3" alt="user" />
+                    <span className="d-inline">Logout</span>
+                  </span>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="d-flex align-items-center gap-1 text-white"
+                  >
+                    <CgProfile className="fs-3" alt="user" />
+                    <span className="d-inline">Login</span>
                   </Link>
-                </div>
+                )}
+                <Link
+                  to="/cart"
+                  className="d-flex align-items-center gap-1 text-white"
+                >
+                  <IoBagOutline className="fs-3" alt="cart" />
+                  <div className="d-flex flex-column align-items-center">
+                    <span className="badge bg-white text-dark">
+                      {cartItemCount}
+                    </span>
+                    <span className="d-inline">{cartTotalPrice}kr</span>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </header>
       <header className="header-bottom py-3">
-        <div className="container">
+        <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <div className="menu-bottom d-flex align-items-center gap-30">
+              <div className="menu-bottom d-flex align-items-center gap-3">
                 <div>
                   <div className="dropdown">
                     <button
-                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
+                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-2 d-flex align-items-center"
                       type="button"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       <img src="images/menu_list.png" alt="menu" />{" "}
-                      <span className="me-5 d-inline-block">Categories</span>
+                      <span className="me-2 d-inline-block">Categories</span>
                     </button>
                     <ul
                       className="dropdown-menu"
@@ -267,7 +267,7 @@ const Header = () => {
                   </div>
                 </div>
                 <div className="menu-links">
-                  <div className="navlinks d-flex align-items-center gap-15">
+                  <div className="navlinks d-flex align-items-center gap-2">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/NewArrivals">New Products</NavLink>
                     <NavLink to="/Blogs">Blogs</NavLink>
